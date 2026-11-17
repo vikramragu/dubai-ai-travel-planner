@@ -2,4 +2,6 @@
 gatherUsageStats = false
 
 [server]
-headless = false
+# Never wait for interactive input (the first-run email prompt). Streamlit Cloud has no
+# keyboard: with headless = false the server blocked on that prompt and never started.
+headless = true
