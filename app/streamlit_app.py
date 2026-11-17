@@ -6,22 +6,30 @@ redraws the live agent timeline and graph view until the run finishes, then show
 
 from __future__ import annotations
 
+import sys
 import time
+from pathlib import Path
 
-import streamlit as st
+# `streamlit run` puts only app/ on the import path. Add the project root so `core`, `agents`
+# and `app.components` import even where the project itself isn't installed (Streamlit Cloud).
+ROOT = str(Path(__file__).resolve().parents[1])
+if ROOT not in sys.path:
+    sys.path.insert(0, ROOT)
 
-from agents.orchestrator import RequestError
-from agents.skills.scripted import example_request
-from app.components.budget import render_budget
-from app.components.graph_view import render_graph_live, render_graph_replay
-from app.components.itinerary import render_itinerary
-from app.components.metrics import render_metrics
-from app.components.review import render_review
-from app.components.timeline import render_timeline
-from app.state import RunHandle, RunOptions, start_run
-from core.config import AGENT_ROLES, DataMode, Settings, get_settings
-from core.llm import llm_configured, role_configured
-from data.providers import DataProviders, get_providers
+import streamlit as st  # noqa: E402
+
+from agents.orchestrator import RequestError  # noqa: E402
+from agents.skills.scripted import example_request  # noqa: E402
+from app.components.budget import render_budget  # noqa: E402
+from app.components.graph_view import render_graph_live, render_graph_replay  # noqa: E402
+from app.components.itinerary import render_itinerary  # noqa: E402
+from app.components.metrics import render_metrics  # noqa: E402
+from app.components.review import render_review  # noqa: E402
+from app.components.timeline import render_timeline  # noqa: E402
+from app.state import RunHandle, RunOptions, start_run  # noqa: E402
+from core.config import AGENT_ROLES, DataMode, Settings, get_settings  # noqa: E402
+from core.llm import llm_configured, role_configured  # noqa: E402
+from data.providers import DataProviders, get_providers  # noqa: E402
 
 POLL_S = 0.25
 LLM_ON = "Configured LLMs"
