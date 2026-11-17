@@ -1,0 +1,341 @@
+{
+ "neighborhood_id": "hatta",
+ "exported_at": "2026-11-15",
+ "osm_base": "2026-11-15T16:51:55Z",
+ "license": "ODbL — (c) OpenStreetMap contributors",
+ "query": "[out:json][timeout:60]; ( nwr(around:4000,24.799,56.125)[\"tourism\"~\"^(museum|attraction|gallery|viewpoint|artwork|theme_park|zoo|aquarium)$\"][\"name\"]; nwr(around:4000,24.799,56.125)[\"historic\"][\"name\"]; nwr(around:4000,24.799,56.125)[\"natural\"=\"beach\"][\"name\"]; nwr(around:4000,24.799,56.125)[\"leisure\"~\"^(beach_resort|park|marina|nature_reserve|water_park)$\"][\"name\"]; nwr(around:4000,24.799,56.125)[\"amenity\"~\"^(restaurant|cafe|fast_food|food_court|place_of_worship|marketplace|arts_centre|theatre)$\"][\"name\"]; nwr(around:4000,24.799,56.125)[\"shop\"~\"^(gold|jewelry|spices|perfumery|mall)$\"][\"name\"]; ); out tags center;",
+ "elements": [
+  {
+   "osm": "node/10024177844",
+   "lat": 24.818584,
+   "lon": 56.128171,
+   "tags": {
+    "name": "Ahmed Al Maghribi",
+    "name:en": "Ahmed Al Maghribi",
+    "shop": "perfumery",
+    "opening_hours": "Fr-Su 10:00-23:00; Mo-Th 10:00-22:00",
+    "contact:website": "https://www.ahmedalmaghribi.com/"
+   }
+  },
+  {
+   "osm": "node/12388523001",
+   "lat": 24.797133,
+   "lon": 56.118419,
+   "tags": {
+    "name": "Al Hajarain",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/914422175",
+   "lat": 24.794732,
+   "lon": 56.122855,
+   "tags": {
+    "name": "Al Saeei",
+    "name:en": "Al Saeei",
+    "amenity": "cafe"
+   }
+  },
+  {
+   "osm": "way/664607667",
+   "lat": 24.797309,
+   "lon": 56.11939,
+   "tags": {
+    "name": "Al Sharia Rest Area",
+    "name:en": "Al Sharia Rest Area",
+    "leisure": "park"
+   }
+  },
+  {
+   "osm": "way/663232797",
+   "lat": 24.814567,
+   "lon": 56.132194,
+   "tags": {
+    "name": "Al Wadi Park",
+    "name:en": "Al Wadi Park",
+    "leisure": "park"
+   }
+  },
+  {
+   "osm": "node/6208272696",
+   "lat": 24.813841,
+   "lon": 56.130991,
+   "tags": {
+    "name": "Al Yamm Cafe",
+    "name:en": "Al Yamm Cafe",
+    "amenity": "cafe",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "osm": "node/5208003229",
+   "lat": 24.816826,
+   "lon": 56.13375,
+   "tags": {
+    "name": "Bab Alsham",
+    "name:en": "Bab Alsham",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "way/1320464573",
+   "lat": 24.815823,
+   "lon": 56.092956,
+   "tags": {
+    "name": "Bin Sultan Mosque",
+    "name:en": "Bin Sultan Mosque",
+    "amenity": "place_of_worship"
+   }
+  },
+  {
+   "osm": "node/6216720368",
+   "lat": 24.814305,
+   "lon": 56.160819,
+   "tags": {
+    "name": "DONER Race Sandwich",
+    "name:en": "DONER Race Sandwich",
+    "amenity": "fast_food"
+   }
+  },
+  {
+   "osm": "node/6208272459",
+   "lat": 24.816627,
+   "lon": 56.132952,
+   "tags": {
+    "name": "Damas Jewelry",
+    "name:en": "Damas Jewelry",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "way/360475910",
+   "lat": 24.816602,
+   "lon": 56.133324,
+   "tags": {
+    "name": "جمعية الإمارات التعاونية فرع حتــــــــــا",
+    "name:en": "Emirates Coop Hatta Branch",
+    "shop": "mall",
+    "website": "https://www.emcoop.ae/branchdetail.php?baccess=3"
+   }
+  },
+  {
+   "osm": "node/5222160561",
+   "lat": 24.801219,
+   "lon": 56.129035,
+   "tags": {
+    "name": "Fort Viewpoint",
+    "name:en": "Fort Viewpoint",
+    "tourism": "viewpoint"
+   }
+  },
+  {
+   "osm": "node/6219004915",
+   "lat": 24.820002,
+   "lon": 56.135509,
+   "tags": {
+    "name": "Gazebo",
+    "name:en": "Gazebo",
+    "amenity": "cafe",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "osm": "node/10240475441",
+   "lat": 24.797429,
+   "lon": 56.119146,
+   "tags": {
+    "name": "HATTA FALAJ",
+    "tourism": "attraction"
+   }
+  },
+  {
+   "osm": "way/664607663",
+   "lat": 24.795948,
+   "lon": 56.118859,
+   "tags": {
+    "name": "Hatta Heritage Village",
+    "name:en": "Hatta Heritage Village",
+    "tourism": "museum"
+   }
+  },
+  {
+   "osm": "way/200747941",
+   "lat": 24.801265,
+   "lon": 56.129269,
+   "tags": {
+    "name": "Hatta Hill Park",
+    "name:en": "Hatta Hill Park",
+    "leisure": "park"
+   }
+  },
+  {
+   "osm": "node/8188116236",
+   "lat": 24.803917,
+   "lon": 56.148476,
+   "tags": {
+    "name": "علامة جبل حتا",
+    "name:en": "Hatta Mountain Sign",
+    "tourism": "attraction"
+   }
+  },
+  {
+   "osm": "way/1058092161",
+   "lat": 24.803918,
+   "lon": 56.148476,
+   "tags": {
+    "name": "علامة جبل حتا",
+    "name:en": "Hatta Mountain Sign",
+    "tourism": "attraction"
+   }
+  },
+  {
+   "osm": "way/664189075",
+   "lat": 24.814272,
+   "lon": 56.160017,
+   "tags": {
+    "name": "Hatta Wild Cafe",
+    "name:en": "Hatta Wild Cafe",
+    "amenity": "cafe",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "osm": "node/9498689803",
+   "lat": 24.816639,
+   "lon": 56.133056,
+   "tags": {
+    "name": "Janam Café & Restaurant",
+    "amenity": "restaurant",
+    "cuisine": "turkish;local",
+    "opening_hours": "Mo-Su 12:00-23:00"
+   }
+  },
+  {
+   "osm": "node/6219004846",
+   "lat": 24.820311,
+   "lon": 56.135376,
+   "tags": {
+    "name": "Jeema",
+    "name:en": "Jeema",
+    "amenity": "restaurant",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "osm": "node/6216720367",
+   "lat": 24.814228,
+   "lon": 56.16085,
+   "tags": {
+    "name": "Juicy Fruity",
+    "name:en": "Juicy Fruity",
+    "amenity": "cafe"
+   }
+  },
+  {
+   "osm": "node/10018259478",
+   "lat": 24.8207,
+   "lon": 56.123679,
+   "tags": {
+    "name": "Just Burger",
+    "amenity": "fast_food",
+    "cuisine": "burger",
+    "opening_hours": "Mo-Su 12:00-04:00",
+    "contact:website": "https://justburger.org"
+   }
+  },
+  {
+   "osm": "node/6208272455",
+   "lat": 24.816775,
+   "lon": 56.133521,
+   "tags": {
+    "name": "Mamlaka Perfumes",
+    "name:en": "Mamlaka Perfumes",
+    "shop": "perfumery"
+   }
+  },
+  {
+   "osm": "relation/11754483",
+   "lat": 24.819771,
+   "lon": 56.097774,
+   "tags": {
+    "name": "Masfout Museum / Old Masfout Fort",
+    "tourism": "museum",
+    "opening_hours": "08:00-20:00",
+    "website": "https://visit-ajman.ae/en/destinations/masfout/masfout-museum"
+   }
+  },
+  {
+   "osm": "node/12153517134",
+   "lat": 24.817878,
+   "lon": 56.100838,
+   "tags": {
+    "name": "Masfut - Al Bomah Watchtower",
+    "name:en": "Masfut - Al Bomah Watchtower",
+    "historic": "castle"
+   }
+  },
+  {
+   "osm": "node/12153435673",
+   "lat": 24.819762,
+   "lon": 56.097761,
+   "tags": {
+    "name": "Masfut Museum and Old Castle",
+    "name:en": "Masfut Museum and Old Castle",
+    "historic": "castle",
+    "opening_hours": "08:00-20:00"
+   }
+  },
+  {
+   "osm": "node/11463270669",
+   "lat": 24.815219,
+   "lon": 56.130688,
+   "tags": {
+    "name": "Mlkit ByGossip",
+    "amenity": "fast_food",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "osm": "way/462738764",
+   "lat": 24.76958,
+   "lon": 56.113376,
+   "tags": {
+    "name": "Protected area - Hatta Mountain Reserve (2017)",
+    "name:en": "Protected area - Hatta Mountain Reserve",
+    "leisure": "nature_reserve"
+   }
+  },
+  {
+   "osm": "node/6208272463",
+   "lat": 24.814954,
+   "lon": 56.130732,
+   "tags": {
+    "name": "Salt",
+    "amenity": "fast_food",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "osm": "node/5528730526",
+   "lat": 24.820771,
+   "lon": 56.123554,
+   "tags": {
+    "name": "Tannor Lahm",
+    "name:en": "Tannor Lahm",
+    "amenity": "restaurant",
+    "cuisine": "arab",
+    "opening_hours": "Mo-Su 13:00-01:00"
+   }
+  },
+  {
+   "osm": "node/12406684001",
+   "lat": 24.797621,
+   "lon": 56.11755,
+   "tags": {
+    "name": "Tower",
+    "name:en": "Tower",
+    "tourism": "viewpoint"
+   }
+  }
+ ]
+}

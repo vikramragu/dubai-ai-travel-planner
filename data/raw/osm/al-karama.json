@@ -1,0 +1,2701 @@
+{
+ "neighborhood_id": "al-karama",
+ "exported_at": "2026-11-15",
+ "osm_base": "2026-11-15T16:35:47Z",
+ "license": "ODbL — (c) OpenStreetMap contributors",
+ "query": "[out:json][timeout:60]; ( nwr(around:1300,25.242,55.302)[\"tourism\"~\"^(museum|attraction|gallery|viewpoint|artwork|theme_park|zoo|aquarium)$\"][\"name\"]; nwr(around:1300,25.242,55.302)[\"historic\"][\"name\"]; nwr(around:1300,25.242,55.302)[\"natural\"=\"beach\"][\"name\"]; nwr(around:1300,25.242,55.302)[\"leisure\"~\"^(beach_resort|park|marina|nature_reserve|water_park)$\"][\"name\"]; nwr(around:1300,25.242,55.302)[\"amenity\"~\"^(restaurant|cafe|fast_food|food_court|place_of_worship|marketplace|arts_centre|theatre)$\"][\"name\"]; nwr(around:1300,25.242,55.302)[\"shop\"~\"^(gold|jewelry|spices|perfumery|mall)$\"][\"name\"]; ); out tags center;",
+ "elements": [
+  {
+   "osm": "node/4904979653",
+   "lat": 25.240868,
+   "lon": 55.302201,
+   "tags": {
+    "name": "4 Wheels",
+    "name:en": "4 Wheels",
+    "amenity": "cafe"
+   }
+  },
+  {
+   "osm": "node/11228022236",
+   "lat": 25.242458,
+   "lon": 55.307106,
+   "tags": {
+    "name": "4 seasons Ramesh Gallery",
+    "tourism": "gallery"
+   }
+  },
+  {
+   "osm": "node/4904618476",
+   "lat": 25.241333,
+   "lon": 55.301752,
+   "tags": {
+    "name": "4100293",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/3209521250",
+   "lat": 25.242863,
+   "lon": 55.305962,
+   "tags": {
+    "name": "Aappa Kadai",
+    "name:en": "Aappa Kadai",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4902962623",
+   "lat": 25.249709,
+   "lon": 55.30655,
+   "tags": {
+    "name": "Aaraamam Restaurant",
+    "name:en": "Aaraamam Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/11665657416",
+   "lat": 25.24429,
+   "lon": 55.310707,
+   "tags": {
+    "name": "Adhi Raat Cafe & Lounge",
+    "amenity": "cafe",
+    "cuisine": "pizza;coffee_shop;chicken;burger;sandwich;international;pakistani;continental;sheesha",
+    "opening_hours": "Mo-Su 12:00PM-05:00AM",
+    "website": "https://www.adhiraatcafe.com"
+   }
+  },
+  {
+   "osm": "node/1114639638",
+   "lat": 25.236861,
+   "lon": 55.308943,
+   "tags": {
+    "name": "Adukkala restaurant",
+    "name:en": "Adukkala restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/2377100895",
+   "lat": 25.238057,
+   "lon": 55.302266,
+   "tags": {
+    "name": "Ajanta Restaurant",
+    "name:en": "Ajanta Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4586986590",
+   "lat": 25.24896,
+   "lon": 55.311081,
+   "tags": {
+    "name": "Al Afadhil",
+    "name:en": "Al Afadhil Restaurant",
+    "amenity": "restaurant",
+    "cuisine": "african",
+    "opening_hours": "Mo-Su 11:00-23:45"
+   }
+  },
+  {
+   "osm": "way/242009759",
+   "lat": 25.245221,
+   "lon": 55.30239,
+   "tags": {
+    "name": "Al Attar Centre",
+    "name:en": "Al Attar Centre",
+    "shop": "mall"
+   }
+  },
+  {
+   "osm": "node/4904384858",
+   "lat": 25.246593,
+   "lon": 55.306667,
+   "tags": {
+    "name": "Al Damyati Iskandaron",
+    "name:en": "Al Damyati Iskandaron",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4902962418",
+   "lat": 25.250188,
+   "lon": 55.304739,
+   "tags": {
+    "name": "Al Hara Cafeteria",
+    "name:en": "Al Hara Cafeteria",
+    "amenity": "cafe"
+   }
+  },
+  {
+   "osm": "node/5526247121",
+   "lat": 25.245262,
+   "lon": 55.309593,
+   "tags": {
+    "name": "Al Karama Medical Fitness Service Center",
+    "name:en": "Al Karama Medical Fitness Service Center",
+    "tourism": "attraction",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "osm": "way/386190729",
+   "lat": 25.237042,
+   "lon": 55.311491,
+   "tags": {
+    "name": "مطعم ومقهى الكوفة",
+    "name:en": "Al Koufa Restaurant & Café",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4902962622",
+   "lat": 25.249883,
+   "lon": 55.30581,
+   "tags": {
+    "name": "Al Leewan Restaurant",
+    "name:en": "Al Leewan Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4902841744",
+   "lat": 25.252116,
+   "lon": 55.307489,
+   "tags": {
+    "name": "Al Maeraj Cafeteria",
+    "name:en": "Al Maeraj Cafeteria",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4904390736",
+   "lat": 25.247325,
+   "lon": 55.306878,
+   "tags": {
+    "name": "Al Maha Chips",
+    "name:en": "Al Maha Chips",
+    "amenity": "cafe"
+   }
+  },
+  {
+   "osm": "way/386190740",
+   "lat": 25.240695,
+   "lon": 55.312313,
+   "tags": {
+    "name": "Al Maktoum Stadium Lounge",
+    "amenity": "place_of_worship"
+   }
+  },
+  {
+   "osm": "node/4904979668",
+   "lat": 25.241984,
+   "lon": 55.300035,
+   "tags": {
+    "name": "Al Mamzar",
+    "name:en": "Al Mamzar",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4902962764",
+   "lat": 25.246219,
+   "lon": 55.303622,
+   "tags": {
+    "name": "Al Musalla Restaurant",
+    "name:en": "Al Musalla Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/3453553602",
+   "lat": 25.247806,
+   "lon": 55.304485,
+   "tags": {
+    "name": "Al Shay Restaurant",
+    "name:en": "Al Shay Restaurant",
+    "amenity": "restaurant",
+    "cuisine": "indian"
+   }
+  },
+  {
+   "osm": "node/4902962681",
+   "lat": 25.245607,
+   "lon": 55.306866,
+   "tags": {
+    "name": "Al Siraj Restaurant",
+    "name:en": "Al Siraj Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4904979708",
+   "lat": 25.239737,
+   "lon": 55.2972,
+   "tags": {
+    "name": "Al Tabaq Al Fakher",
+    "name:en": "Al Tabaq Al Fakher",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4902962414",
+   "lat": 25.250942,
+   "lon": 55.304504,
+   "tags": {
+    "name": "مطعم الياس",
+    "name:en": "Al Yas Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4898236601",
+   "lat": 25.239765,
+   "lon": 55.307571,
+   "tags": {
+    "name": "Alsultanah Cafe",
+    "name:en": "Alsultanah Cafe",
+    "amenity": "cafe"
+   }
+  },
+  {
+   "osm": "node/4904384889",
+   "lat": 25.245201,
+   "lon": 55.306573,
+   "tags": {
+    "name": "Amma's",
+    "name:en": "Amma's",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/12956821601",
+   "lat": 25.247772,
+   "lon": 55.300554,
+   "tags": {
+    "name": "Amritsr Restaurant Al Attar Center- Best Indian Restaurant in Dubai",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4904085066",
+   "lat": 25.245633,
+   "lon": 55.307459,
+   "tags": {
+    "name": "Arlequin",
+    "name:en": "Arlequin",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4904094604",
+   "lat": 25.240241,
+   "lon": 55.305745,
+   "tags": {
+    "name": "Aspour Crystal",
+    "name:en": "Aspour Crystal",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4444762894",
+   "lat": 25.233606,
+   "lon": 55.30932,
+   "tags": {
+    "name": "B&B Cricket Bar",
+    "name:en": "B&B Cricket Bar",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4444762895",
+   "lat": 25.235751,
+   "lon": 55.309664,
+   "tags": {
+    "name": "BUNDOO KHAN Restaurant",
+    "name:en": "BUNDOO KHAN Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4587050773",
+   "lat": 25.250692,
+   "lon": 55.309718,
+   "tags": {
+    "name": "Bacolod CHK N BBQ House",
+    "name:en": "Bacolod CHK N BBQ House",
+    "amenity": "restaurant",
+    "cuisine": "filipino"
+   }
+  },
+  {
+   "osm": "node/4902841789",
+   "lat": 25.247675,
+   "lon": 55.308774,
+   "tags": {
+    "name": "Bakemart",
+    "name:en": "Bakemart",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/11367947645",
+   "lat": 25.244743,
+   "lon": 55.304538,
+   "tags": {
+    "name": "Bakery Bites Cafe",
+    "amenity": "cafe",
+    "website": "https://bakerybitescafe.com/"
+   }
+  },
+  {
+   "osm": "node/4633870889",
+   "lat": 25.242601,
+   "lon": 55.30644,
+   "tags": {
+    "name": "Banglore Empire Restaurant",
+    "name:en": "Banglore Empire Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/6173780985",
+   "lat": 25.235119,
+   "lon": 55.300992,
+   "tags": {
+    "name": "Bash Ahmad",
+    "amenity": "fast_food",
+    "cuisine": "juice;fast_food"
+   }
+  },
+  {
+   "osm": "node/4902962416",
+   "lat": 25.250216,
+   "lon": 55.304548,
+   "tags": {
+    "name": "Beans & Cream",
+    "name:en": "Beans & Cream",
+    "amenity": "cafe"
+   }
+  },
+  {
+   "osm": "node/4902962751",
+   "lat": 25.245289,
+   "lon": 55.303171,
+   "tags": {
+    "name": "Bhima Jewelry",
+    "name:en": "Bhima Jewelry",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4579723109",
+   "lat": 25.248606,
+   "lon": 55.302237,
+   "tags": {
+    "name": "Bikanerwala Restaurant and Sweet",
+    "name:en": "Bikanerwala Restaurant and Sweet",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4904384859",
+   "lat": 25.24648,
+   "lon": 55.306631,
+   "tags": {
+    "name": "Biryani Royale",
+    "name:en": "Biryani Royale",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4902841722",
+   "lat": 25.246008,
+   "lon": 55.309939,
+   "tags": {
+    "name": "Bostea",
+    "name:en": "Bostea",
+    "amenity": "cafe"
+   }
+  },
+  {
+   "osm": "node/4898223360",
+   "lat": 25.240012,
+   "lon": 55.307852,
+   "tags": {
+    "name": "Bravo",
+    "name:en": "Bravo",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4904979870",
+   "lat": 25.236984,
+   "lon": 55.302507,
+   "tags": {
+    "name": "Briyani Kadai",
+    "name:en": "Briyani Kadai",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "way/102828180",
+   "lat": 25.254135,
+   "lon": 55.302816,
+   "tags": {
+    "name": "مركز برجمان دبي",
+    "name:en": "Bur Juman Shopping Center",
+    "shop": "mall",
+    "website": "https://burjuman.com",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "osm": "way/225672808",
+   "lat": 25.252492,
+   "lon": 55.301753,
+   "tags": {
+    "name": "مركز برجمان للتسوق",
+    "name:en": "BurJuman Mall",
+    "shop": "mall",
+    "website": "https://www.burjuman.com",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "osm": "node/2521917709",
+   "lat": 25.247477,
+   "lon": 55.300351,
+   "tags": {
+    "name": "Burger King",
+    "amenity": "fast_food",
+    "cuisine": "burger"
+   }
+  },
+  {
+   "osm": "node/8530995961",
+   "lat": 25.236513,
+   "lon": 55.302512,
+   "tags": {
+    "name": "Burnout",
+    "amenity": "cafe",
+    "opening_hours": "Mo-Su 10:00-01:00",
+    "contact:website": "https://burnout-cafe-cafe.business.site/"
+   }
+  },
+  {
+   "osm": "node/8286448537",
+   "lat": 25.2484,
+   "lon": 55.302589,
+   "tags": {
+    "name": "CHAT BAZAR",
+    "amenity": "restaurant",
+    "cuisine": "indian;CHAT"
+   }
+  },
+  {
+   "osm": "node/4921119723",
+   "lat": 25.241273,
+   "lon": 55.309323,
+   "tags": {
+    "name": "Cafe & Lounge 88",
+    "amenity": "cafe",
+    "cuisine": "pizza;burger;coffee_shop;sandwich;chicken;american;ice_cream;seafood;regional",
+    "opening_hours": "Mo-Su 09:30-03:00",
+    "website": "https://cafe88.ae/"
+   }
+  },
+  {
+   "osm": "node/7973136303",
+   "lat": 25.240672,
+   "lon": 55.299059,
+   "tags": {
+    "name": "Cafe Cache",
+    "amenity": "cafe",
+    "cuisine": "sandwich;coffee_shop;juice;cake;ice_cream;indian;waffle;pancake;smoothies;crepe;yogurt",
+    "opening_hours": "Mo-Su 10:00-22:00"
+   }
+  },
+  {
+   "osm": "node/3209523422",
+   "lat": 25.243216,
+   "lon": 55.30607,
+   "tags": {
+    "name": "Calicut Paragon",
+    "name:en": "Calicut Paragon",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/9941188645",
+   "lat": 25.251947,
+   "lon": 55.306164,
+   "tags": {
+    "name": "Canara Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4904108610",
+   "lat": 25.236994,
+   "lon": 55.304735,
+   "tags": {
+    "name": "Cha Cha Chai",
+    "name:en": "Cha Cha Chai",
+    "amenity": "cafe"
+   }
+  },
+  {
+   "osm": "node/5239783121",
+   "lat": 25.251272,
+   "lon": 55.302617,
+   "tags": {
+    "name": "Chacha Lahori",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/5694989973",
+   "lat": 25.248326,
+   "lon": 55.303942,
+   "tags": {
+    "name": "Chatori Gali",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/3337958521",
+   "lat": 25.244056,
+   "lon": 55.305727,
+   "tags": {
+    "name": "Chef Lanka Restaurant",
+    "name:en": "Chef Lanka Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4904979690",
+   "lat": 25.23963,
+   "lon": 55.298681,
+   "tags": {
+    "name": "Chettinad House Restaurant",
+    "name:en": "Chettinad House Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/8540611953",
+   "lat": 25.247936,
+   "lon": 55.300654,
+   "tags": {
+    "name": "Chhappan Bhog",
+    "amenity": "restaurant",
+    "cuisine": "indian"
+   }
+  },
+  {
+   "osm": "node/8422221616",
+   "lat": 25.234841,
+   "lon": 55.307821,
+   "tags": {
+    "name": "Chili's",
+    "amenity": "restaurant",
+    "cuisine": "tex-mex"
+   }
+  },
+  {
+   "osm": "node/4904979480",
+   "lat": 25.242441,
+   "lon": 55.304307,
+   "tags": {
+    "name": "Chittlappilly",
+    "name:en": "Chittlappilly",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/8422240117",
+   "lat": 25.234969,
+   "lon": 55.307865,
+   "tags": {
+    "name": "Chiyang Chinese",
+    "amenity": "restaurant",
+    "cuisine": "chinese"
+   }
+  },
+  {
+   "osm": "node/4902841782",
+   "lat": 25.24693,
+   "lon": 55.307828,
+   "tags": {
+    "name": "Chowking",
+    "name:en": "Chowking",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4902962748",
+   "lat": 25.245421,
+   "lon": 55.302601,
+   "tags": {
+    "name": "Chowking",
+    "name:en": "Chowking",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/11398944074",
+   "lat": 25.251692,
+   "lon": 55.302865,
+   "tags": {
+    "name": "Chowking",
+    "amenity": "restaurant",
+    "cuisine": "asian"
+   }
+  },
+  {
+   "osm": "node/8944243419",
+   "lat": 25.242452,
+   "lon": 55.31014,
+   "tags": {
+    "name": "Cinema Cafe and Restaurant",
+    "amenity": "restaurant",
+    "opening_hours": "24/7"
+   }
+  },
+  {
+   "osm": "node/6633081315",
+   "lat": 25.23879,
+   "lon": 55.30673,
+   "tags": {
+    "name": "Cozy Cabana Cafe-Oud Metha",
+    "amenity": "restaurant",
+    "cuisine": "pizza;burger;italian;coffee_shop;sandwich;buffet;kebab;chicken;pasta;ice_cream",
+    "opening_hours": "24/7"
+   }
+  },
+  {
+   "osm": "node/7132906915",
+   "lat": 25.244846,
+   "lon": 55.300041,
+   "tags": {
+    "name": "Curry Chatti",
+    "amenity": "restaurant",
+    "opening_hours": "Fr 06:00-12:30,13:00-02:00;Mo-Th,Sa-Su 06:00-02:00",
+    "contact:website": "https://currychatti.com/"
+   }
+  },
+  {
+   "osm": "node/4904979629",
+   "lat": 25.238285,
+   "lon": 55.302445,
+   "tags": {
+    "name": "Curry Dishes Restaurant",
+    "name:en": "Curry Dishes Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4183984181",
+   "lat": 25.240805,
+   "lon": 55.298814,
+   "tags": {
+    "name": "Cutting Chai",
+    "name:en": "Cutting Chai",
+    "amenity": "cafe"
+   }
+  },
+  {
+   "osm": "node/4586986591",
+   "lat": 25.249105,
+   "lon": 55.310952,
+   "tags": {
+    "name": "Daily Restaurant - Karama",
+    "name:en": "Daily Restaurant - Karama",
+    "amenity": "restaurant",
+    "cuisine": "pakistani"
+   }
+  },
+  {
+   "osm": "node/11394477471",
+   "lat": 25.25362,
+   "lon": 55.303102,
+   "tags": {
+    "name": "Dampa Feast",
+    "amenity": "restaurant",
+    "cuisine": "seafood",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "osm": "node/8422240127",
+   "lat": 25.240159,
+   "lon": 55.306696,
+   "tags": {
+    "name": "Darjeeling Cafe",
+    "amenity": "cafe"
+   }
+  },
+  {
+   "osm": "node/4904384890",
+   "lat": 25.246392,
+   "lon": 55.306958,
+   "tags": {
+    "name": "Dasprakash Restaurant",
+    "name:en": "Dasprakash Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4902962724",
+   "lat": 25.247938,
+   "lon": 55.304064,
+   "tags": {
+    "name": "De Fish Seafood Restaurant",
+    "name:en": "De Fish Seafood Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4904094592",
+   "lat": 25.242931,
+   "lon": 55.306602,
+   "tags": {
+    "name": "Delhi Darbar",
+    "name:en": "Delhi Darbar",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/8564625464",
+   "lat": 25.235277,
+   "lon": 55.309674,
+   "tags": {
+    "name": "Des Pardes",
+    "amenity": "restaurant",
+    "cuisine": "pakistani"
+   }
+  },
+  {
+   "osm": "node/11398942887",
+   "lat": 25.25122,
+   "lon": 55.302573,
+   "tags": {
+    "name": "Domino's",
+    "amenity": "fast_food",
+    "cuisine": "pizza"
+   }
+  },
+  {
+   "osm": "node/8024815794",
+   "lat": 25.246593,
+   "lon": 55.31009,
+   "tags": {
+    "name": "Dostea",
+    "amenity": "cafe",
+    "opening_hours": "Mo-Su 07:00-23:00"
+   }
+  },
+  {
+   "osm": "node/4904384849",
+   "lat": 25.251833,
+   "lon": 55.305494,
+   "tags": {
+    "name": "Dragon House",
+    "name:en": "Dragon House",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "way/386649647",
+   "lat": 25.235456,
+   "lon": 55.300367,
+   "tags": {
+    "name": "برواز دبي",
+    "name:en": "Dubai Frame",
+    "tourism": "museum",
+    "opening_hours": "Mo-Su 10:00-19:00",
+    "website": "https://www.thedubaiframe.com/",
+    "fee": "yes"
+   }
+  },
+  {
+   "osm": "way/418520759",
+   "lat": 25.228947,
+   "lon": 55.296167,
+   "tags": {
+    "name": "دبي جاردن جلو",
+    "name:en": "Dubai Garden Glow",
+    "tourism": "attraction",
+    "leisure": "park",
+    "website": "https://www.dubaigardenglow.com/",
+    "fee": "yes",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "osm": "node/4902841738",
+   "lat": 25.246821,
+   "lon": 55.307799,
+   "tags": {
+    "name": "Elco Veg Dine",
+    "name:en": "Elco Veg Dine",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/8564625465",
+   "lat": 25.235188,
+   "lon": 55.309668,
+   "tags": {
+    "name": "Emly Chillli",
+    "amenity": "restaurant",
+    "cuisine": "indian"
+   }
+  },
+  {
+   "osm": "node/7363044687",
+   "lat": 25.248351,
+   "lon": 55.304697,
+   "tags": {
+    "name": "Eric's",
+    "amenity": "restaurant",
+    "cuisine": "african",
+    "opening_hours": "Mo-Su 11:30-15:45,18:30-23:45"
+   }
+  },
+  {
+   "osm": "node/4898236602",
+   "lat": 25.239569,
+   "lon": 55.307388,
+   "tags": {
+    "name": "Exit Restaurant & Cafe",
+    "name:en": "Exit Restaurant & Cafe",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/2505464566",
+   "lat": 25.250811,
+   "lon": 55.302795,
+   "tags": {
+    "name": "F&S (Falafel & Schwarma)",
+    "amenity": "fast_food",
+    "cuisine": "kebab",
+    "opening_hours": "Mo-Su 08:00-02:00"
+   }
+  },
+  {
+   "osm": "node/4904390782",
+   "lat": 25.245759,
+   "lon": 55.302685,
+   "tags": {
+    "name": "Family Restaurant",
+    "name:en": "Family Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/14087221201",
+   "lat": 25.249451,
+   "lon": 55.303452,
+   "tags": {
+    "name": "FiLLi Café",
+    "amenity": "cafe",
+    "cuisine": "indian"
+   }
+  },
+  {
+   "osm": "node/4694082189",
+   "lat": 25.237558,
+   "lon": 55.309272,
+   "tags": {
+    "name": "Fish Hut Restaurant",
+    "name:en": "Fish Hut Dubai",
+    "amenity": "restaurant",
+    "opening_hours": "Mo-Su 11:00-03:00",
+    "contact:website": "https://www.dubaifishhutrestaurant.com/"
+   }
+  },
+  {
+   "osm": "node/4921119722",
+   "lat": 25.24047,
+   "lon": 55.308232,
+   "tags": {
+    "name": "Fomo Cafe",
+    "amenity": "cafe",
+    "cuisine": "cafe;shisha",
+    "opening_hours": "Mo-Su 08:00-02:00",
+    "website": "https://fomo-cafe.com/"
+   }
+  },
+  {
+   "osm": "way/297334061",
+   "lat": 25.239169,
+   "lon": 55.301203,
+   "tags": {
+    "name": "Food Castle Restaurant",
+    "amenity": "cafe"
+   }
+  },
+  {
+   "osm": "node/4904979852",
+   "lat": 25.237794,
+   "lon": 55.304095,
+   "tags": {
+    "name": "FoodLux Restaurant",
+    "amenity": "restaurant",
+    "opening_hours": "Mo-Su 06:00-12:00"
+   }
+  },
+  {
+   "osm": "node/4902962413",
+   "lat": 25.251052,
+   "lon": 55.304542,
+   "tags": {
+    "name": "Garnish",
+    "name:en": "Garnish",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4902962723",
+   "lat": 25.24787,
+   "lon": 55.304222,
+   "tags": {
+    "name": "Gnosn Al Zaytoon Restaurant",
+    "name:en": "Gnosn Al Zaytoon Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/8574121776",
+   "lat": 25.237092,
+   "lon": 55.305904,
+   "tags": {
+    "name": "Golden Dragon",
+    "amenity": "restaurant",
+    "cuisine": "chinese"
+   }
+  },
+  {
+   "osm": "node/8236965974",
+   "lat": 25.236617,
+   "lon": 55.307491,
+   "tags": {
+    "name": "Golden Fingers",
+    "amenity": "restaurant",
+    "opening_hours": "Mo-Su 07:00-01:00"
+   }
+  },
+  {
+   "osm": "node/13434112725",
+   "lat": 25.233712,
+   "lon": 55.294232,
+   "tags": {
+    "name": "Grandiosa Pizza - Wasl Park Gate",
+    "amenity": "restaurant",
+    "cuisine": "pizza",
+    "opening_hours": "07:00-24:00",
+    "website": "https://grandiosa.ae"
+   }
+  },
+  {
+   "osm": "node/4904979466",
+   "lat": 25.243278,
+   "lon": 55.299933,
+   "tags": {
+    "name": "Green Gate Vegetarian Restaurant",
+    "name:en": "Green Gate Vegetarian Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4904979707",
+   "lat": 25.240728,
+   "lon": 55.297018,
+   "tags": {
+    "name": "Grill & Broast",
+    "name:en": "Grill & Broast",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "way/242821161",
+   "lat": 25.237261,
+   "lon": 55.30237,
+   "tags": {
+    "name": "جامع حمد ضاعن الهويدي رحمه الله",
+    "name:en": "Hamad Dhaein Al Huwaidi masjid",
+    "amenity": "place_of_worship"
+   }
+  },
+  {
+   "osm": "node/4904979632",
+   "lat": 25.238641,
+   "lon": 55.302508,
+   "tags": {
+    "name": "Happy",
+    "name:en": "Happy",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/11398942787",
+   "lat": 25.251377,
+   "lon": 55.302683,
+   "tags": {
+    "name": "Happy Sunday",
+    "amenity": "restaurant",
+    "cuisine": "asian"
+   }
+  },
+  {
+   "osm": "node/2377100969",
+   "lat": 25.239004,
+   "lon": 55.301909,
+   "tags": {
+    "name": "Himalaya Restaurant",
+    "name:en": "Himalaya Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4904979462",
+   "lat": 25.242683,
+   "lon": 55.299856,
+   "tags": {
+    "name": "Hot Burger",
+    "name:en": "Hot Burger",
+    "amenity": "fast_food"
+   }
+  },
+  {
+   "osm": "node/4904979678",
+   "lat": 25.241314,
+   "lon": 55.299153,
+   "tags": {
+    "name": "Hot Palayok",
+    "name:en": "Hot Palayok",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/7608610267",
+   "lat": 25.246932,
+   "lon": 55.308791,
+   "tags": {
+    "name": "Indian Summer",
+    "amenity": "restaurant",
+    "cuisine": "indian",
+    "opening_hours": "Mo-Su 11:30-23:00",
+    "contact:website": "https://www.indiansummeruae.com/"
+   }
+  },
+  {
+   "osm": "node/4898274606",
+   "lat": 25.244326,
+   "lon": 55.311592,
+   "tags": {
+    "name": "International Art",
+    "name:en": "International Art",
+    "tourism": "gallery"
+   }
+  },
+  {
+   "osm": "node/5239783122",
+   "lat": 25.247903,
+   "lon": 55.308813,
+   "tags": {
+    "name": "Jaffer Bhai’s Restaurant",
+    "name:en": "Jaffer Bhai’s Restaurant",
+    "amenity": "restaurant",
+    "cuisine": "arab;barbecue;curry;grill;indian"
+   }
+  },
+  {
+   "osm": "node/4902841792",
+   "lat": 25.247988,
+   "lon": 55.308873,
+   "tags": {
+    "name": "Jambo's Grill Cafe",
+    "name:en": "Jambo's Grill Cafe",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4411401992",
+   "lat": 25.253287,
+   "lon": 55.302925,
+   "tags": {
+    "name": "Jollibee",
+    "name:en": "Jollibee",
+    "amenity": "fast_food",
+    "cuisine": "burger",
+    "opening_hours": "Su-Th 07:00-24:00, Fr,Sa 07:00-01:00",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "osm": "node/4902841767",
+   "lat": 25.245902,
+   "lon": 55.311284,
+   "tags": {
+    "name": "Just Cafe & Restaurant",
+    "name:en": "Just Cafe & Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4913625594",
+   "lat": 25.249045,
+   "lon": 55.300259,
+   "tags": {
+    "name": "دجاج كنتاكي",
+    "name:en": "KFC",
+    "amenity": "fast_food",
+    "cuisine": "fried_chicken",
+    "opening_hours": "Mo-Su 10:00-04:00"
+   }
+  },
+  {
+   "osm": "node/11398938950",
+   "lat": 25.250371,
+   "lon": 55.302089,
+   "tags": {
+    "name": "دجاج كنتاكي",
+    "name:en": "KFC",
+    "amenity": "fast_food",
+    "cuisine": "chicken",
+    "opening_hours": "10:00-03:00"
+   }
+  },
+  {
+   "osm": "node/3453618467",
+   "lat": 25.241746,
+   "lon": 55.304658,
+   "tags": {
+    "name": "Karachi Darbar",
+    "name:en": "Karachi Darbar",
+    "amenity": "restaurant",
+    "cuisine": "pakistani"
+   }
+  },
+  {
+   "osm": "node/4904979463",
+   "lat": 25.243029,
+   "lon": 55.299794,
+   "tags": {
+    "name": "Karachi Darbar",
+    "name:en": "Karachi Darbar",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4604236490",
+   "lat": 25.240261,
+   "lon": 55.30977,
+   "tags": {
+    "name": "Karachi Darbar Restaraunt",
+    "name:en": "Karachi Darbar Restaraunt",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/8540611954",
+   "lat": 25.248062,
+   "lon": 55.300697,
+   "tags": {
+    "name": "Karak Time",
+    "amenity": "fast_food"
+   }
+  },
+  {
+   "osm": "way/242009718",
+   "lat": 25.244902,
+   "lon": 55.302995,
+   "tags": {
+    "name": "سوق الكرامة",
+    "name:en": "Karama Centre - essen",
+    "shop": "mall"
+   }
+  },
+  {
+   "osm": "node/4904979863",
+   "lat": 25.236643,
+   "lon": 55.303201,
+   "tags": {
+    "name": "Karama Gold",
+    "name:en": "Karama Gold",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "way/242821327",
+   "lat": 25.237377,
+   "lon": 55.303748,
+   "tags": {
+    "name": "Karama Market",
+    "name:en": "Karama Market",
+    "amenity": "marketplace"
+   }
+  },
+  {
+   "osm": "way/113042743",
+   "lat": 25.243046,
+   "lon": 55.305269,
+   "tags": {
+    "name": "حديقة الكرامة",
+    "name:en": "Karama Park",
+    "leisure": "park"
+   }
+  },
+  {
+   "osm": "node/4902962626",
+   "lat": 25.24963,
+   "lon": 55.306881,
+   "tags": {
+    "name": "Karama Star Restaurant",
+    "name:en": "Karama Star Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4666634489",
+   "lat": 25.244558,
+   "lon": 55.309174,
+   "tags": {
+    "name": "Emirates Post - Dubai Central Post Office, Al Karma",
+    "name:en": "Karama post office",
+    "tourism": "artwork"
+   }
+  },
+  {
+   "osm": "node/4902836219",
+   "lat": 25.245743,
+   "lon": 55.309864,
+   "tags": {
+    "name": "Kareem's",
+    "name:en": "Kareem's",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/10831554681",
+   "lat": 25.251467,
+   "lon": 55.303919,
+   "tags": {
+    "name": "Kathhiyawadi Thali Restaurant",
+    "amenity": "restaurant",
+    "cuisine": "indian",
+    "opening_hours": "Mo-Su 11:45-15:30,19:00-23:00",
+    "website": "https://www.kathhiyawadithali.com/",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "osm": "node/3218358542",
+   "lat": 25.244048,
+   "lon": 55.305824,
+   "tags": {
+    "name": "Kayaloram",
+    "name:en": "Kayaloram",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4586986589",
+   "lat": 25.249117,
+   "lon": 55.311478,
+   "tags": {
+    "name": "Kebab Bistro",
+    "name:en": "Kebab Bistro",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/3218351873",
+   "lat": 25.243966,
+   "lon": 55.306012,
+   "tags": {
+    "name": "Keerthi",
+    "name:en": "Keerthi",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4902962744",
+   "lat": 25.245591,
+   "lon": 55.30207,
+   "tags": {
+    "name": "Keerthi Restaurant",
+    "name:en": "Keerthi Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4483013096",
+   "lat": 25.236708,
+   "lon": 55.302102,
+   "tags": {
+    "name": "Kenny Rogers Roasters",
+    "name:en": "Kenny Rogers Roasters",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4902962768",
+   "lat": 25.246054,
+   "lon": 55.30356,
+   "tags": {
+    "name": "Komedor",
+    "name:en": "Komedor",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/8540611955",
+   "lat": 25.24757,
+   "lon": 55.300419,
+   "tags": {
+    "name": "Kulcha King",
+    "amenity": "restaurant",
+    "cuisine": "indian"
+   }
+  },
+  {
+   "osm": "node/5782796924",
+   "lat": 25.251124,
+   "lon": 55.302508,
+   "tags": {
+    "name": "Laffah",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4904979502",
+   "lat": 25.238378,
+   "lon": 55.304582,
+   "tags": {
+    "name": "مطعم لاهوري جاتكارا",
+    "name:en": "Lahori chatkhara restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/8564625466",
+   "lat": 25.234955,
+   "lon": 55.30968,
+   "tags": {
+    "name": "Lan Kwai Fong Peking Duck Restaurant",
+    "amenity": "restaurant",
+    "cuisine": "chinese"
+   }
+  },
+  {
+   "osm": "node/8914220117",
+   "lat": 25.241351,
+   "lon": 55.312046,
+   "tags": {
+    "name": "Let’s Go",
+    "amenity": "cafe"
+   }
+  },
+  {
+   "osm": "node/4902962408",
+   "lat": 25.251435,
+   "lon": 55.304785,
+   "tags": {
+    "name": "Light Food Restaurant",
+    "name:en": "Light Food Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "way/835794435",
+   "lat": 25.253191,
+   "lon": 55.299915,
+   "tags": {
+    "name": "Lim's Cafe",
+    "amenity": "fast_food",
+    "cuisine": "juice"
+   }
+  },
+  {
+   "osm": "node/8564625467",
+   "lat": 25.234875,
+   "lon": 55.309683,
+   "tags": {
+    "name": "Little Bangkok",
+    "amenity": "restaurant",
+    "cuisine": "thai"
+   }
+  },
+  {
+   "osm": "node/4904085065",
+   "lat": 25.245703,
+   "lon": 55.307479,
+   "tags": {
+    "name": "Little China",
+    "name:en": "Little China",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4902841790",
+   "lat": 25.247731,
+   "lon": 55.308811,
+   "tags": {
+    "name": "Little Italy",
+    "name:en": "Little Italy",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4902841775",
+   "lat": 25.248796,
+   "lon": 55.309815,
+   "tags": {
+    "name": "Liz Restaurant",
+    "name:en": "Liz",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "way/295115225",
+   "lat": 25.244291,
+   "lon": 55.304264,
+   "tags": {
+    "name": "Lulu Shopping",
+    "name:en": "Lulu Shopping",
+    "shop": "mall"
+   }
+  },
+  {
+   "osm": "node/8236965984",
+   "lat": 25.246273,
+   "lon": 55.309473,
+   "tags": {
+    "name": "Lunch House",
+    "amenity": "restaurant",
+    "opening_hours": "Mo-Su 07:30-23:30"
+   }
+  },
+  {
+   "osm": "node/3658546343",
+   "lat": 25.241955,
+   "lon": 55.304597,
+   "tags": {
+    "name": "MRA",
+    "name:en": "MRA",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4904391024",
+   "lat": 25.245487,
+   "lon": 55.303825,
+   "tags": {
+    "name": "Magic Fork",
+    "name:en": "Magic Fork",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4690976789",
+   "lat": 25.251453,
+   "lon": 55.309018,
+   "tags": {
+    "name": "Maharaja Bhog, Karama",
+    "name:en": "Maharaja Bhog, Karama",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4904618465",
+   "lat": 25.239151,
+   "lon": 55.302393,
+   "tags": {
+    "name": "Mak's Corner",
+    "name:en": "Mak's Corner",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4904979631",
+   "lat": 25.238509,
+   "lon": 55.302452,
+   "tags": {
+    "name": "Mak's Food",
+    "name:en": "Mak's Food",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4904094593",
+   "lat": 25.24276,
+   "lon": 55.306525,
+   "tags": {
+    "name": "Malabar Express",
+    "name:en": "Malabar Express",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4483013095",
+   "lat": 25.246159,
+   "lon": 55.305208,
+   "tags": {
+    "name": "Malabar Paris",
+    "name:en": "Malabar Paris",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4694145489",
+   "lat": 25.236378,
+   "lon": 55.308894,
+   "tags": {
+    "name": "Mandi",
+    "name:en": "Mandi",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "way/814995925",
+   "lat": 25.25177,
+   "lon": 55.297776,
+   "tags": {
+    "name": "Mankhool Sand Park",
+    "leisure": "park",
+    "opening_hours": "24/7"
+   }
+  },
+  {
+   "osm": "node/4902962410",
+   "lat": 25.25135,
+   "lon": 55.304737,
+   "tags": {
+    "name": "Mankoks Restaurant",
+    "name:en": "Mankoks Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4052716198",
+   "lat": 25.245868,
+   "lon": 55.310229,
+   "tags": {
+    "name": "Masala Bay",
+    "name:en": "Masala Bay",
+    "amenity": "restaurant",
+    "cuisine": "indian"
+   }
+  },
+  {
+   "osm": "node/4666634889",
+   "lat": 25.243265,
+   "lon": 55.306179,
+   "tags": {
+    "name": "Mattar Al Tayer Building",
+    "name:en": "Mattar Al Tayer Building",
+    "tourism": "artwork"
+   }
+  },
+  {
+   "osm": "node/4913625593",
+   "lat": 25.249471,
+   "lon": 55.300385,
+   "tags": {
+    "name": "ماكدونالدز",
+    "name:en": "McDonald's",
+    "amenity": "fast_food",
+    "cuisine": "burger",
+    "opening_hours": "24/7",
+    "contact:website": "https://www.mcdelivery.ae/"
+   }
+  },
+  {
+   "osm": "node/4902962712",
+   "lat": 25.247056,
+   "lon": 55.303891,
+   "tags": {
+    "name": "Meeqat Coffee Shop",
+    "name:en": "Meeqat Coffee Shop",
+    "amenity": "cafe"
+   }
+  },
+  {
+   "osm": "node/4904979512",
+   "lat": 25.236354,
+   "lon": 55.302813,
+   "tags": {
+    "name": "Mezbaan",
+    "name:en": "Mezbaan",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/8024807450",
+   "lat": 25.250669,
+   "lon": 55.302902,
+   "tags": {
+    "name": "Momo & More",
+    "amenity": "restaurant",
+    "opening_hours": "Mo-We,Sa-Su 11:30-24:00;Th-Fr 12:00-24:00",
+    "contact:website": "https://www.momoandmore.com/",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "osm": "node/8574121777",
+   "lat": 25.237094,
+   "lon": 55.306104,
+   "tags": {
+    "name": "Moshi",
+    "amenity": "restaurant",
+    "cuisine": "momos;sushi"
+   }
+  },
+  {
+   "osm": "node/4902841754",
+   "lat": 25.251427,
+   "lon": 55.3092,
+   "tags": {
+    "name": "Mughals",
+    "name:en": "Mughals",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4902841773",
+   "lat": 25.249473,
+   "lon": 55.310224,
+   "tags": {
+    "name": "Mumbai Spices",
+    "name:en": "Mumbai Spices",
+    "amenity": "cafe"
+   }
+  },
+  {
+   "osm": "way/244780197",
+   "lat": 25.243693,
+   "lon": 55.291269,
+   "tags": {
+    "name": "Musallah Al Eid",
+    "amenity": "place_of_worship"
+   }
+  },
+  {
+   "osm": "node/4579726791",
+   "lat": 25.248636,
+   "lon": 55.302482,
+   "tags": {
+    "name": "Nadumuttam Kerala Cuisine",
+    "name:en": "Nadumuttam Kerala Cuisine",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/9369128684",
+   "lat": 25.237034,
+   "lon": 55.303669,
+   "tags": {
+    "name": "مطعم نافيديام",
+    "name:en": "Naivedhyam restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4898223359",
+   "lat": 25.240433,
+   "lon": 55.308192,
+   "tags": {
+    "name": "Nasimi Cafe",
+    "name:en": "Nasimi Cafe",
+    "amenity": "cafe"
+   }
+  },
+  {
+   "osm": "node/4904979487",
+   "lat": 25.241417,
+   "lon": 55.304055,
+   "tags": {
+    "name": "Nellara Restaurant",
+    "name:en": "Nellara Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4904618464",
+   "lat": 25.238553,
+   "lon": 55.30306,
+   "tags": {
+    "name": "New Sind Punjab Restaurant",
+    "name:en": "New Sind Punjab Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4904979836",
+   "lat": 25.24111,
+   "lon": 55.303922,
+   "tags": {
+    "name": "Noor Al Sham",
+    "name:en": "Noor Al Sham",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/8574121775",
+   "lat": 25.23662,
+   "lon": 55.305975,
+   "tags": {
+    "name": "نور ماليزيا",
+    "name:en": "Nur Malaysia",
+    "amenity": "restaurant",
+    "cuisine": "malaysian"
+   }
+  },
+  {
+   "osm": "node/4902962735",
+   "lat": 25.247017,
+   "lon": 55.302205,
+   "tags": {
+    "name": "Palace Restaurant",
+    "name:en": "Palace Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/11394440709",
+   "lat": 25.253527,
+   "lon": 55.303055,
+   "tags": {
+    "name": "Pancake House International",
+    "amenity": "restaurant",
+    "cuisine": "pancake",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "osm": "node/4904390728",
+   "lat": 25.247614,
+   "lon": 55.306967,
+   "tags": {
+    "name": "Panini",
+    "name:en": "Panini",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4904094602",
+   "lat": 25.240686,
+   "lon": 55.305856,
+   "tags": {
+    "name": "Panoor",
+    "name:en": "Panoor",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4902962694",
+   "lat": 25.246294,
+   "lon": 55.304791,
+   "tags": {
+    "name": "Paramount",
+    "name:en": "Paramount",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4904384886",
+   "lat": 25.244862,
+   "lon": 55.306489,
+   "tags": {
+    "name": "Paratha King",
+    "name:en": "Paratha King",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4904384888",
+   "lat": 25.245152,
+   "lon": 55.306562,
+   "tags": {
+    "name": "Paratha King",
+    "name:en": "Paratha King",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/5639645821",
+   "lat": 25.248224,
+   "lon": 55.311776,
+   "tags": {
+    "name": "Park and Sip Cafe",
+    "amenity": "cafe",
+    "cuisine": "diner;deli;coffee_shop;burger;breakfast;grill;hot_dog;ice_cream;international;local;regional;sausage;tea",
+    "website": "https://www.instagram.com/parkandsip"
+   }
+  },
+  {
+   "osm": "node/4904384857",
+   "lat": 25.246686,
+   "lon": 55.306687,
+   "tags": {
+    "name": "Patiala House Restaurant",
+    "name:en": "Patiala House",
+    "amenity": "restaurant",
+    "opening_hours": "Mo-Su 09:30-23:59",
+    "contact:website": "https://www.patialahouse.ae/"
+   }
+  },
+  {
+   "osm": "node/4904384884",
+   "lat": 25.244822,
+   "lon": 55.306375,
+   "tags": {
+    "name": "Perfume Port",
+    "name:en": "Perfume Port",
+    "shop": "perfumery"
+   }
+  },
+  {
+   "osm": "node/4904390791",
+   "lat": 25.24564,
+   "lon": 55.303172,
+   "tags": {
+    "name": "Perfume Sense",
+    "name:en": "Perfume Sense",
+    "shop": "perfumery"
+   }
+  },
+  {
+   "osm": "node/4904384877",
+   "lat": 25.245019,
+   "lon": 55.306168,
+   "tags": {
+    "name": "Pizza 2 Go",
+    "name:en": "Pizza 2 Go",
+    "amenity": "fast_food"
+   }
+  },
+  {
+   "osm": "node/11398912149",
+   "lat": 25.250436,
+   "lon": 55.30214,
+   "tags": {
+    "name": "Pizza Hut",
+    "amenity": "restaurant",
+    "cuisine": "pizza"
+   }
+  },
+  {
+   "osm": "node/4902841794",
+   "lat": 25.248129,
+   "lon": 55.308908,
+   "tags": {
+    "name": "Popeyes",
+    "name:en": "Popeyes",
+    "amenity": "fast_food",
+    "cuisine": "chicken"
+   }
+  },
+  {
+   "osm": "node/8478509428",
+   "lat": 25.237219,
+   "lon": 55.307558,
+   "tags": {
+    "name": "Punjabi Dhaba Restaurant",
+    "amenity": "restaurant",
+    "opening_hours": "Fr 09:00-11:30,13:00-23:30;Mo-Th,Sa-Su 09:00-23:30"
+   }
+  },
+  {
+   "osm": "node/3463639498",
+   "lat": 25.234821,
+   "lon": 55.309309,
+   "tags": {
+    "name": "Punjabi by nature",
+    "name:en": "Punjabi by nature",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4904979510",
+   "lat": 25.236178,
+   "lon": 55.303143,
+   "tags": {
+    "name": "Puyapla",
+    "name:en": "Puyapla",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4904979869",
+   "lat": 25.236942,
+   "lon": 55.302585,
+   "tags": {
+    "name": "Ramsis Coffee Shop",
+    "name:en": "Ramsis Coffee Shop",
+    "amenity": "cafe"
+   }
+  },
+  {
+   "osm": "node/8954915817",
+   "lat": 25.23671,
+   "lon": 55.309758,
+   "tags": {
+    "name": "Rangoli",
+    "amenity": "restaurant",
+    "cuisine": "indian"
+   }
+  },
+  {
+   "osm": "node/4902962621",
+   "lat": 25.250012,
+   "lon": 55.305309,
+   "tags": {
+    "name": "Restaurant Kavala",
+    "name:en": "Restaurant Kavala",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/5694989203",
+   "lat": 25.248244,
+   "lon": 55.304063,
+   "tags": {
+    "name": "Ruchi's Authentic Andhra North Indian",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/11398944269",
+   "lat": 25.251435,
+   "lon": 55.302722,
+   "tags": {
+    "name": "Rumaan Hyderabad",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/7199522447",
+   "lat": 25.247601,
+   "lon": 55.306953,
+   "tags": {
+    "name": "SS Bucket Biryani",
+    "amenity": "restaurant",
+    "cuisine": "african",
+    "opening_hours": "Fr 10:00-12:00,13:00-23:30;Mo-Th,Sa-Su 10:00-23:30",
+    "contact:website": "https://www.ssbucketbiryaniuae.com/"
+   }
+  },
+  {
+   "osm": "node/8564625468",
+   "lat": 25.23481,
+   "lon": 55.309678,
+   "tags": {
+    "name": "Sabah Lebanon",
+    "amenity": "restaurant",
+    "cuisine": "lebanese"
+   }
+  },
+  {
+   "osm": "node/6359218689",
+   "lat": 25.235989,
+   "lon": 55.303534,
+   "tags": {
+    "name": "مطعم سلة الصياد",
+    "name:en": "Sallet Al Sayad Restaurant",
+    "amenity": "restaurant",
+    "cuisine": "seafood",
+    "opening_hours": "Mo-Su 12:00-00:00"
+   }
+  },
+  {
+   "osm": "node/4902962668",
+   "lat": 25.24551,
+   "lon": 55.306112,
+   "tags": {
+    "name": "Salt'n'Pepper",
+    "name:en": "Salt'n'Pepper",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/3519697809",
+   "lat": 25.242823,
+   "lon": 55.30363,
+   "tags": {
+    "name": "Sangeetha Vegetarian Restaurant",
+    "name:en": "Sangeetha Vegetarian Restaurant",
+    "amenity": "restaurant",
+    "cuisine": "indian",
+    "opening_hours": "07:30-11:00,13:30-15:30,17:00-23:30",
+    "website": "https://sangeethavegrestaurants.com/"
+   }
+  },
+  {
+   "osm": "node/2534788929",
+   "lat": 25.242377,
+   "lon": 55.30586,
+   "tags": {
+    "name": "Saravana Bhavan",
+    "name:en": "Saravana Bhavan",
+    "amenity": "fast_food",
+    "cuisine": "indian;south_indian"
+   }
+  },
+  {
+   "osm": "node/8564625469",
+   "lat": 25.234675,
+   "lon": 55.309658,
+   "tags": {
+    "name": "Saravanaa Bhavan",
+    "amenity": "restaurant",
+    "cuisine": "indian"
+   }
+  },
+  {
+   "osm": "node/14087221301",
+   "lat": 25.242422,
+   "lon": 55.307373,
+   "tags": {
+    "name": "Seoul Garden Restaurant",
+    "amenity": "restaurant",
+    "cuisine": "korean"
+   }
+  },
+  {
+   "osm": "way/1193893321",
+   "lat": 25.232484,
+   "lon": 55.297546,
+   "tags": {
+    "name": "Sheikh Zayed Iconic Picture",
+    "tourism": "artwork"
+   }
+  },
+  {
+   "osm": "way/1193893322",
+   "lat": 25.232559,
+   "lon": 55.297716,
+   "tags": {
+    "name": "Sheikh Zayed Iconic Picture",
+    "tourism": "artwork"
+   }
+  },
+  {
+   "osm": "way/1193893323",
+   "lat": 25.232373,
+   "lon": 55.297465,
+   "tags": {
+    "name": "Sheikh Zayed Iconic Picture",
+    "tourism": "artwork"
+   }
+  },
+  {
+   "osm": "way/1193893324",
+   "lat": 25.232237,
+   "lon": 55.297508,
+   "tags": {
+    "name": "Sheikh Zayed Iconic Picture",
+    "tourism": "artwork"
+   }
+  },
+  {
+   "osm": "way/1193893326",
+   "lat": 25.232274,
+   "lon": 55.297843,
+   "tags": {
+    "name": "Sheikh Zayed Iconic Picture",
+    "tourism": "artwork"
+   }
+  },
+  {
+   "osm": "way/1193893327",
+   "lat": 25.232414,
+   "lon": 55.297881,
+   "tags": {
+    "name": "Sheikh Zayed Iconic Picture",
+    "tourism": "artwork"
+   }
+  },
+  {
+   "osm": "way/1193893328",
+   "lat": 25.232472,
+   "lon": 55.297811,
+   "tags": {
+    "name": "Sheikh Zayed Iconic Picture",
+    "tourism": "artwork"
+   }
+  },
+  {
+   "osm": "way/1193893329",
+   "lat": 25.232395,
+   "lon": 55.297688,
+   "tags": {
+    "name": "Sheikh Zayed Iconic Picture",
+    "tourism": "artwork"
+   }
+  },
+  {
+   "osm": "way/1193893330",
+   "lat": 25.232373,
+   "lon": 55.297539,
+   "tags": {
+    "name": "Sheikh Zayed Iconic Picture",
+    "tourism": "artwork"
+   }
+  },
+  {
+   "osm": "way/1193893336",
+   "lat": 25.232047,
+   "lon": 55.297333,
+   "tags": {
+    "name": "Sheikh Zayed Iconic Picture",
+    "tourism": "artwork"
+   }
+  },
+  {
+   "osm": "way/1193893337",
+   "lat": 25.232026,
+   "lon": 55.297349,
+   "tags": {
+    "name": "Sheikh Zayed Iconic Picture",
+    "tourism": "artwork"
+   }
+  },
+  {
+   "osm": "way/1196691300",
+   "lat": 25.23244,
+   "lon": 55.297217,
+   "tags": {
+    "name": "Sheikh Zayed Iconic Picture",
+    "tourism": "artwork"
+   }
+  },
+  {
+   "osm": "way/1196691302",
+   "lat": 25.23244,
+   "lon": 55.297245,
+   "tags": {
+    "name": "Sheikh Zayed Iconic Picture",
+    "tourism": "artwork"
+   }
+  },
+  {
+   "osm": "relation/16182489",
+   "lat": 25.232423,
+   "lon": 55.297451,
+   "tags": {
+    "name": "Sheikh Zayed Iconic Picture",
+    "tourism": "artwork"
+   }
+  },
+  {
+   "osm": "relation/19337332",
+   "lat": 25.23212,
+   "lon": 55.297794,
+   "tags": {
+    "name": "Sheikh Zayed Iconic Picture",
+    "tourism": "artwork"
+   }
+  },
+  {
+   "osm": "relation/19337333",
+   "lat": 25.232107,
+   "lon": 55.297435,
+   "tags": {
+    "name": "Sheikh Zayed Iconic Picture",
+    "tourism": "artwork"
+   }
+  },
+  {
+   "osm": "relation/19337334",
+   "lat": 25.232264,
+   "lon": 55.297584,
+   "tags": {
+    "name": "Sheikh Zayed Iconic Picture",
+    "tourism": "artwork"
+   }
+  },
+  {
+   "osm": "node/5694985382",
+   "lat": 25.248371,
+   "lon": 55.303939,
+   "tags": {
+    "name": "Shri Krishna Bhavan",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4904094590",
+   "lat": 25.243254,
+   "lon": 55.306691,
+   "tags": {
+    "name": "Sigdi",
+    "name:en": "Sigdi",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4904390730",
+   "lat": 25.247556,
+   "lon": 55.306947,
+   "tags": {
+    "name": "Silog Express",
+    "name:en": "Silog Express",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/2377102604",
+   "lat": 25.238711,
+   "lon": 55.302963,
+   "tags": {
+    "name": "Sind Punjab Restaurant",
+    "name:en": "Sind Punjab Restaurant",
+    "amenity": "restaurant",
+    "cuisine": "indian"
+   }
+  },
+  {
+   "osm": "node/4902841785",
+   "lat": 25.246234,
+   "lon": 55.308321,
+   "tags": {
+    "name": "Sparkle Shine General Trading",
+    "name:en": "Sparkle Shine",
+    "shop": "mall",
+    "opening_hours": "Fr 14:00-23:00;Mo-Th,Sa-Su 10:30-22:00",
+    "contact:website": "https://www.dubaikidi.com/"
+   }
+  },
+  {
+   "osm": "node/4313884991",
+   "lat": 25.23509,
+   "lon": 55.309667,
+   "tags": {
+    "name": "Spring Bamboo",
+    "name:en": "Spring Bamboo",
+    "amenity": "restaurant",
+    "cuisine": "chinese"
+   }
+  },
+  {
+   "osm": "node/8564436096",
+   "lat": 25.234131,
+   "lon": 55.311569,
+   "tags": {
+    "name": "ستاربكس",
+    "name:en": "Starbucks",
+    "amenity": "cafe",
+    "cuisine": "coffee_shop",
+    "opening_hours": "24/7"
+   }
+  },
+  {
+   "osm": "node/13143860439",
+   "lat": 25.233941,
+   "lon": 55.294348,
+   "tags": {
+    "name": "Starbucks",
+    "name:en": "Starbucks",
+    "amenity": "cafe",
+    "cuisine": "coffee_shop",
+    "opening_hours": "06:30-23:00",
+    "website": "https://locations.starbucks.ae/directory/dubai/park-gate-residence-tower",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "osm": "node/9047304486",
+   "lat": 25.240431,
+   "lon": 55.302282,
+   "tags": {
+    "name": "Super Haveli Roll",
+    "amenity": "restaurant",
+    "opening_hours": "Mo-Su 07:00-00:00"
+   }
+  },
+  {
+   "osm": "node/4902962691",
+   "lat": 25.247621,
+   "lon": 55.305242,
+   "tags": {
+    "name": "Swades Vegetarian",
+    "name:en": "Swades Vegetarian Restaurant",
+    "amenity": "restaurant",
+    "opening_hours": "Mo-Su 07:00-23:00",
+    "contact:website": "https://swades.ae",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "osm": "node/11398909362",
+   "lat": 25.251771,
+   "lon": 55.302906,
+   "tags": {
+    "name": "Talipapa",
+    "amenity": "restaurant",
+    "cuisine": "seafood"
+   }
+  },
+  {
+   "osm": "node/11398940164",
+   "lat": 25.251639,
+   "lon": 55.30283,
+   "tags": {
+    "name": "Talipapa",
+    "amenity": "restaurant",
+    "cuisine": "pizza"
+   }
+  },
+  {
+   "osm": "node/4904618474",
+   "lat": 25.241069,
+   "lon": 55.302272,
+   "tags": {
+    "name": "Tassheel Cafeteria",
+    "name:en": "Tassheel Cafeteria",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4904390729",
+   "lat": 25.247585,
+   "lon": 55.306954,
+   "tags": {
+    "name": "Tasty Manna",
+    "name:en": "Tasty Manna",
+    "amenity": "cafe"
+   }
+  },
+  {
+   "osm": "node/13849979183",
+   "lat": 25.241254,
+   "lon": 55.291422,
+   "tags": {
+    "name": "Teapot Cafe",
+    "name:en": "Teapot Cafe",
+    "amenity": "cafe"
+   }
+  },
+  {
+   "osm": "node/11394449691",
+   "lat": 25.253449,
+   "lon": 55.303,
+   "tags": {
+    "name": "Teriyaki Boy",
+    "amenity": "fast_food",
+    "cuisine": "japanese",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "osm": "node/5916486986",
+   "lat": 25.25251,
+   "lon": 55.304577,
+   "tags": {
+    "name": "The Govindas",
+    "name:en": "The Govindas",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4579729689",
+   "lat": 25.248703,
+   "lon": 55.302507,
+   "tags": {
+    "name": "The Monk",
+    "name:en": "The Monk",
+    "amenity": "restaurant",
+    "cuisine": "chinese"
+   }
+  },
+  {
+   "osm": "node/4666594293",
+   "lat": 25.24307,
+   "lon": 55.306175,
+   "tags": {
+    "name": "Transworld shipping",
+    "name:en": "Transworld shipping",
+    "tourism": "artwork"
+   }
+  },
+  {
+   "osm": "node/4904979701",
+   "lat": 25.240055,
+   "lon": 55.297789,
+   "tags": {
+    "name": "Treat Restaurant",
+    "name:en": "Treat Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/5866358891",
+   "lat": 25.237066,
+   "lon": 55.306901,
+   "tags": {
+    "name": "Tumtum Restaurant",
+    "name:en": "Tumtum Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/7117355272",
+   "lat": 25.249043,
+   "lon": 55.311014,
+   "tags": {
+    "name": "Two Seasons",
+    "name:en": "Two Seasons",
+    "amenity": "restaurant",
+    "cuisine": "indian"
+   }
+  },
+  {
+   "osm": "node/11616212463",
+   "lat": 25.233607,
+   "lon": 55.294503,
+   "tags": {
+    "name": "Unwind Specialty Boardgame Cafe",
+    "amenity": "cafe",
+    "opening_hours": "Mo-Th 08:00-23:00; Fr-Su 08:00-24:00",
+    "website": "https://unwinddubai.com"
+   }
+  },
+  {
+   "osm": "node/4902841770",
+   "lat": 25.244975,
+   "lon": 55.310484,
+   "tags": {
+    "name": "Urban Cook House",
+    "name:en": "Urban Cook House",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/6036153245",
+   "lat": 25.248699,
+   "lon": 55.303153,
+   "tags": {
+    "name": "Veggie Garden",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/3337966640",
+   "lat": 25.243387,
+   "lon": 55.306085,
+   "tags": {
+    "name": "Venus vegetarian restaurant",
+    "name:en": "Venus vegetarian restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4899843476",
+   "lat": 25.243454,
+   "lon": 55.309945,
+   "tags": {
+    "name": "Wadi Al Arayesh",
+    "name:en": "Wadi Al Arayesh",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4902962634",
+   "lat": 25.249561,
+   "lon": 55.307217,
+   "tags": {
+    "name": "Walkers Cafe",
+    "name:en": "Walkers Cafe",
+    "amenity": "cafe"
+   }
+  },
+  {
+   "osm": "node/4904979505",
+   "lat": 25.237135,
+   "lon": 55.304189,
+   "tags": {
+    "name": "Winny's",
+    "name:en": "Winny's",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4904979848",
+   "lat": 25.239344,
+   "lon": 55.304587,
+   "tags": {
+    "name": "Woodlands",
+    "name:en": "Woodlands",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4579724992",
+   "lat": 25.248558,
+   "lon": 55.302425,
+   "tags": {
+    "name": "Yalla Momos",
+    "name:en": "Yalla Momos",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/5225876621",
+   "lat": 25.247066,
+   "lon": 55.301577,
+   "tags": {
+    "name": "Yeshi kava restaurant llcam",
+    "name:en": "Yeshi kava restaurant llc",
+    "amenity": "restaurant",
+    "cuisine": "ethiopian",
+    "website": "http://www.yeshikava.com"
+   }
+  },
+  {
+   "osm": "node/4538544594",
+   "lat": 25.251238,
+   "lon": 55.303253,
+   "tags": {
+    "name": "Yoko Sizzlers Restaurant",
+    "name:en": "Yoko Sizzlers Restaurant",
+    "amenity": "restaurant",
+    "opening_hours": "Mo-Su 12:00-16:00, 19:00-00:00",
+    "website": "https://www.yokosizzlers.com/"
+   }
+  },
+  {
+   "osm": "node/10923432266",
+   "lat": 25.247616,
+   "lon": 55.300433,
+   "tags": {
+    "name": "Yummy Dosa",
+    "amenity": "restaurant",
+    "cuisine": "indian"
+   }
+  },
+  {
+   "osm": "way/242815345",
+   "lat": 25.235233,
+   "lon": 55.297774,
+   "tags": {
+    "name": "حديقة زعبيل",
+    "name:en": "Zabeel Park",
+    "leisure": "park"
+   }
+  },
+  {
+   "osm": "node/4902962672",
+   "lat": 25.244432,
+   "lon": 55.306364,
+   "tags": {
+    "name": "Zain's Restaurant",
+    "name:en": "Zain's Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4902962740",
+   "lat": 25.246768,
+   "lon": 55.302026,
+   "tags": {
+    "name": "Zoommax",
+    "name:en": "Zoommax",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/5971795886",
+   "lat": 25.24859,
+   "lon": 55.302281,
+   "tags": {
+    "name": "bikanerwala karama",
+    "name:en": "bikanerwal karama",
+    "tourism": "attraction"
+   }
+  },
+  {
+   "osm": "node/4486814090",
+   "lat": 25.246854,
+   "lon": 55.308472,
+   "tags": {
+    "name": "chowking karama",
+    "name:en": "chowking karama",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/5694622274",
+   "lat": 25.248628,
+   "lon": 55.303482,
+   "tags": {
+    "name": "dhe puttu",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/3875117265",
+   "lat": 25.235949,
+   "lon": 55.304287,
+   "tags": {
+    "name": "etiquette cafe",
+    "name:en": "etiquette cafe",
+    "amenity": "cafe"
+   }
+  },
+  {
+   "osm": "node/9369998138",
+   "lat": 25.241212,
+   "lon": 55.305482,
+   "tags": {
+    "name": "مطعم الشوكة الذهبية للمأكولات الطازجه",
+    "name:en": "golden fork fresh food restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/5179481322",
+   "lat": 25.236444,
+   "lon": 55.302655,
+   "tags": {
+    "name": "pind da dhaba",
+    "name:en": "pind da dhaba",
+    "amenity": "restaurant",
+    "cuisine": "indian"
+   }
+  },
+  {
+   "osm": "node/5794029055",
+   "lat": 25.236567,
+   "lon": 55.302394,
+   "tags": {
+    "name": "مطعم الامور",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/5260132121",
+   "lat": 25.24248,
+   "lon": 55.30962,
+   "tags": {
+    "name": "مطعم العرزال اللبناني",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/8604948868",
+   "lat": 25.238392,
+   "lon": 55.298911,
+   "tags": {
+    "name": "مطعم نور زمزم للمندي والمظبي",
+    "amenity": "restaurant"
+   }
+  }
+ ]
+}

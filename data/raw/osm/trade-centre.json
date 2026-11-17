@@ -1,0 +1,994 @@
+{
+ "neighborhood_id": "trade-centre",
+ "exported_at": "2026-11-15",
+ "osm_base": "2026-11-15T16:56:01Z",
+ "license": "ODbL — (c) OpenStreetMap contributors",
+ "query": "[out:json][timeout:60]; ( nwr(around:1200,25.216,55.282)[\"tourism\"~\"^(museum|attraction|gallery|viewpoint|artwork|theme_park|zoo|aquarium)$\"][\"name\"]; nwr(around:1200,25.216,55.282)[\"historic\"][\"name\"]; nwr(around:1200,25.216,55.282)[\"natural\"=\"beach\"][\"name\"]; nwr(around:1200,25.216,55.282)[\"leisure\"~\"^(beach_resort|park|marina|nature_reserve|water_park)$\"][\"name\"]; nwr(around:1200,25.216,55.282)[\"amenity\"~\"^(restaurant|cafe|fast_food|food_court|place_of_worship|marketplace|arts_centre|theatre)$\"][\"name\"]; nwr(around:1200,25.216,55.282)[\"shop\"~\"^(gold|jewelry|spices|perfumery|mall)$\"][\"name\"]; ); out tags center;",
+ "elements": [
+  {
+   "osm": "node/14102251536",
+   "lat": 25.212138,
+   "lon": 55.278486,
+   "tags": {
+    "name": "% Arabica",
+    "amenity": "cafe",
+    "cuisine": "coffee_shop"
+   }
+  },
+  {
+   "osm": "node/8024815797",
+   "lat": 25.213367,
+   "lon": 55.281284,
+   "tags": {
+    "name": "Acai & Co.",
+    "amenity": "restaurant",
+    "opening_hours": "Mo-Su 08:00-22:00",
+    "contact:website": "https://acaiandco.com/",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "osm": "node/3722077805",
+   "lat": 25.220343,
+   "lon": 55.280263,
+   "tags": {
+    "name": "Al Fresco Italian",
+    "name:en": "Al Fresco Italian",
+    "amenity": "restaurant",
+    "cuisine": "italian",
+    "opening_hours": "12:00-23:00",
+    "website": "https://www.ihg.com/crowneplaza/hotels/us/en/dubai/dubtc/hoteldetail"
+   }
+  },
+  {
+   "osm": "way/230622241",
+   "lat": 25.214873,
+   "lon": 55.274177,
+   "tags": {
+    "name": "Al Satwa Park 3",
+    "name:en": "Al Satwa Park 3",
+    "leisure": "park"
+   }
+  },
+  {
+   "osm": "node/3722050018",
+   "lat": 25.217492,
+   "lon": 55.283227,
+   "tags": {
+    "name": "Alfie's",
+    "name:en": "Alfie's",
+    "amenity": "restaurant",
+    "cuisine": "British",
+    "opening_hours": "09:00-23:00",
+    "website": "https://www.jumeirah.com/en/hotels-resorts/dubai/jumeirah-emirates-towers/restaurants_bars/alfies/",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "osm": "node/4386218193",
+   "lat": 25.211507,
+   "lon": 55.276415,
+   "tags": {
+    "name": "All the Perks",
+    "name:en": "All the Perks",
+    "amenity": "cafe",
+    "opening_hours": "24/7",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "osm": "node/4478708789",
+   "lat": 25.211909,
+   "lon": 55.274493,
+   "tags": {
+    "name": "% Arabica",
+    "name:en": "Arabica",
+    "amenity": "cafe",
+    "cuisine": "coffee_shop"
+   }
+  },
+  {
+   "osm": "node/4350916392",
+   "lat": 25.211314,
+   "lon": 55.282152,
+   "tags": {
+    "name": "Artisan",
+    "name:en": "Artisan",
+    "amenity": "restaurant",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "osm": "node/8944243422",
+   "lat": 25.222539,
+   "lon": 55.28919,
+   "tags": {
+    "name": "Beit El Kell",
+    "amenity": "restaurant",
+    "opening_hours": "Mo-Su 09:00-02:00",
+    "contact:website": "https://www.beitelkell.ae/",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "osm": "node/5821435154",
+   "lat": 25.209258,
+   "lon": 55.274248,
+   "tags": {
+    "name": "Bento-ya Kitchen",
+    "name:en": "Bento-ya Kitchen",
+    "amenity": "restaurant",
+    "cuisine": "japanese"
+   }
+  },
+  {
+   "osm": "node/8856138527",
+   "lat": 25.210844,
+   "lon": 55.282021,
+   "tags": {
+    "name": "Bull & Bear DIFC",
+    "amenity": "restaurant",
+    "cuisine": "european;fine_dining;french",
+    "opening_hours": "Mo-Sa 12:30-15:30; Mo-Sa 19:00-00:00; Su 13:00-16:00; Su 19:00-00:00",
+    "website": "https://bullandbeardifc.com/",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "osm": "node/10967699005",
+   "lat": 25.217766,
+   "lon": 55.278668,
+   "tags": {
+    "name": "Burger King",
+    "amenity": "fast_food",
+    "cuisine": "burger"
+   }
+  },
+  {
+   "osm": "node/4820992882",
+   "lat": 25.224175,
+   "lon": 55.28564,
+   "tags": {
+    "name": "BurgerFuel",
+    "amenity": "fast_food",
+    "cuisine": "burger"
+   }
+  },
+  {
+   "osm": "node/3661978625",
+   "lat": 25.210824,
+   "lon": 55.281597,
+   "tags": {
+    "name": "Burj Daman Masjid",
+    "name:en": "Burj Daman Masjid",
+    "amenity": "place_of_worship",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "osm": "node/4820992880",
+   "lat": 25.223904,
+   "lon": 55.286061,
+   "tags": {
+    "name": "Caffè Nero",
+    "name:en": "Cafe nero",
+    "amenity": "cafe",
+    "cuisine": "coffee_shop"
+   }
+  },
+  {
+   "osm": "node/6512256294",
+   "lat": 25.212862,
+   "lon": 55.279416,
+   "tags": {
+    "name": "Café Belge",
+    "name:en": "Café Belge",
+    "amenity": "restaurant",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "osm": "node/6058250185",
+   "lat": 25.222703,
+   "lon": 55.284312,
+   "tags": {
+    "name": "Capri Italian Grill",
+    "name:en": "Capri Italian Grill",
+    "amenity": "fast_food"
+   }
+  },
+  {
+   "osm": "node/4725334613",
+   "lat": 25.209733,
+   "lon": 55.273216,
+   "tags": {
+    "name": "كاريبو كوفي",
+    "name:en": "Caribou Coffee",
+    "amenity": "cafe",
+    "cuisine": "coffee_shop",
+    "opening_hours": "24/7"
+   }
+  },
+  {
+   "osm": "node/5239783421",
+   "lat": 25.211344,
+   "lon": 55.282481,
+   "tags": {
+    "name": "Carnival by Tresind",
+    "name:en": "Carnival by Tresind",
+    "amenity": "restaurant",
+    "cuisine": "curry;grill;indian",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "osm": "node/4787887031",
+   "lat": 25.221338,
+   "lon": 55.2805,
+   "tags": {
+    "name": "Chai Tea",
+    "name:en": "Cha Cha Chai",
+    "amenity": "cafe",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "osm": "node/4820956046",
+   "lat": 25.224079,
+   "lon": 55.285408,
+   "tags": {
+    "name": "عند ميشال",
+    "name:en": "Chez Michel",
+    "amenity": "cafe"
+   }
+  },
+  {
+   "osm": "node/4963640996",
+   "lat": 25.21799,
+   "lon": 55.278822,
+   "tags": {
+    "name": "Chili's",
+    "name:en": "Chili's",
+    "amenity": "restaurant",
+    "cuisine": "tex-mex"
+   }
+  },
+  {
+   "osm": "node/4386163994",
+   "lat": 25.211094,
+   "lon": 55.274161,
+   "tags": {
+    "name": "DineBest",
+    "amenity": "restaurant",
+    "website": "https://applebeesme.com/"
+   }
+  },
+  {
+   "osm": "node/13254135198",
+   "lat": 25.21573,
+   "lon": 55.279204,
+   "tags": {
+    "name": "Dubai Fine Arts",
+    "tourism": "gallery",
+    "opening_hours": "Mo-Su 10:00-18:30"
+   }
+  },
+  {
+   "osm": "way/500783851",
+   "lat": 25.217446,
+   "lon": 55.271942,
+   "tags": {
+    "name": "Eat and Drink",
+    "name:en": "Eat and Drink",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/10309469223",
+   "lat": 25.214205,
+   "lon": 55.280704,
+   "tags": {
+    "name": "Eclisse d'Acciaio",
+    "tourism": "artwork"
+   }
+  },
+  {
+   "osm": "way/536681286",
+   "lat": 25.221049,
+   "lon": 55.285885,
+   "tags": {
+    "name": "Ficus Gardens",
+    "name:en": "Ficus Gardens",
+    "leisure": "park"
+   }
+  },
+  {
+   "osm": "node/10309469225",
+   "lat": 25.214062,
+   "lon": 55.280997,
+   "tags": {
+    "name": "Firetti",
+    "tourism": "artwork"
+   }
+  },
+  {
+   "osm": "node/4725334618",
+   "lat": 25.211558,
+   "lon": 55.274441,
+   "tags": {
+    "name": "Garden Restaurant",
+    "name:en": "Garden Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/5996280337",
+   "lat": 25.212399,
+   "lon": 55.27709,
+   "tags": {
+    "name": "Gevora Kitchen",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/9722746012",
+   "lat": 25.224424,
+   "lon": 55.283216,
+   "tags": {
+    "name": "Golden Fork",
+    "amenity": "restaurant",
+    "opening_hours": "Mo-Su 07:00-04:00",
+    "contact:website": "https://www.goldenfork.ae/",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "osm": "node/8024801623",
+   "lat": 25.217534,
+   "lon": 55.272671,
+   "tags": {
+    "name": "Haji Sahab Restaurant",
+    "amenity": "restaurant",
+    "opening_hours": "Mo-Su 08:00-01:00",
+    "contact:website": "https://hajisahab.com/"
+   }
+  },
+  {
+   "osm": "node/4386222089",
+   "lat": 25.211208,
+   "lon": 55.274255,
+   "tags": {
+    "name": "Hardee's",
+    "name:en": "Hardees",
+    "amenity": "fast_food",
+    "cuisine": "burger"
+   }
+  },
+  {
+   "osm": "node/5198347008",
+   "lat": 25.224225,
+   "lon": 55.285534,
+   "tags": {
+    "name": "Hatam",
+    "amenity": "restaurant",
+    "cuisine": "persian"
+   }
+  },
+  {
+   "osm": "node/4820993161",
+   "lat": 25.223951,
+   "lon": 55.28594,
+   "tags": {
+    "name": "Japengo",
+    "name:en": "Japengo",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/13354953801",
+   "lat": 25.214644,
+   "lon": 55.280348,
+   "tags": {
+    "name": "Jones the Grocer Express - DIFC",
+    "amenity": "cafe",
+    "cuisine": "international",
+    "opening_hours": "Mo-Fr 08:00-22:00; Sa-Su 10:00-22:00"
+   }
+  },
+  {
+   "osm": "node/4386215292",
+   "lat": 25.214381,
+   "lon": 55.276397,
+   "tags": {
+    "name": "دجاج كنتاكي",
+    "name:en": "KFC",
+    "amenity": "fast_food",
+    "cuisine": "chicken",
+    "opening_hours": "24/7"
+   }
+  },
+  {
+   "osm": "node/9016682608",
+   "lat": 25.208257,
+   "lon": 55.276455,
+   "tags": {
+    "name": "KIZA Restaurant & Lounge",
+    "amenity": "restaurant",
+    "cuisine": "african;fine_dining",
+    "opening_hours": "Mo-Su 12:00-01:00",
+    "website": "https://kiza.ae"
+   }
+  },
+  {
+   "osm": "node/8024807446",
+   "lat": 25.210126,
+   "lon": 55.273291,
+   "tags": {
+    "name": "Kris Kros Lebanon",
+    "amenity": "restaurant",
+    "opening_hours": "Mo-Su 07:00-04:45",
+    "contact:website": "https://www.kriskroslebanon.com/"
+   }
+  },
+  {
+   "osm": "node/13467761941",
+   "lat": 25.213646,
+   "lon": 55.27588,
+   "tags": {
+    "name": "La Marzocco Middle East",
+    "amenity": "cafe",
+    "cuisine": "coffee_shop",
+    "opening_hours": "Mo-Fr 09:00-17:00; Sa-Su off",
+    "website": "https://www.lamarzocco.com/ae/en/",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "osm": "node/5154981221",
+   "lat": 25.213186,
+   "lon": 55.282254,
+   "tags": {
+    "name": "La Petite Maison",
+    "name:en": "La Petite Maison",
+    "amenity": "restaurant",
+    "website": "http://lpmdubai.ae",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "osm": "node/6000790867",
+   "lat": 25.210864,
+   "lon": 55.276027,
+   "tags": {
+    "name": "Le Pain Quotidien",
+    "amenity": "cafe",
+    "cuisine": "coffee_shop"
+   }
+  },
+  {
+   "osm": "node/5996280338",
+   "lat": 25.212429,
+   "lon": 55.277207,
+   "tags": {
+    "name": "Le Veyron Cafe",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4419435290",
+   "lat": 25.216805,
+   "lon": 55.279926,
+   "tags": {
+    "name": "Little Bangkok -urban thai",
+    "name:en": "Little Bangkok -urban thai",
+    "amenity": "restaurant",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "osm": "node/4725421659",
+   "lat": 25.208398,
+   "lon": 55.274287,
+   "tags": {
+    "name": "Margherita Pizza",
+    "name:en": "Margherita Pizza",
+    "amenity": "restaurant",
+    "cuisine": "pizza"
+   }
+  },
+  {
+   "osm": "node/2604691204",
+   "lat": 25.221186,
+   "lon": 55.280957,
+   "tags": {
+    "name": "ماكدونالدز",
+    "name:en": "McDonald's",
+    "amenity": "fast_food",
+    "cuisine": "burger",
+    "opening_hours": "24/7",
+    "contact:website": "https://www.mcdelivery.ae/",
+    "wheelchair": "no"
+   }
+  },
+  {
+   "osm": "node/14019294801",
+   "lat": 25.223551,
+   "lon": 55.287024,
+   "tags": {
+    "name": "Modesh World",
+    "name:en": "Modesh World",
+    "tourism": "theme_park",
+    "opening_hours": "Mo-Su 12:00-22:00",
+    "website": "https://www.visitdubai.com/en/festivals-and-events/dubai-events-calendar/modesh-world"
+   }
+  },
+  {
+   "osm": "node/14191954601",
+   "lat": 25.211816,
+   "lon": 55.280201,
+   "tags": {
+    "name": "Momentum Dubai",
+    "shop": "jewelry",
+    "website": "http://momentum-dubai.com"
+   }
+  },
+  {
+   "osm": "way/1054289435",
+   "lat": 25.219106,
+   "lon": 55.2818,
+   "tags": {
+    "name": "متحف المستقبل",
+    "name:en": "Museum Of The Future",
+    "tourism": "museum",
+    "opening_hours": "Mo-Su 10:00-21:30",
+    "website": "https://museumofthefuture.ae/"
+   }
+  },
+  {
+   "osm": "node/13999246201",
+   "lat": 25.216715,
+   "lon": 55.280151,
+   "tags": {
+    "name": "Naba Cafe",
+    "amenity": "cafe",
+    "cuisine": "breakfast;burger;indian;international"
+   }
+  },
+  {
+   "osm": "node/1330397675",
+   "lat": 25.214398,
+   "lon": 55.276387,
+   "tags": {
+    "name": "Nando's",
+    "name:en": "Nando's",
+    "amenity": "restaurant",
+    "cuisine": "chicken;portuguese",
+    "wheelchair": "no"
+   }
+  },
+  {
+   "osm": "way/500769370",
+   "lat": 25.2196,
+   "lon": 55.274783,
+   "tags": {
+    "name": "Obai Bin Kaab",
+    "amenity": "place_of_worship"
+   }
+  },
+  {
+   "osm": "node/10129600817",
+   "lat": 25.213436,
+   "lon": 55.282435,
+   "tags": {
+    "name": "Opera Gallery  Dubai",
+    "tourism": "artwork"
+   }
+  },
+  {
+   "osm": "node/5198335057",
+   "lat": 25.221734,
+   "lon": 55.285781,
+   "tags": {
+    "name": "Parlour Boutique",
+    "name:en": "Parlour Boutique",
+    "amenity": "cafe"
+   }
+  },
+  {
+   "osm": "node/10309469224",
+   "lat": 25.214381,
+   "lon": 55.280577,
+   "tags": {
+    "name": "Pen",
+    "tourism": "artwork"
+   }
+  },
+  {
+   "osm": "node/5198335056",
+   "lat": 25.221639,
+   "lon": 55.285303,
+   "tags": {
+    "name": "Piadera",
+    "name:en": "Piadera",
+    "amenity": "fast_food",
+    "cuisine": "italian"
+   }
+  },
+  {
+   "osm": "node/5337778321",
+   "lat": 25.217881,
+   "lon": 55.27693,
+   "tags": {
+    "name": "Piccolo Mondo",
+    "name:en": "Piccolo Mondo",
+    "amenity": "cafe",
+    "cuisine": "diner;burger;pizza;american",
+    "opening_hours": "24/7"
+   }
+  },
+  {
+   "osm": "node/9722758035",
+   "lat": 25.224315,
+   "lon": 55.282987,
+   "tags": {
+    "name": "Piccolo Mondo SHZ",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4725334614",
+   "lat": 25.211154,
+   "lon": 55.274002,
+   "tags": {
+    "name": "Piccolo Mondo View",
+    "name:en": "Piccolo Mondo View",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/2019413195",
+   "lat": 25.211156,
+   "lon": 55.27421,
+   "tags": {
+    "name": "Pizza Hut",
+    "name:en": "Pizza Hut",
+    "amenity": "restaurant",
+    "cuisine": "pizza",
+    "opening_hours": "24/7"
+   }
+  },
+  {
+   "osm": "node/8024807442",
+   "lat": 25.213367,
+   "lon": 55.281284,
+   "tags": {
+    "name": "Poke & Co",
+    "amenity": "restaurant",
+    "opening_hours": "Mo-Su 08:00-20:00",
+    "contact:website": "https://www.pokeandco.com/",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "osm": "node/4656287263",
+   "lat": 25.211487,
+   "lon": 55.282006,
+   "tags": {
+    "name": "Pressman's",
+    "name:en": "Pressman's",
+    "amenity": "restaurant",
+    "cuisine": "sandwich",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "osm": "node/10309469227",
+   "lat": 25.214092,
+   "lon": 55.280653,
+   "tags": {
+    "name": "Rainbow Baby",
+    "tourism": "artwork"
+   }
+  },
+  {
+   "osm": "node/5094712623",
+   "lat": 25.216584,
+   "lon": 55.27786,
+   "tags": {
+    "name": "Sadaf Persian Restaurant",
+    "name:en": "Sadaf Persian Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4401495389",
+   "lat": 25.213733,
+   "lon": 55.27823,
+   "tags": {
+    "name": "Shakespeare and co",
+    "name:en": "Shakespeare and co",
+    "amenity": "restaurant",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "osm": "node/4725421660",
+   "lat": 25.208558,
+   "lon": 55.274397,
+   "tags": {
+    "name": "Soho Grill",
+    "name:en": "Soho Grill",
+    "amenity": "restaurant",
+    "cuisine": "barbecue",
+    "website": "https://soho.ae/"
+   }
+  },
+  {
+   "osm": "node/12313417014",
+   "lat": 25.21407,
+   "lon": 55.282016,
+   "tags": {
+    "name": "Spaces Eatery",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/2567664995",
+   "lat": 25.210969,
+   "lon": 55.276049,
+   "tags": {
+    "name": "ستاربكس",
+    "name:en": "Starbucks",
+    "amenity": "cafe",
+    "cuisine": "coffee_shop",
+    "opening_hours": "24/7"
+   }
+  },
+  {
+   "osm": "node/4392893090",
+   "lat": 25.215195,
+   "lon": 55.279035,
+   "tags": {
+    "name": "ستاربكس",
+    "name:en": "Starbucks",
+    "amenity": "cafe",
+    "cuisine": "coffee_shop",
+    "opening_hours": "24/7",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "osm": "node/4708896645",
+   "lat": 25.21036,
+   "lon": 55.273574,
+   "tags": {
+    "name": "ستاربكس",
+    "name:en": "Starbucks",
+    "amenity": "cafe",
+    "cuisine": "coffee_shop"
+   }
+  },
+  {
+   "osm": "node/5094712527",
+   "lat": 25.215809,
+   "lon": 55.277336,
+   "tags": {
+    "name": "ستاربكس",
+    "name:en": "Starbucks",
+    "amenity": "cafe",
+    "cuisine": "coffee_shop"
+   }
+  },
+  {
+   "osm": "node/5198335055",
+   "lat": 25.221566,
+   "lon": 55.285254,
+   "tags": {
+    "name": "ستاربكس",
+    "name:en": "Starbucks",
+    "amenity": "cafe",
+    "cuisine": "coffee_shop"
+   }
+  },
+  {
+   "osm": "node/3661961125",
+   "lat": 25.214138,
+   "lon": 55.281171,
+   "tags": {
+    "name": "Subway",
+    "name:en": "Subway",
+    "amenity": "fast_food",
+    "cuisine": "sandwich",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "osm": "node/4392891789",
+   "lat": 25.209491,
+   "lon": 55.276814,
+   "tags": {
+    "name": "Subway",
+    "name:en": "Subway",
+    "amenity": "fast_food",
+    "cuisine": "sandwich"
+   }
+  },
+  {
+   "osm": "node/4584886695",
+   "lat": 25.213507,
+   "lon": 55.275822,
+   "tags": {
+    "name": "TAZA Sheikh Zayed Restaurant",
+    "amenity": "restaurant",
+    "cuisine": "chicken",
+    "website": "https://www.tazauae.com/"
+   }
+  },
+  {
+   "osm": "node/5154948426",
+   "lat": 25.213255,
+   "lon": 55.282383,
+   "tags": {
+    "name": "The Empty Quarter Gallery",
+    "name:en": "The Empty Quarter Gallery",
+    "tourism": "museum",
+    "website": "http://www.theemptyquarter.com"
+   }
+  },
+  {
+   "osm": "way/455566787",
+   "lat": 25.210325,
+   "lon": 55.278476,
+   "tags": {
+    "name": "أفينيو البوابة",
+    "name:en": "The Gate Avenue",
+    "shop": "mall",
+    "website": "https://www.visitdubai.com/ar/places-to-visit/difc-gate-avenue",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "osm": "node/9840486796",
+   "lat": 25.226516,
+   "lon": 55.284195,
+   "tags": {
+    "name": "The Theater Dubai",
+    "amenity": "theatre",
+    "website": "https://www.thetheaterdubai.com/"
+   }
+  },
+  {
+   "osm": "node/4583025519",
+   "lat": 25.210518,
+   "lon": 55.273689,
+   "tags": {
+    "name": "تيم هورتونز",
+    "name:en": "Tim Hortons",
+    "amenity": "cafe",
+    "cuisine": "coffee_shop",
+    "opening_hours": "24/7"
+   }
+  },
+  {
+   "osm": "node/4963640994",
+   "lat": 25.221424,
+   "lon": 55.281195,
+   "tags": {
+    "name": "تيم هورتونز",
+    "name:en": "Tim Hortons",
+    "amenity": "cafe",
+    "cuisine": "coffee_shop",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "osm": "node/3875116532",
+   "lat": 25.215843,
+   "lon": 55.27733,
+   "tags": {
+    "name": "Tony rama",
+    "name:en": "Tony Roma's - ribs, steaks, seafood",
+    "amenity": "restaurant",
+    "website": "https://tonyromas.com/"
+   }
+  },
+  {
+   "osm": "node/10309469229",
+   "lat": 25.213954,
+   "lon": 55.280954,
+   "tags": {
+    "name": "Tower of Rabbits",
+    "tourism": "artwork"
+   }
+  },
+  {
+   "osm": "node/12736386140",
+   "lat": 25.222882,
+   "lon": 55.286886,
+   "tags": {
+    "name": "Trader’s House",
+    "amenity": "cafe",
+    "cuisine": "coffee_shop",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "osm": "node/3963875539",
+   "lat": 25.223342,
+   "lon": 55.282421,
+   "tags": {
+    "name": "Tresind",
+    "name:en": "Tresind",
+    "amenity": "restaurant",
+    "cuisine": "modernist;indian",
+    "opening_hours": "12:00-15:30; 19:00-23:30"
+   }
+  },
+  {
+   "osm": "node/9688790264",
+   "lat": 25.219612,
+   "lon": 55.281898,
+   "tags": {
+    "name": "Victory Hand",
+    "tourism": "artwork"
+   }
+  },
+  {
+   "osm": "node/4392891790",
+   "lat": 25.214027,
+   "lon": 55.278064,
+   "tags": {
+    "name": "Wendy's",
+    "name:en": "Wendy's",
+    "amenity": "fast_food",
+    "cuisine": "burger",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "osm": "way/536681289",
+   "lat": 25.221214,
+   "lon": 55.285937,
+   "tags": {
+    "name": "Wok & Co.",
+    "name:en": "Wok & Co.",
+    "amenity": "restaurant",
+    "cuisine": "asian"
+   }
+  },
+  {
+   "osm": "node/5273490734",
+   "lat": 25.213508,
+   "lon": 55.277677,
+   "tags": {
+    "name": "مطعم زاروب",
+    "name:en": "Zaroob",
+    "amenity": "restaurant",
+    "opening_hours": "24/7",
+    "website": "https://www.zaroob.com/",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "osm": "node/5906244985",
+   "lat": 25.208518,
+   "lon": 55.276392,
+   "tags": {
+    "name": "al griSSino",
+    "name:en": "al griSSino",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/10614164421",
+   "lat": 25.220813,
+   "lon": 55.275175,
+   "tags": {
+    "name": "al turath Al maghiribi",
+    "amenity": "restaurant",
+    "cuisine": "moroccan",
+    "opening_hours": "always open"
+   }
+  }
+ ]
+}

@@ -1,0 +1,60 @@
+{
+ "neighborhood_id": "al-qudra",
+ "exported_at": "2026-11-15",
+ "osm_base": "2026-11-15T16:50:51Z",
+ "license": "ODbL — (c) OpenStreetMap contributors",
+ "query": "[out:json][timeout:60]; ( nwr(around:4000,24.837,55.37)[\"tourism\"~\"^(museum|attraction|gallery|viewpoint|artwork|theme_park|zoo|aquarium)$\"][\"name\"]; nwr(around:4000,24.837,55.37)[\"historic\"][\"name\"]; nwr(around:4000,24.837,55.37)[\"natural\"=\"beach\"][\"name\"]; nwr(around:4000,24.837,55.37)[\"leisure\"~\"^(beach_resort|park|marina|nature_reserve|water_park)$\"][\"name\"]; nwr(around:4000,24.837,55.37)[\"amenity\"~\"^(restaurant|cafe|fast_food|food_court|place_of_worship|marketplace|arts_centre|theatre)$\"][\"name\"]; nwr(around:4000,24.837,55.37)[\"shop\"~\"^(gold|jewelry|spices|perfumery|mall)$\"][\"name\"]; ); out tags center;",
+ "elements": [
+  {
+   "osm": "node/4511030189",
+   "lat": 24.83667,
+   "lon": 55.369845,
+   "tags": {
+    "name": "بحيرات القدرة",
+    "name:en": "Al Qudra Lakes",
+    "tourism": "attraction"
+   }
+  },
+  {
+   "osm": "way/1173211144",
+   "lat": 24.835293,
+   "lon": 55.383413,
+   "tags": {
+    "name": "Al Qudra Lakes",
+    "tourism": "zoo",
+    "opening_hours": "24/7",
+    "fee": "no"
+   }
+  },
+  {
+   "osm": "way/1173211145",
+   "lat": 24.83837,
+   "lon": 55.405149,
+   "tags": {
+    "name": "Love Lake",
+    "tourism": "zoo",
+    "opening_hours": "PH,Mo-Su 00:00-24:00",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "osm": "node/4458591608",
+   "lat": 24.850151,
+   "lon": 55.344098,
+   "tags": {
+    "name": "Spicy Village Restaurant",
+    "name:en": "Spicy Village Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "way/729236128",
+   "lat": 24.849846,
+   "lon": 55.343935,
+   "tags": {
+    "name": "The Endurance Masjid",
+    "amenity": "place_of_worship"
+   }
+  }
+ ]
+}

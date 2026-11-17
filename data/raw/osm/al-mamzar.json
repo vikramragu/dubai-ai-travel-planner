@@ -1,0 +1,194 @@
+{
+ "neighborhood_id": "al-mamzar",
+ "exported_at": "2026-11-15",
+ "osm_base": "2026-11-15T16:48:51Z",
+ "license": "ODbL — (c) OpenStreetMap contributors",
+ "query": "[out:json][timeout:60]; ( nwr(around:1500,25.298,55.344)[\"tourism\"~\"^(museum|attraction|gallery|viewpoint|artwork|theme_park|zoo|aquarium)$\"][\"name\"]; nwr(around:1500,25.298,55.344)[\"historic\"][\"name\"]; nwr(around:1500,25.298,55.344)[\"natural\"=\"beach\"][\"name\"]; nwr(around:1500,25.298,55.344)[\"leisure\"~\"^(beach_resort|park|marina|nature_reserve|water_park)$\"][\"name\"]; nwr(around:1500,25.298,55.344)[\"amenity\"~\"^(restaurant|cafe|fast_food|food_court|place_of_worship|marketplace|arts_centre|theatre)$\"][\"name\"]; nwr(around:1500,25.298,55.344)[\"shop\"~\"^(gold|jewelry|spices|perfumery|mall)$\"][\"name\"]; ); out tags center;",
+ "elements": [
+  {
+   "osm": "way/392069143",
+   "lat": 25.28914,
+   "lon": 55.333186,
+   "tags": {
+    "name": "مسجد البدور",
+    "name:en": "Al Badoor Masjid",
+    "amenity": "place_of_worship"
+   }
+  },
+  {
+   "osm": "relation/9858415",
+   "lat": 25.313678,
+   "lon": 55.341267,
+   "tags": {
+    "name": "الممزر",
+    "name:en": "Al Mamzar",
+    "natural": "beach"
+   }
+  },
+  {
+   "osm": "relation/7601363",
+   "lat": 25.305331,
+   "lon": 55.352694,
+   "tags": {
+    "name": "شاطئ الممزر",
+    "name:en": "Al Mamzar Beach",
+    "natural": "beach"
+   }
+  },
+  {
+   "osm": "way/205939881",
+   "lat": 25.315032,
+   "lon": 55.364653,
+   "tags": {
+    "name": "قناة القصبة",
+    "name:en": "Al Qasba Canal",
+    "leisure": "marina"
+   }
+  },
+  {
+   "osm": "node/4919361180",
+   "lat": 25.291445,
+   "lon": 55.352469,
+   "tags": {
+    "name": "Al Shabab Cafeteria & Restaurant",
+    "name:en": "Al Shabab Cafeteria & Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4547227989",
+   "lat": 25.306648,
+   "lon": 55.344184,
+   "tags": {
+    "name": "Alqasbah",
+    "name:en": "Alqasbah",
+    "tourism": "attraction"
+   }
+  },
+  {
+   "osm": "node/4919195235",
+   "lat": 25.289493,
+   "lon": 55.350901,
+   "tags": {
+    "name": "Babylon Restaurant & Cafe",
+    "name:en": "Babylon Restaurant & Cafe",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "way/201292183",
+   "lat": 25.290087,
+   "lon": 55.347128,
+   "tags": {
+    "name": "سنشري مول",
+    "name:en": "Century Mall",
+    "shop": "mall",
+    "website": "https://www.safeergroup.com/centurymall.asp"
+   }
+  },
+  {
+   "osm": "node/11836765963",
+   "lat": 25.308204,
+   "lon": 55.33939,
+   "tags": {
+    "name": "Filli",
+    "amenity": "fast_food"
+   }
+  },
+  {
+   "osm": "node/10575613137",
+   "lat": 25.30031,
+   "lon": 55.349901,
+   "tags": {
+    "name": "Gents Prayer Room",
+    "amenity": "place_of_worship"
+   }
+  },
+  {
+   "osm": "way/392069133",
+   "lat": 25.296626,
+   "lon": 55.335864,
+   "tags": {
+    "name": "Imam Malik Masjid",
+    "name:en": "Imam Malik Masjid",
+    "amenity": "place_of_worship"
+   }
+  },
+  {
+   "osm": "way/504059338",
+   "lat": 25.28912,
+   "lon": 55.333463,
+   "tags": {
+    "name": "Madeena Mini Mart",
+    "name:en": "Madeena Mini Mart",
+    "amenity": "marketplace"
+   }
+  },
+  {
+   "osm": "way/392069136",
+   "lat": 25.290334,
+   "lon": 55.335102,
+   "tags": {
+    "name": "Masjid Abu Hail",
+    "name:en": "Masjid Abu Hail",
+    "amenity": "place_of_worship"
+   }
+  },
+  {
+   "osm": "node/10575620776",
+   "lat": 25.300585,
+   "lon": 55.349638,
+   "tags": {
+    "name": "Mix Flavours Cafe (MC3)",
+    "amenity": "cafe"
+   }
+  },
+  {
+   "osm": "node/11836765962",
+   "lat": 25.308165,
+   "lon": 55.339455,
+   "tags": {
+    "name": "Rabbash",
+    "amenity": "fast_food"
+   }
+  },
+  {
+   "osm": "node/10575619468",
+   "lat": 25.298918,
+   "lon": 55.351107,
+   "tags": {
+    "name": "Red Tea Cafe",
+    "amenity": "cafe"
+   }
+  },
+  {
+   "osm": "node/4930493025",
+   "lat": 25.288643,
+   "lon": 55.352859,
+   "tags": {
+    "name": "Salah udin sports club",
+    "name:en": "Salah udin sports club",
+    "tourism": "artwork"
+   }
+  },
+  {
+   "osm": "way/504032488",
+   "lat": 25.291586,
+   "lon": 55.337537,
+   "tags": {
+    "name": "Yousaf Ahmad Grocery",
+    "name:en": "Yousaf Ahmad Grocery",
+    "amenity": "marketplace"
+   }
+  },
+  {
+   "osm": "node/6342479589",
+   "lat": 25.290131,
+   "lon": 55.346236,
+   "tags": {
+    "name": "كارفور مول",
+    "tourism": "attraction"
+   }
+  }
+ ]
+}

@@ -1,0 +1,135 @@
+{
+ "smccu-cultural-meal": [
+  {
+   "osm": "way/524486371",
+   "lat": 25.26417,
+   "lon": 55.300721,
+   "tags": {
+    "name": "مركز الشيخ محمد آل مكتوم للتواصل الحضارى",
+    "name:en": "Sheikh Mohammed Centre For Cultural Understanding"
+   }
+  }
+ ],
+ "alserkal-avenue": [
+  {
+   "osm": "way/345272531",
+   "lat": 25.141334,
+   "lon": 55.226346,
+   "tags": {
+    "name": "شارع السركال",
+    "name:en": "Alserkal Avenue"
+   }
+  },
+  {
+   "osm": "way/634289883",
+   "lat": 25.141868,
+   "lon": 55.225578,
+   "tags": {
+    "name": "شارع السركال",
+    "name:en": "Alserkal Avenue"
+   }
+  },
+  {
+   "osm": "way/634289886",
+   "lat": 25.140794,
+   "lon": 55.226293,
+   "tags": {
+    "name": "شارع السركال",
+    "name:en": "Alserkal Avenue"
+   }
+  },
+  {
+   "osm": "way/1083796659",
+   "lat": 25.141213,
+   "lon": 55.22566,
+   "tags": {
+    "name": "شارع السركال",
+    "name:en": "Alserkal Avenue"
+   }
+  },
+  {
+   "osm": "way/1192356398",
+   "lat": 25.141989,
+   "lon": 55.226264,
+   "tags": {
+    "name": "شارع السركال",
+    "name:en": "Alserkal Avenue"
+   }
+  }
+ ],
+ "hatta-dam": [
+  {
+   "osm": "way/863817702",
+   "lat": 24.779962,
+   "lon": 56.114913,
+   "tags": {
+    "name": "Al Hatta Dam Reservoir",
+    "name:en": "Al Hatta Dam Reservoir"
+   }
+  },
+  {
+   "osm": "way/1287458706",
+   "lat": 24.783653,
+   "lon": 56.114328,
+   "tags": {
+    "name": "Wadi Hatta Dam",
+    "name:en": "Wadi Hatta Dam"
+   }
+  }
+ ],
+ "abra-creek-crossing": [
+  {
+   "osm": "node/315524193",
+   "lat": 25.264993,
+   "lon": 55.295252,
+   "tags": {
+    "name": "Dubai Old Souk - Abra dock",
+    "name:en": "Dubai Old Souk - Abra dock"
+   }
+  },
+  {
+   "osm": "node/2941645658",
+   "lat": 25.264693,
+   "lon": 55.293044,
+   "tags": {
+    "name": "Bur Dubai Abra Station",
+    "name:en": "Abra station south - Bur Dubai"
+   }
+  },
+  {
+   "osm": "node/7809810380",
+   "lat": 25.264415,
+   "lon": 55.292708,
+   "tags": {
+    "name": "Bur Dubai Abra Station"
+   }
+  },
+  {
+   "osm": "way/28702639",
+   "lat": 25.266126,
+   "lon": 55.299187,
+   "tags": {
+    "name": "Dubai Old Souk - Al Sabkha (Abra)",
+    "name:en": "Dubai Old Souk - Al Sabkha (Abra)"
+   }
+  },
+  {
+   "osm": "way/28702640",
+   "lat": 25.265916,
+   "lon": 55.295503,
+   "tags": {
+    "name": "Bur Dubai - Deira Old Souk (Abra)",
+    "name:en": "Bur Dubai - Deira Old Souk (Abra)"
+   }
+  },
+  {
+   "osm": "way/990683133",
+   "lat": 25.266358,
+   "lon": 55.299378,
+   "tags": {
+    "name": "Deira Old Souk - Al Fahidi Marine Transport Station"
+   }
+  }
+ ],
+ "sunset-beach-umm-suqeim": []
+}

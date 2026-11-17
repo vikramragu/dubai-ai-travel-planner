@@ -1,0 +1,96 @@
+[project]
+name = "dubai-travel-planner"
+version = "0.1.0"
+description = "Dubai AI Travel Planner — a LangGraph multi-agent system that turns a natural-language request into a validated, budget-aware itinerary."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    # Orchestration + LLM
+    "langgraph>=1.0",
+    "langchain>=1.0",
+    "langchain-anthropic>=1.0",
+    # Contracts + configuration
+    "pydantic>=2.9",
+    "pydantic-settings>=2.6",
+    # UI
+    "streamlit>=1.40",
+    "pydeck>=0.9",
+    # Data access (free sources only) + caching
+    "httpx>=0.27",
+    "diskcache>=5.6",
+    "langchain-groq>=1.0",
+    "langchain-google-genai>=3.0",
+]
+
+[project.optional-dependencies]
+# Alternative LLM providers (LLM_PROVIDER in .env)
+openai = ["langchain-openai>=1.0"]
+ollama = ["langchain-ollama>=1.0"]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3",
+    "pytest-cov>=6.0",
+    "hypothesis>=6.120",
+    "respx>=0.21",
+    "ruff>=0.8",
+    "mypy>=1.13",
+    "pre-commit>=4.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["app", "core", "schemas", "agents", "tools", "data", "graph"]
+
+# ---------------------------------------------------------------- ruff
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+extend-exclude = ["docs"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF", "N"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["app", "core", "schemas", "agents", "tools", "data", "graph"]
+
+# ---------------------------------------------------------------- mypy
+[tool.mypy]
+python_version = "3.11"
+strict = true
+plugins = ["pydantic.mypy"]
+files = ["app", "core", "schemas", "agents", "tools", "data", "graph", "tests"]
+
+[[tool.mypy.overrides]]
+module = ["diskcache.*", "pydeck.*"]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["app.components.budget"]  # altair is partly untyped (alt.Data, layer charts)
+disallow_untyped_calls = false
+warn_return_any = false
+
+[tool.pydantic-mypy]
+init_forbid_extra = true
+init_typed = true
+warn_required_dynamic_aliases = true
+
+# ---------------------------------------------------------------- pytest
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = ["--import-mode=importlib", "-ra", "--strict-markers"]
+filterwarnings = [
+    # Third-party (langsmith pytest plugin) deprecation noise on Python 3.14
+    "ignore::DeprecationWarning:langsmith.*",
+]
+markers = [
+    "llm: tests that call a real LLM (skipped unless an API key is configured)",
+    "network: tests that call live external services",
+]
+
+[tool.coverage.run]
+source = ["app", "core", "schemas", "agents", "tools", "data", "graph"]
+omit = ["app/streamlit_app.py"]

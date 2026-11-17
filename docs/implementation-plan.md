@@ -1,0 +1,399 @@
+# Implementation Plan — Dubai AI Travel Planner
+
+> Phase-wise build plan derived from [problemStatement.md](problemStatement.md),
+> [architecture.md](architecture.md) and [research.md](research.md).
+> Each phase ends with something runnable and testable. Later phases build on earlier ones;
+> nothing in a phase depends on a later one.
+
+**Guiding rules**
+
+- Deterministic code first, LLM second, orchestration third, UI fourth, live data last.
+- Free and open data sources only (see research.md cost policy). The LLM is the only metered dependency.
+- The app must run end to end offline (`DATA_MODE=local`) from Phase 5 onwards.
+- Every phase has unit tests; nothing merges with failing tests.
+
+---
+
+## Phase Overview
+
+| # | Phase | Outcome | Est. effort |
+|---|-------|---------|-------------|
+| 0 | Project setup | Repo, tooling, config, CI skeleton | 0.5–1 day |
+| 1 | Shared contracts | All Pydantic schemas with provenance | 1–2 days |
+| 2 | Curated Dubai dataset | Seed JSON → validated SQLite + local providers | 3–5 days |
+| 3 | Deterministic skills | Budget engine, rule checks, scheduler | 3–4 days |
+| 4 | Agents + LLM layer | Five agents with prompts and tools; sequential baseline runner | 3–4 days |
+| 5 | LangGraph orchestration | Stateful graph, parallel fan-out, router, review loop, streaming | 3–4 days |
+| 6 | Streamlit UI | Timeline, graph view, itinerary, budget, review diff, metrics | 3–4 days |
+| 7 | Free live data | Overpass, OSRM, Open-Meteo, (GTFS) behind flags + cache | 3–4 days |
+| 8 | Hardening & demo | Scenario tests, baseline comparison, docs, demo script | 2–3 days |
+
+Estimates are for one developer and are planning guides only.
+
+```
+P0 ─▶ P1 ─▶ P2 ─▶ P3 ─▶ P4 ─▶ P5 ─▶ P6 ─▶ P8
+                   │                  ▲
+                   └──────▶ P7 ───────┘   (P7 can start after P2, in parallel with P4–P6)
+```
+
+---
+
+## Phase 0 — Project Setup
+
+**Goal:** a clean, reproducible Python project that every later phase plugs into.
+
+**Tasks**
+
+- [x] Create the repository layout from architecture.md §3 (`app/`, `core/`, `schemas/`, `agents/`, `tools/`, `data/`, `graph/`, `tests/`).
+- [x] `pyproject.toml` (Python 3.11+) with the dependencies: `langgraph`, `langchain`, LLM provider packages (`langchain-anthropic`, `langchain-openai`, …), `pydantic`, `pydantic-settings`, `streamlit`, `httpx`, `requests-cache`/`diskcache`, `pydeck` or `folium`; dev: `pytest`, `pytest-cov`, `ruff`, `mypy`, `vcrpy`/`respx`, `hypothesis`.
+- [x] `core/config.py` with pydantic-settings, and `.env.example` matching architecture.md §14.
+- [x] Ruff + mypy + pytest configured; pre-commit hooks.
+- [x] CI workflow (lint, type-check, tests) — optional if no remote yet.
+- [x] `README.md` with setup and run commands.
+
+**Status: done.** Choices made: `diskcache`, `pydeck` and `respx`; `langchain-openai` and
+Ollama are optional extras; `DATA_MODE` defaults to `local` until Phase 7. Pre-commit hooks
+are configured but not installed, because the project is not a git repository yet.
+
+**Deliverables:** an installable project skeleton; `pytest` runs (no tests yet); config loads from `.env`.
+
+**Exit criteria:** `ruff`, `mypy` and `pytest` all pass on an empty project; settings load correctly with and without a `.env`.
+
+---
+
+## Phase 1 — Shared Contracts (Pydantic Schemas)
+
+**Goal:** define every data shape once, so agents, graph, UI and tests agree.
+
+**Tasks**
+
+- [x] `schemas/provenance.py` — `Source` enum (`verified`, `api`, `estimated`), generic `SourcedValue[T]`.
+- [x] `schemas/request.py` — `TripConstraints` (1–7 days, AED budget, interests, hotel tier, avoid, pace, dietary), `TripRequest`.
+- [x] `schemas/places.py` — `Place`, `Attraction`, `Restaurant`, `HotelArea`, `PriceRange`, `Neighborhood`.
+- [x] `schemas/logistics.py` — `Leg`, `TransportOption`, `TravelMatrix`, `LogisticsResult`.
+- [x] `schemas/budget.py` — `CostLine`, `BudgetBreakdown`, `BudgetAlternative`.
+- [x] `schemas/review.py` — `ReviewIssue` (severity, `route_to`), `ReviewReport`.
+- [x] `schemas/itinerary.py` — `Slot`, `DayPlan`, `Itinerary`, `ItinerarySnapshot`; `ResearchResult`.
+- [x] `core/tracing.py` — `TraceEvent` model (architecture.md §11.1); `RunMetrics`.
+- [x] Validators: time ordering in slots, non-negative costs, `total = Σ lines`, `days` within range.
+
+**Status: done** (architecture.md §4 updated to match). Design changes made during this phase:
+`location: LatLon` limited to Dubai; per-weekday `OpeningHours` (overnight windows carry
+into the next day); `avoid` as a fixed `Avoidance` enum; `rooms` and `nights` on the request;
+`Itinerary.budget`/`review` optional for drafts, with `is_final`; `within_budget` uses an
+exact comparison in both `from_lines` and the validator (a Hypothesis test caught the mismatch).
+
+**Deliverables:** a complete schema package with JSON-schema export (useful for prompts).
+
+**Exit criteria:** unit tests cover valid/invalid examples for each model; a hand-written sample `Itinerary` for the example request validates.
+
+---
+
+## Phase 2 — Curated Dubai Dataset & Local Providers
+
+**Goal:** a reliable offline data source that fully covers the example request (research.md §3.1 Phase 1, §3.2).
+
+**Tasks — data collection**
+
+- [x] Choose ~15–20 neighborhoods (research.md §3.2 step 1) with coordinates, nearest metro station, beach access.
+- [x] Bootstrap POIs with one Overpass export per neighborhood (a one-off script in `data/scripts/`).
+- [x] Curate ~60 attractions: tags, `crowd_level`, `typical_duration_min`, opening hours per weekday (or `always_open`; Friday hours often differ), coordinates inside Dubai, entry prices from official sources, `source_url`, `as_of`. Mark free places explicitly.
+- [x] Curate ~60 restaurants: cuisine, price band, average meal AED, meal types.
+- [x] Build the `hotel_areas` table: neighborhood × tier → nightly range, season multiplier, notes; Tourism Dirham, service charge and VAT add-ons.
+- [x] Record RTA fares (`transit_fares`) and taxi tariffs (`taxi_tariffs`) from rta.ae, dated.
+- [x] Build the `travel_matrix` for neighborhood pairs × modes (taxi, walk, metro): heuristic values first (tagged `estimated`); refine with OSRM/GTFS in Phase 7.
+- [x] Settle the open questions that block data entry: target demo season, current RTA fares, Tourism Dirham rates.
+
+**Tasks — code**
+
+- [x] `data/seed/*.json` + `data/build_db.py`: validate with the Phase 1 schemas, fail on missing provenance, build `dubai.sqlite`.
+- [x] `data/providers/base.py` — `PlacesProvider`, `RoutesProvider`, `WeatherProvider`, `HotelProvider` protocols.
+- [x] `data/providers/local.py` — SQLite-backed implementations of all four, plus a haversine × mode-speed fallback for routes and monthly climate averages for weather.
+- [x] Chained-provider wrappers (`ChainedPlacesProvider`, `ChainedRoutesProvider`) with fallback trace events — only the local provider is wired in for now.
+- [x] `tools/` — typed functions: `search_attractions`, `search_restaurants`, `get_hotel_areas`, `travel_time`, `transit_fare`, `weather_forecast`, `price_lookup`.
+- [x] A staleness report script: list records with `as_of` older than N months.
+
+**Deliverables:** `dubai.sqlite` built from version-controlled JSON; tools return typed, sourced results offline.
+
+**Exit criteria:** `build_db.py` passes validation; tool unit tests pass; the example request's needs (culture, local food, beaches, budget hotels, low-crowd options) are each covered by at least 5 candidates.
+
+**Status: done** (details in [data/README.md](../data/README.md), sources in research.md §3.5).
+21 neighborhoods, 50 attractions and 62 restaurants (109 of 112 matched to OpenStreetMap),
+17 hotel areas, official RTA fares and Dubai Taxi tariffs, Open-Meteo climate normals and a
+287-entry heuristic travel matrix. Coverage: culture 26, beach 9, local food 44, budget hotel
+areas 5, low-crowd 24. Choices made: curation inputs in `data/curation/` are merged with the OSM
+export by `curate.py` (a test fails if the committed seed drifts from its inputs); places that
+match OSM are tagged `verified` with the OSM link; a `PricingProvider` was added for fares and
+tariffs; leg costs are per person; demo season is modelled per month (monthly hotel multipliers
+and climate). Still `estimated`: most attraction prices, all hotel rates and fees, 46 unknown
+opening hours (mostly restaurants).
+
+---
+
+## Phase 3 — Deterministic Skills
+
+**Goal:** everything involving money, time and rules works without an LLM (architecture.md §5.2–5.4).
+
+**Tasks**
+
+- [x] `agents/skills/budget_engine.py`
+  - [x] Accommodation (rate × nights × rooms + Tourism Dirham + service charge/VAT), food, transport (RTA fares, taxi formula, airport transfers), activities, contingency %.
+  - [x] Alternative generator: ranked swaps with AED savings (cheaper hotel area, taxi → metro, paid → free attraction with the same tag, cheaper restaurant band).
+- [x] `agents/skills/scheduler.py`
+  - [x] Candidate scoring (`interest_match × (1 − crowd_penalty) × quality`).
+  - [x] Neighborhood clustering and day assignment by pace (6 / 8 / 10 h).
+  - [x] Stop ordering (nearest-neighbor + 2-opt) from the travel matrix, starting and ending at the hotel area.
+  - [x] Opening-hours and heat-aware slotting; meal insertion near the preceding stop; a `Leg` on every move.
+- [x] `agents/skills/rule_checks.py` — every rule in architecture.md §5.4 with severity and `route_to`.
+- [x] A "scripted planner" test harness: request → scheduler → budget → rules, with no LLM.
+
+**Deliverables:** a fully deterministic draft itinerary for the example request.
+
+**Exit criteria:**
+
+- Unit + property tests: `total = Σ lines`, no overlapping slots, slots inside opening hours, no duplicate places.
+- A forced over-budget fixture triggers the `total > budget` blocker, and applying the generated alternatives brings it under budget.
+- An "avoid crowds" fixture with a high-crowd place triggers the correct major issue.
+
+**Status: done.** `agents/skills/` has `calendar.py`, `scheduler.py`, `budget_engine.py`,
+`rule_checks.py` and `scripted.py` (`uv run python -m agents.skills.scripted` prints the
+example plan: 4 days, AED ~2,380 of 5,000, review score 100). A Hypothesis test plans 30 random
+requests per run (300 checked once) and asserts totals add up, opening hours, pace, no repeated
+attractions or restaurants, and a leg on every move. The forced over-budget fixture (mid tier,
+AED 3,000, costed at ~AED 5,670) raises the `over_budget` blocker and `fit_to_budget` brings it to ~AED 2,510.
+Choices made: cluster-first day assignment (each day anchored on its best neighborhood, topped
+up from areas within 25 min); alternatives' savings are measured by re-planning, not estimated;
+contingency applies to estimated prices only; breakfast, lunch and dinner are all scheduled;
+meal type is inferred from the slot time; trips without a start date assume the first Monday of
+the month (default December). Found and fixed on the way: taxi-time bands made some longer
+trips faster than shorter ones (now applied per stretch, so time always grows with distance).
+
+---
+
+## Phase 4 — Agents & LLM Layer
+
+**Goal:** five specialised agents that combine LLM reasoning with the Phase 2–3 tools and skills (architecture.md §5, §10).
+
+**Tasks**
+
+- [x] `core/llm.py` — `get_llm(role)` using `init_chat_model`, per-role model overrides, temperatures per role, structured output with one validation-error retry. The model stays a configuration choice (see Open Decisions).
+- [x] LangChain tool wrappers over `tools/` that return **compact views** for the LLM (id, name, neighborhood, tags, crowd level, price range + source, duration, opening-hours summary). The full records (~11k tokens for all attractions, ~11k for restaurants) stay in code.
+- [x] `agents/prompts/*.md` — one prompt per agent, including the schema, rules ("only use `place_id`s returned by tools") and a `revision_feedback` section. **Data-grounding rules:** justify picks only with dataset fields (tags, crowd level, price, duration, hours — there are no descriptions or ratings); recommend hotel *areas*, never named hotels; don't state restaurant hours when they're unknown (46 of 62).
+- [x] `agents/orchestrator.py` — `parse()` NL → `TripRequest` (with assumptions); `assemble()` research + logistics → draft `Itinerary` via the scheduler, LLM writes day themes and notes.
+  - [x] Map phrases to the fixed enums (e.g. "museums" → culture, "affordable" → budget tier, "busy places" → crowds).
+  - [x] Travel month without dates ("in March"): record it in `assumptions` and pass it to the scheduler (`SchedulerOptions.month`); no schema change. Without a month, the December assumption is recorded.
+  - [x] Dietary: normalise to what the data supports (`vegetarian`); anything else (e.g. vegan) is recorded as an assumption that it can't be guaranteed.
+- [x] `agents/destination.py` — calls the search tools, LLM ranks and justifies picks against interests and "avoid"; its picks become the scheduler's candidates; accepts review issues on revision.
+  - [x] Coverage check: when an interest has fewer than 2 suitable places (e.g. nightlife or adventure with "avoid crowds"), record "limited data for X" as an assumption instead of leaving it for Review to raise every round.
+- [x] `agents/logistics.py` — hotel-area choice, transport options, travel matrix; LLM explains trade-offs.
+- [x] `agents/budget.py` — runs the budget engine; LLM picks and phrases alternatives (no arithmetic by the LLM). Prefer alternatives within the requested hotel tier; propose a downgrade only with a stated reason.
+- [x] `agents/review.py` — rule checks first (authoritative), then the LLM adds qualitative issues; computes `passed` and a score.
+- [x] Guardrails: reject unknown `place_id`s, deterministic fallback when LLM output is still invalid after the retry (reuse the Phase 3 scripted planner), input normalisation (non-Dubai, > 7 days, non-AED).
+  - [x] Currency rates in `core/config.py` (USD at the official 3.6725 peg, plus a few configurable rates); a converted budget is flagged in `assumptions`.
+- [x] Scheduler: filter meal restaurants by `dietary` (small addition to the Phase 3 scheduler).
+- [x] `core/runner.py` (temporary) — a plain sequential runner: parse → destination → logistics → assemble → budget → review → (one revise pass).
+
+**Deliverables:** the example request produces a valid `Itinerary` through the sequential runner.
+
+**Exit criteria:**
+
+- Agent tests pass with a stubbed LLM (canned structured outputs).
+- One real-LLM smoke test passes for the example request — **waiting on the model decision**; everything else in this phase can be completed without it.
+- The parser extracts the correct constraints from 5 varied sample requests that cover the data's edge cases: a month or dates, a USD budget, more than 7 days, a non-Dubai destination, a vegetarian diet, 2 travellers in 1 room, and phrases that map to interests ("museums", "nightlife").
+
+**Status: done, except the real-LLM smoke test** (written and marked `llm`; it runs once a
+model is chosen and a key is set). `core/llm.py` (`get_llm`, `LangChainLLM` with one retry,
+`ScriptedLLM` for tests), `tools/views.py` + `tools/langchain_tools.py`, six prompts, the five
+agents and `core/runner.py` (`uv run python -m core.runner ["request"] [--no-llm]`). Agent
+tests use canned LLM answers; the parser passes the 5 sample requests (keyword parser). Without
+an API key every agent uses its deterministic fallback, so the runner works offline: the
+example request passes with score 100, and a mid-tier AED 3,000 request is revised once
+(Budget + Logistics) to within budget.
+Choices made: agents call the tools in code and the LLM ranks, picks and explains from compact
+views (no free-form tool loop); LLM review comments are always minor (decision of 2026-11-15);
+the coverage threshold is "fewer than 3" places (2 never fired on the real data); the Budget
+agent rejects an alternative that would create a new blocking issue and goes straight to a tier
+downgrade only when no same-tier combination can close the gap; a rule `dietary_not_met`
+(minor) was added. Scheduler fixes found by running the agents: places that open later in the
+day (dhow cruise, Global Village) are now scheduled around dinner — before, the "nightlife"
+interest could never be met; a restaurant may be reused on another day rather than skip a meal
+(few vegetarian places); areas more than 60 min from the hotel (Hatta) are no longer planned,
+because every leg there breaks the long-leg rule.
+Plan-quality fixes after reviewing real runs (2026-11-17): no walking across Dubai Creek
+(old-town crossings use the abra; taxis pay a tunnel/bridge detour) and meals stay on the
+hotel's side; stop ordering penalises creek crossings and keeps beaches last while finishing
+the day near them; a day only tops up from areas within 18 min, a fill pass and a carry-over
+use spare afternoon time, and a coverage repair guarantees each interest a nearby stop; lunch
+comes before a long stop that would skip it; swap descriptions separate the ticket saving from
+the re-planned saving; heavy-travel days caused by a far hotel are routed to Logistics, which
+then won't pick the blamed area again, and other heavy days drop their longest detour.
+
+---
+
+## Phase 5 — LangGraph Orchestration
+
+**Goal:** replace the sequential runner with the stateful graph that demonstrates the core LangGraph capabilities (architecture.md §6–7).
+
+**Tasks**
+
+- [x] `graph/state.py` — `PlannerState` with `add` reducers for `trace` and `history`.
+- [x] `graph/nodes.py` — thin wrappers: `parse`, `orchestrate`, `destination`, `logistics`, `assemble`, `budget`, `review`, `finalize`; each emits `TraceEvent`s via the stream writer.
+- [x] `graph/routing.py`
+  - [x] `orchestrate` fan-out: both agents on the first round; only the targeted ones on revision rounds.
+  - [x] `route_after_review`: finalize / budget / destination+logistics / assemble.
+  - [x] Loop termination: `MAX_REVISIONS` and "same issues twice in a row" detection; `finalize` picks the best draft from `history` if capped.
+- [x] `graph/build.py` — build and compile the `StateGraph` with a checkpointer (`MemorySaver`; `SqliteSaver` optional).
+- [x] `core/runner.py` — `run(request) -> RunResult{itinerary, trace, metrics}` using `graph.stream(..., stream_mode=["updates", "custom"])`; collect `RunMetrics` (time, LLM calls, tokens, revisions, score).
+- [x] Export the graph's Mermaid diagram for docs and the UI.
+
+**Deliverables:** the graph runs the example request end to end and revises at least once.
+
+**Exit criteria (graph tests):**
+
+- `destination` and `logistics` execute in the same superstep.
+- Each issue type routes to the correct node; only targeted nodes re-run on revisions.
+- The loop stops at `MAX_REVISIONS`, and on "no improvement".
+- The checkpointer history contains every draft (needed for the diff view).
+- **Success criterion met:** the forced over-budget scenario is detected and revised to within budget.
+
+**Status: done.** `graph/state.py` (`PlannerState`, plus `GraphContext` for providers, LLM and
+settings, passed as LangGraph's runtime context so checkpoints hold only data),
+`graph/nodes.py`, `graph/routing.py`, `graph/build.py` (`InMemorySaver` with our types
+allow-listed for deserialisation) and `core/runner.py` (`run()`, replacing the sequential
+runner; `TraceBus` in `core/tracing.py`). Diagram: [graph.mmd](graph.mmd)
+(`uv run python -m graph.build`). Offline, the example request passes first time and the
+mid-tier AED 3,000 request goes review → orchestrate → logistics → assemble → budget → review
+and passes (AED ~2,433); destination is not re-run. Graph tests are in `tests/graph/`.
+Choices made: the review node decides whether to revise (passed / `MAX_REVISIONS` / the same
+blocking issues twice) and the router only maps that onto nodes; destination/logistics revisions
+go back through `orchestrate`, which fans out to the targeted agents only; plain edges (not a
+join) lead into `assemble`, so a round where only one research agent runs still continues; an
+over-budget plan is costed but not revised in round 1, so Review reports the violation before it
+is fixed; when the loop is capped, `finalize` returns the best-scoring draft and records the
+unresolved issues in `assumptions`. `SqliteSaver` was not added (needs an extra package).
+LLMs (decision of 2026-11-17): Groq `openai/gpt-oss-120b` for the orchestrator, destination,
+logistics and budget agents and Gemini (`gemini-flash-latest`) for review, set per role with
+`LLM_PROVIDER_<ROLE>`/`LLM_MODEL_<ROLE>`; Groq uses JSON-schema structured output. A role whose
+key is missing falls back to deterministic code while the others still use their LLM.
+
+---
+
+## Phase 6 — Streamlit UI
+
+**Goal:** make agent execution, shared state and revisions visible to technical and non-technical audiences (architecture.md §11.2).
+
+**Tasks**
+
+- [x] `app/streamlit_app.py` — run the graph in a worker thread and read the `TraceBus` queue for live updates.
+- [x] **Plan screen:** request text area (pre-filled with the example request), options (max revisions, data mode, model).
+- [x] **Live agent timeline:** per-agent status (waiting / running / done / revising), summary line, expandable output; parallel agents side by side.
+- [x] **Graph view:** the Mermaid diagram with the active node highlighted and the revision loop visible.
+- [x] **Itinerary:** day tabs, slot timeline, map of each day's route, provenance badges, OSM attribution.
+- [x] **Budget:** stacked bar by category against the budget line, cost-line table, alternatives with savings, verified vs estimated split.
+- [x] **Review & revisions:** issues per round, the agent each was routed to, diff of draft *n* vs *n+1*.
+- [x] **Run metrics** panel.
+- [x] A disclaimer that prices are estimates and nothing is booked.
+
+**Deliverables:** an interactive demo app runnable with `streamlit run app/streamlit_app.py`.
+
+**Exit criteria:** the example request runs from the UI in offline mode; a viewer can see which agent is executing, what it produced, and how the plan changed during review (problem statement §7).
+
+**Status: done.** `app/streamlit_app.py` (thin page), `app/state.py` (`RunHandle`: the graph
+runs in a daemon thread; the script drains the `TraceBus` every 0.25 s and redraws) and
+`app/components/` — `timeline.py`, `graph_view.py`, `itinerary.py`, `budget.py`, `review.py`,
+`metrics.py`. Data shaping is in plain functions with unit tests, and a headless `AppTest` plans
+the over-budget request offline end to end (`tests/unit/test_app.py`). Result tabs: Itinerary
+(day tabs, slot table with cost and provenance, pydeck route map from and back to the hotel
+area, OSM/CARTO attribution), Budget (stacked bar with the budget line, category metrics,
+verified/api/estimated split, cost lines, alternatives with "applied"), Review & revisions
+(issues per round with their route, the router's decision, and the draft n → n+1 diff: hotel,
+costs, score, places added/removed/re-timed), Agent timeline, Graph and Metrics.
+Choices made: trace events now carry their graph node in the payload (`AgentContext.node`), so
+the graph view can highlight the running node(s) — both research nodes at once while they run
+in parallel; besides the live view, a "superstep" slider replays the checkpoints and shows the
+shared state at each one; Mermaid is drawn in an iframe with mermaid.js from jsDelivr (needs
+internet; the rest of the UI works offline); the data-mode option is shown but only `local`
+exists until Phase 7; the model option is "configured LLMs" or "no LLM", with each agent's
+provider and key status listed.
+
+---
+
+## Phase 7 — Free Live Data Integration
+
+**Goal:** add live, key-free data behind feature flags without breaking offline reliability (research.md §2.3–2.4, §2.8, §3.4). Can start after Phase 2.
+
+**Tasks**
+
+- [ ] `data/providers/overpass.py` — POI search by category and radius; merge with curated records (curated prices and crowd levels win).
+- [ ] `data/providers/osrm.py` — `/route` and `/table` for car and foot; peak-hour multiplier for car times.
+  - [ ] Decide self-hosted (Docker + Geofabrik GCC extract) vs public demo server for the demo.
+  - [ ] Refresh the stored `travel_matrix` with OSRM values (tagged accordingly).
+- [ ] `data/providers/gtfs.py` — only if an RTA GTFS feed is confirmed: metro/tram station-to-station times; otherwise curate metro times manually.
+- [ ] `data/providers/open_meteo.py` — daily forecast; climate-average fallback beyond the forecast range; heat rules feed the scheduler.
+- [ ] Wire live providers into the chained providers; `DATA_MODE=local|hybrid|live`.
+- [ ] HTTP cache with per-source TTLs; rate limiting, generic User-Agent, per-run external-call budget; log every call and fallback in the trace.
+- [ ] Recorded HTTP fixtures for tests; simulated timeouts/429s to test fallback.
+- [ ] Optional: Amadeus test-environment provider (hotels), clearly marked optional.
+
+**Deliverables:** hybrid mode uses live POIs, routing and weather, and falls back silently to local data on failure.
+
+**Exit criteria:** provider tests pass from fixtures; with the network disabled the app still completes in hybrid mode (fallback events visible in the trace); provenance badges show `api` for live values.
+
+---
+
+## Phase 8 — Hardening, Evaluation & Demo
+
+**Goal:** a stable, explainable demo that meets every success criterion.
+
+**Tasks**
+
+- [ ] Scenario suite (`tests/scenarios/`): the example request, a 1-day low-budget trip, a 7-day luxury trip, a forced over-budget case, an "avoid crowds" case.
+- [ ] Optional single-LLM baseline (architecture.md §8): one prompt → `Itinerary`, scored by the same rule checks; show it next to the graph result in the metrics panel.
+- [ ] Optional LLM-as-judge rubric for preference fit on a small request set.
+- [ ] Performance pass: cache warm-up, cheaper model for parsing, fewer LLM calls on revision rounds.
+- [ ] Error-path review: invalid LLM output, all providers down, impossible budgets (e.g. AED 300 for 7 days) → clear messages.
+- [ ] Data refresh: run the staleness report; re-verify fares and prices before the demo.
+- [ ] Docs: README (setup, run, configuration), a demo script (talk track + requests to type), update architecture.md with any design changes.
+- [ ] Deploy the Streamlit app to Streamlit Community Cloud (needs the git repository and a GitHub remote; `GROQ_API_KEY`/`GOOGLE_API_KEY` as app secrets) — decision of 2026-11-17.
+- [ ] Stretch goals: human approval before `finalize` (`interrupt_before`), destination research as a subgraph.
+
+**Deliverables:** tagged demo release, demo script, passing scenario suite.
+
+**Exit criteria:** all success criteria below are checked off.
+
+---
+
+## Success Criteria Traceability
+
+| Success criterion (problem statement §9) | Delivered in | Verified by |
+|------------------------------------------|--------------|-------------|
+| Accept natural-language requirements and produce a structured Dubai itinerary | P1, P4, P5 | Parser tests; scenario suite |
+| Demonstrate meaningful collaboration among specialized agents | P4, P5, P6 | Graph tests (parallel superstep, targeted revisions); live timeline |
+| Generate realistic schedules and estimated budgets using available data | P2, P3, P7 | Scheduler/budget property tests; provenance badges |
+| Detect and revise at least one itinerary constraint violation | P3, P5 | Forced over-budget and "avoid crowds" scenarios |
+| Visualize agent execution, shared state, and plan changes across review iterations | P5, P6 | UI timeline, graph view, review diff |
+
+---
+
+## Key Risks & Mitigations
+
+| Risk | Impact | Mitigation |
+|------|--------|------------|
+| Curated data collection takes longer than planned | Delays P2 and everything after | Start with the neighborhoods the example request needs; expand later. Heuristic matrix first. |
+| LLM returns invalid structured output | Broken runs | Schema-constrained output, one retry with the error, deterministic fallback (P4). |
+| Review loop doesn't converge | Long or endless runs | `MAX_REVISIONS`, no-improvement detection, best-draft selection (P5). |
+| Public Overpass/OSRM endpoints rate-limit or go down | Flaky demo | Cache, matrix-first logistics, self-hosting option, offline mode as the demo default (P7). |
+| No RTA GTFS feed available | Less accurate transit times | Manually curated metro times from the RTA journey planner (research.md §2.4). |
+| Prices and fares go stale | Unrealistic budgets | `as_of` on every value, staleness report, `estimated` tags, contingency buffer. |
+| Streamlit live updates from a background thread are awkward | Weak visualisation | Queue-based `TraceBus` polled by the UI; fall back to step-by-step replay from checkpoints. |
+| LLM cost during development | Budget overrun | Stubbed LLM in tests, cheaper model for parsing, cache LLM responses in dev. |
+
+---
+
+## Open Decisions to Settle Early
+
+- [x] Default LLM provider and model for the demo — Groq `openai/gpt-oss-120b` for four agents, Gemini for review (2026-11-17). The real-LLM smoke test runs once both keys are set.
+- [x] Target travel season for the demo — modelled per month in Phase 2; demo defaults to the cool season (Nov–Mar).
+- [ ] Self-hosted OSRM vs public demo server / OpenRouteService — **needed in Phase 7**.
+- [ ] Whether RTA publishes a GTFS feed — **needed in Phase 7**.
+- [ ] Whether to keep the optional Amadeus test-environment provider at all.

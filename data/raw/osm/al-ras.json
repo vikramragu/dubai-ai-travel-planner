@@ -1,0 +1,2735 @@
+{
+ "neighborhood_id": "al-ras",
+ "exported_at": "2026-11-15",
+ "osm_base": "2026-11-15T16:34:46Z",
+ "license": "ODbL — (c) OpenStreetMap contributors",
+ "query": "[out:json][timeout:60]; ( nwr(around:900,25.2705,55.2985)[\"tourism\"~\"^(museum|attraction|gallery|viewpoint|artwork|theme_park|zoo|aquarium)$\"][\"name\"]; nwr(around:900,25.2705,55.2985)[\"historic\"][\"name\"]; nwr(around:900,25.2705,55.2985)[\"natural\"=\"beach\"][\"name\"]; nwr(around:900,25.2705,55.2985)[\"leisure\"~\"^(beach_resort|park|marina|nature_reserve|water_park)$\"][\"name\"]; nwr(around:900,25.2705,55.2985)[\"amenity\"~\"^(restaurant|cafe|fast_food|food_court|place_of_worship|marketplace|arts_centre|theatre)$\"][\"name\"]; nwr(around:900,25.2705,55.2985)[\"shop\"~\"^(gold|jewelry|spices|perfumery|mall)$\"][\"name\"]; ); out tags center;",
+ "elements": [
+  {
+   "osm": "node/4611288791",
+   "lat": 25.265244,
+   "lon": 55.296453,
+   "tags": {
+    "name": "7 ton scotch crane",
+    "tourism": "artwork"
+   }
+  },
+  {
+   "osm": "node/2535696294",
+   "lat": 25.268428,
+   "lon": 55.297734,
+   "tags": {
+    "name": "ALLRED SAFFRON",
+    "amenity": "marketplace"
+   }
+  },
+  {
+   "osm": "node/4927362226",
+   "lat": 25.274261,
+   "lon": 55.302476,
+   "tags": {
+    "name": "Abdul Qader Jaffar Restaurant",
+    "name:en": "Abdul Qader Jaffar Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4919841364",
+   "lat": 25.266055,
+   "lon": 55.294993,
+   "tags": {
+    "name": "Aden Restaurant for Mandi, Madhbi & Madghod",
+    "name:en": "Aden Restaurant for Mandi, Madhbi & Madghod",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/5400471722",
+   "lat": 25.273459,
+   "lon": 55.299591,
+   "tags": {
+    "name": "Aerosoft by Sylvia & Jangjoo",
+    "name:en": "Aerosoft by Sylvia & Jangjoo",
+    "tourism": "attraction",
+    "shop": "shoes",
+    "opening_hours": "Fr 14:30-24:00; Mo-Th,Sa-Su 09:00-24:00",
+    "contact:website": "https://www.aerosoft.ae/"
+   }
+  },
+  {
+   "osm": "node/574351639",
+   "lat": 25.271122,
+   "lon": 55.304324,
+   "tags": {
+    "name": "Afghan Kabab House",
+    "name:en": "Afghan Kebab House",
+    "amenity": "restaurant",
+    "cuisine": "afghan"
+   }
+  },
+  {
+   "osm": "node/12543302654",
+   "lat": 25.271205,
+   "lon": 55.304271,
+   "tags": {
+    "name": "Afghan Khorasan Kabab",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/13286736310",
+   "lat": 25.277427,
+   "lon": 55.300762,
+   "tags": {
+    "name": "Afghani International",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4521575795",
+   "lat": 25.274513,
+   "lon": 55.301491,
+   "tags": {
+    "name": "African Restaurant",
+    "name:en": "African Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4931489713",
+   "lat": 25.270947,
+   "lon": 55.300523,
+   "tags": {
+    "name": "Ahmed Al Maghribi",
+    "name:en": "Ahmed Al Maghribi",
+    "shop": "perfumery",
+    "opening_hours": "Mo-Su 10:00-22:30",
+    "website": "https://www.ahmedalmaghribi.com"
+   }
+  },
+  {
+   "osm": "node/10024166496",
+   "lat": 25.269942,
+   "lon": 55.301624,
+   "tags": {
+    "name": "Ahmed Al Maghribi",
+    "name:en": "Ahmed Al Maghribi",
+    "shop": "perfumery",
+    "opening_hours": "Mo-Su 10:00-22:30",
+    "website": "https://www.ahmedalmaghribi.com/"
+   }
+  },
+  {
+   "osm": "node/11012436554",
+   "lat": 25.269827,
+   "lon": 55.299425,
+   "tags": {
+    "name": "Ahmed Al Maghribi",
+    "name:en": "Ahmed Al Maghribi",
+    "shop": "perfumery",
+    "opening_hours": "Fr-Su 10:00-23:00; Mo-Th 10:00-22:00",
+    "contact:website": "https://www.ahmedalmaghribi.com/"
+   }
+  },
+  {
+   "osm": "node/12187804914",
+   "lat": 25.27414,
+   "lon": 55.297124,
+   "tags": {
+    "name": "Ahmed Al Maghribi",
+    "name:en": "Ahmed Al Maghribi",
+    "shop": "perfumery",
+    "opening_hours": "Mo-Su 09:30-23:00",
+    "contact:website": "https://www.ahmedalmaghribi.com"
+   }
+  },
+  {
+   "osm": "node/4932624554",
+   "lat": 25.269443,
+   "lon": 55.300639,
+   "tags": {
+    "name": "Ahsan Perfumes",
+    "name:en": "Ahsan Perfumes",
+    "shop": "perfumery"
+   }
+  },
+  {
+   "osm": "node/4932663989",
+   "lat": 25.269104,
+   "lon": 55.299327,
+   "tags": {
+    "name": "Ajmal Perfume Co.",
+    "name:en": "Ajmal Perfume Co.",
+    "shop": "perfumery"
+   }
+  },
+  {
+   "osm": "node/5983186785",
+   "lat": 25.264243,
+   "lon": 55.299955,
+   "tags": {
+    "name": "Akaas Visual Arts",
+    "tourism": "museum"
+   }
+  },
+  {
+   "osm": "node/574351626",
+   "lat": 25.268433,
+   "lon": 55.294919,
+   "tags": {
+    "name": "Al Ahmadiya School",
+    "name:en": "Al Ahmadiya School",
+    "historic": "memorial"
+   }
+  },
+  {
+   "osm": "node/4932479296",
+   "lat": 25.273916,
+   "lon": 55.299993,
+   "tags": {
+    "name": "Al Ameer Jewellery",
+    "name:en": "Al Ameer Jewellery",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4932499784",
+   "lat": 25.271063,
+   "lon": 55.298113,
+   "tags": {
+    "name": "Al Anaqa Jewellery",
+    "name:en": "Al Anaqa Jewellery",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4157603992",
+   "lat": 25.269669,
+   "lon": 55.29158,
+   "tags": {
+    "name": "Al Bandar",
+    "name:en": "Al Bandar",
+    "amenity": "restaurant",
+    "cuisine": "international;lebanese;kebab;grill;regional;seafood"
+   }
+  },
+  {
+   "osm": "node/4931572199",
+   "lat": 25.27097,
+   "lon": 55.300332,
+   "tags": {
+    "name": "Al Barza Perfume",
+    "name:en": "Al Barza Perfume",
+    "shop": "perfumery"
+   }
+  },
+  {
+   "osm": "way/175192793",
+   "lat": 25.264837,
+   "lon": 55.299554,
+   "tags": {
+    "name": "مسجد البستكية",
+    "name:en": "Al Bastakiya Mosque",
+    "amenity": "place_of_worship"
+   }
+  },
+  {
+   "osm": "node/4932479307",
+   "lat": 25.273024,
+   "lon": 55.299144,
+   "tags": {
+    "name": "Al Buta Jewellery",
+    "name:en": "Al Buta Jewellery",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "relation/7214772",
+   "lat": 25.263545,
+   "lon": 55.297196,
+   "tags": {
+    "name": "حصن الفهيدي",
+    "name:en": "Al Fahidi Fort",
+    "historic": "fort",
+    "opening_hours": "Sa-Th 08:30-20:30; Fr 14:30-20:30; PH 08:30-20:30"
+   }
+  },
+  {
+   "osm": "way/542042595",
+   "lat": 25.264182,
+   "lon": 55.300205,
+   "tags": {
+    "name": "حي الفهيدي التاريخي",
+    "name:en": "Al Fahidi Historical Neighbourhood",
+    "tourism": "attraction",
+    "historic": "neighborhood"
+   }
+  },
+  {
+   "osm": "way/98551841",
+   "lat": 25.269191,
+   "lon": 55.304954,
+   "tags": {
+    "name": "Al Futtaim Mosque",
+    "name:en": "Al Futtaim Mosque",
+    "amenity": "place_of_worship"
+   }
+  },
+  {
+   "osm": "node/12544099102",
+   "lat": 25.270715,
+   "lon": 55.305362,
+   "tags": {
+    "name": "Al Jaz Cafe",
+    "amenity": "cafe"
+   }
+  },
+  {
+   "osm": "node/4628808990",
+   "lat": 25.273121,
+   "lon": 55.304406,
+   "tags": {
+    "name": "Al Kabab Al Afghani Restaurant",
+    "name:en": "Al Kabab Al Afghani Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4932488555",
+   "lat": 25.272793,
+   "lon": 55.298866,
+   "tags": {
+    "name": "Al Kahf Cafeteria",
+    "name:en": "Al Kahf Cafeteria",
+    "amenity": "cafe"
+   }
+  },
+  {
+   "osm": "way/435286884",
+   "lat": 25.263698,
+   "lon": 55.300674,
+   "tags": {
+    "name": "مطعم الخيمة التراثي",
+    "name:en": "Al Khayma Heritage Restaurant",
+    "amenity": "restaurant",
+    "cuisine": "arab",
+    "opening_hours": "Mo-Su 08:00-23:00",
+    "website": "https://alkhayma.com/restaurant/al-khayma-heritage-restaurant-dubai"
+   }
+  },
+  {
+   "osm": "node/4932499783",
+   "lat": 25.271099,
+   "lon": 55.298084,
+   "tags": {
+    "name": "Al Mahaba Jewellery",
+    "name:en": "Al Mahaba Jewellery",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/6180674787",
+   "lat": 25.272566,
+   "lon": 55.303605,
+   "tags": {
+    "name": "Al Maher",
+    "name:en": "Al Maher",
+    "tourism": "artwork"
+   }
+  },
+  {
+   "osm": "node/4929578671",
+   "lat": 25.269215,
+   "lon": 55.297162,
+   "tags": {
+    "name": "Al Mail Jewellery",
+    "name:en": "Al Mail Jewellery",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4929440948",
+   "lat": 25.271726,
+   "lon": 55.302486,
+   "tags": {
+    "name": "Al Marfaa",
+    "name:en": "Al Marfaa",
+    "amenity": "cafe"
+   }
+  },
+  {
+   "osm": "node/4931515606",
+   "lat": 25.271252,
+   "lon": 55.297703,
+   "tags": {
+    "name": "Al Mignas",
+    "name:en": "Al Mignas",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4932488569",
+   "lat": 25.27164,
+   "lon": 55.297906,
+   "tags": {
+    "name": "Al Mignas Jewellers",
+    "name:en": "Al Mignas Jewellers",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/12544099101",
+   "lat": 25.270752,
+   "lon": 55.305428,
+   "tags": {
+    "name": "Al Najem Al Bukhary",
+    "amenity": "restaurant",
+    "cuisine": "beef_bowl;grill;kebab;oriental"
+   }
+  },
+  {
+   "osm": "node/4584898691",
+   "lat": 25.264816,
+   "lon": 55.295185,
+   "tags": {
+    "name": "Al Obaid Cafeteria",
+    "name:en": "Al Obaid Cafeteria",
+    "amenity": "cafe"
+   }
+  },
+  {
+   "osm": "node/4931572203",
+   "lat": 25.271258,
+   "lon": 55.300149,
+   "tags": {
+    "name": "Al Raheeq",
+    "name:en": "Al Raheeq",
+    "shop": "perfumery"
+   }
+  },
+  {
+   "osm": "node/4931539782",
+   "lat": 25.271235,
+   "lon": 55.298911,
+   "tags": {
+    "name": "Al Rehab Perfumes",
+    "name:en": "Al Rehab Perfumes",
+    "shop": "perfumery"
+   }
+  },
+  {
+   "osm": "node/4931515615",
+   "lat": 25.270919,
+   "lon": 55.298018,
+   "tags": {
+    "name": "الرميزان",
+    "name:en": "Al Romaizan",
+    "shop": "jewelry",
+    "opening_hours": "Fr 16:30-23:00; Mo-Th,Sa-Su 09:00-23:00",
+    "website": "https://www.alromaizan.com/"
+   }
+  },
+  {
+   "osm": "node/4932488570",
+   "lat": 25.271513,
+   "lon": 55.29782,
+   "tags": {
+    "name": "الرميزان",
+    "name:en": "Al Romaizan",
+    "shop": "jewelry",
+    "opening_hours": "Fr 16:30-23:00; Mo-Th,Sa-Su 09:00-23:00",
+    "contact:website": "https://www.alromaizan.com/"
+   }
+  },
+  {
+   "osm": "node/4932488577",
+   "lat": 25.271225,
+   "lon": 55.297988,
+   "tags": {
+    "name": "الرميزان",
+    "name:en": "Al Romaizan",
+    "shop": "jewelry",
+    "opening_hours": "Fr 16:30-23:00; Mo-Th,Sa-Su 09:00-23:00",
+    "website": "https://www.alromaizan.com/"
+   }
+  },
+  {
+   "osm": "node/12174558242",
+   "lat": 25.270043,
+   "lon": 55.298317,
+   "tags": {
+    "name": "الرميزان",
+    "name:en": "Al Romaizan",
+    "shop": "jewelry",
+    "opening_hours": "Mo-Th,Sa-Su 09:00-23:00; Fr 16:30-23:00",
+    "website": "https://www.alromaizan.com/"
+   }
+  },
+  {
+   "osm": "node/12174558243",
+   "lat": 25.270669,
+   "lon": 55.296861,
+   "tags": {
+    "name": "الرميزان",
+    "name:en": "Al Romaizan",
+    "shop": "jewelry",
+    "opening_hours": "Fr 16:30-23:00; Mo-Th,Sa-Su 09:00-23:00",
+    "website": "https://www.alromaizan.com/"
+   }
+  },
+  {
+   "osm": "node/12174558244",
+   "lat": 25.271673,
+   "lon": 55.297483,
+   "tags": {
+    "name": "الرميزان",
+    "name:en": "Al Romaizan",
+    "shop": "jewelry",
+    "opening_hours": "Fr 16:30-23:00; Mo-Th,Sa-Su 09:00-23:00",
+    "website": "https://www.alromaizan.com/"
+   }
+  },
+  {
+   "osm": "node/12174558245",
+   "lat": 25.269287,
+   "lon": 55.297511,
+   "tags": {
+    "name": "الرميزان",
+    "name:en": "Al Romaizan",
+    "shop": "jewelry",
+    "opening_hours": "Mo-Th 09:00-22:30; Fr 16:30-22:30",
+    "website": "https://www.alromaizan.com/"
+   }
+  },
+  {
+   "osm": "node/12260704858",
+   "lat": 25.272083,
+   "lon": 55.297231,
+   "tags": {
+    "name": "الرميزان",
+    "name:en": "Al Romaizan",
+    "shop": "jewelry",
+    "opening_hours": "Fr 16:30-23:00; Mo-Th,Sa-Su 09:00-23:00",
+    "website": "https://www.alromaizan.com"
+   }
+  },
+  {
+   "osm": "node/12260704859",
+   "lat": 25.270019,
+   "lon": 55.298551,
+   "tags": {
+    "name": "الرميزان",
+    "name:en": "Al Romaizan",
+    "shop": "jewelry",
+    "opening_hours": "Fr 16:30-23:00; Mo-Th,Sa-Su 09:00-23:00",
+    "contact:website": "https://www.alromaizan.com"
+   }
+  },
+  {
+   "osm": "node/4931113710",
+   "lat": 25.274101,
+   "lon": 55.302421,
+   "tags": {
+    "name": "Al Ruken Al Afoal Roastery",
+    "name:en": "Al Ruken Al Afoal Roastery",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4932462419",
+   "lat": 25.274688,
+   "lon": 55.301425,
+   "tags": {
+    "name": "Al Saheefa Cafeteria",
+    "name:en": "Al Saheefa Cafeteria",
+    "amenity": "cafe"
+   }
+  },
+  {
+   "osm": "node/4932499795",
+   "lat": 25.27108,
+   "lon": 55.29853,
+   "tags": {
+    "name": "Al Sariya General Trading",
+    "name:en": "Al Sariya General Trading",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "way/671677250",
+   "lat": 25.26088,
+   "lon": 55.307001,
+   "tags": {
+    "name": "Al Seef Dubai",
+    "tourism": "attraction",
+    "website": "https://alseef.ae/",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "osm": "node/4931515607",
+   "lat": 25.271214,
+   "lon": 55.297742,
+   "tags": {
+    "name": "Al Shahid",
+    "name:en": "Al Shahid",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4932499785",
+   "lat": 25.27104,
+   "lon": 55.298137,
+   "tags": {
+    "name": "Al Sham Jewellery",
+    "name:en": "Al Sham Jewellery",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4931572200",
+   "lat": 25.271019,
+   "lon": 55.300326,
+   "tags": {
+    "name": "Al Weena",
+    "name:en": "Al Weena",
+    "shop": "perfumery"
+   }
+  },
+  {
+   "osm": "node/8512434281",
+   "lat": 25.273283,
+   "lon": 55.305448,
+   "tags": {
+    "name": "Al Zarooni Mosque",
+    "amenity": "place_of_worship"
+   }
+  },
+  {
+   "osm": "node/12486010951",
+   "lat": 25.264173,
+   "lon": 55.300167,
+   "tags": {
+    "name": "Alghori Cafe",
+    "amenity": "cafe"
+   }
+  },
+  {
+   "osm": "way/260895319",
+   "lat": 25.26416,
+   "lon": 55.294714,
+   "tags": {
+    "name": "المسجد الشيعي الإيراني، بر دبي",
+    "name:en": "Ali ibn Abi Talib Iranian Mosque",
+    "amenity": "place_of_worship"
+   }
+  },
+  {
+   "osm": "node/8944232389",
+   "lat": 25.269677,
+   "lon": 55.297641,
+   "tags": {
+    "name": "Alizaa Jewellery",
+    "shop": "jewelry",
+    "opening_hours": "Mo-Th,Sa-Su 10:00-17:00",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "osm": "node/11012436556",
+   "lat": 25.274426,
+   "lon": 55.300895,
+   "tags": {
+    "name": "Amba",
+    "amenity": "cafe",
+    "opening_hours": "Mo-Su 09:00-00:00"
+   }
+  },
+  {
+   "osm": "node/4932488576",
+   "lat": 25.271259,
+   "lon": 55.297954,
+   "tags": {
+    "name": "Amiri Jewellery",
+    "name:en": "Amiri Jewellery",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/12543387110",
+   "lat": 25.271151,
+   "lon": 55.305155,
+   "tags": {
+    "name": "Anas Cafe",
+    "amenity": "cafe"
+   }
+  },
+  {
+   "osm": "node/4931113699",
+   "lat": 25.27441,
+   "lon": 55.303171,
+   "tags": {
+    "name": "Appa Tea Restaurant",
+    "name:en": "Appa Tea Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4931131468",
+   "lat": 25.274723,
+   "lon": 55.30237,
+   "tags": {
+    "name": "Aqil Al Hadad Cafeteria",
+    "name:en": "Aqil Al Hadad Cafeteria",
+    "amenity": "cafe"
+   }
+  },
+  {
+   "osm": "way/260895322",
+   "lat": 25.263351,
+   "lon": 55.29972,
+   "tags": {
+    "name": "تي هاوس كافيه",
+    "name:en": "Arabian Tea House",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/12486010926",
+   "lat": 25.264276,
+   "lon": 55.30086,
+   "tags": {
+    "name": "Arabic Calligraphy House",
+    "tourism": "museum"
+   }
+  },
+  {
+   "osm": "node/4932499782",
+   "lat": 25.271137,
+   "lon": 55.298054,
+   "tags": {
+    "name": "Arjan Jewellery",
+    "name:en": "Arjan Jewellery",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/8327606936",
+   "lat": 25.271302,
+   "lon": 55.307021,
+   "tags": {
+    "name": "Aryana Afghani Darbar",
+    "amenity": "restaurant",
+    "opening_hours": "Mo-Su 12:00-01:00"
+   }
+  },
+  {
+   "osm": "node/4926988724",
+   "lat": 25.268628,
+   "lon": 55.305179,
+   "tags": {
+    "name": "Atlantis Turkish Restaurant",
+    "name:en": "Atlantis Turkish Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4931121048",
+   "lat": 25.275316,
+   "lon": 55.303367,
+   "tags": {
+    "name": "August Restaurant",
+    "name:en": "August Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "way/350269151",
+   "lat": 25.268843,
+   "lon": 55.306612,
+   "tags": {
+    "name": "Baniyas Park",
+    "leisure": "park"
+   }
+  },
+  {
+   "osm": "node/6513210093",
+   "lat": 25.264785,
+   "lon": 55.294023,
+   "tags": {
+    "name": "بيت الوكيل",
+    "name:en": "Bayt al Wakeel",
+    "amenity": "restaurant",
+    "cuisine": "arab",
+    "website": "https://www.wakeel.ae/"
+   }
+  },
+  {
+   "osm": "node/4932488572",
+   "lat": 25.271404,
+   "lon": 55.297819,
+   "tags": {
+    "name": "Bazelt Jewellery",
+    "name:en": "Bazelt Jewellery",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/6513364928",
+   "lat": 25.272378,
+   "lon": 55.300463,
+   "tags": {
+    "name": "Biggy",
+    "amenity": "cafe",
+    "opening_hours": "Mo-Su 11:00-01:00",
+    "contact:website": "https://biggyafricanrestaurant.com"
+   }
+  },
+  {
+   "osm": "node/4931410997",
+   "lat": 25.268858,
+   "lon": 55.305299,
+   "tags": {
+    "name": "Blue Eyes Jewellery",
+    "name:en": "Blue Eyes Jewellery",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/10705007212",
+   "lat": 25.273998,
+   "lon": 55.301736,
+   "tags": {
+    "name": "Bombay Naan Cafeteria LLC",
+    "amenity": "restaurant",
+    "cuisine": "indian",
+    "opening_hours": "Mo-Su 12:00-15:00, 17:00-01:00"
+   }
+  },
+  {
+   "osm": "node/4929440942",
+   "lat": 25.271818,
+   "lon": 55.302758,
+   "tags": {
+    "name": "Branded Perfumes",
+    "name:en": "Branded Perfumes",
+    "shop": "perfumery"
+   }
+  },
+  {
+   "osm": "node/13284408857",
+   "lat": 25.276431,
+   "lon": 55.300804,
+   "tags": {
+    "name": "Caribou Coffee",
+    "amenity": "cafe",
+    "cuisine": "coffee_shop"
+   }
+  },
+  {
+   "osm": "node/4932479290",
+   "lat": 25.274117,
+   "lon": 55.300272,
+   "tags": {
+    "name": "Chemmanur",
+    "name:en": "Chemmanur",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4931410996",
+   "lat": 25.268861,
+   "lon": 55.305361,
+   "tags": {
+    "name": "City Square Cafeteria",
+    "name:en": "City Square Cafeteria",
+    "amenity": "cafe"
+   }
+  },
+  {
+   "osm": "node/4931505732",
+   "lat": 25.272654,
+   "lon": 55.300823,
+   "tags": {
+    "name": "Classic Papa Perfumes",
+    "name:en": "Classic Papa Perfumes",
+    "shop": "perfumery"
+   }
+  },
+  {
+   "osm": "node/5334433325",
+   "lat": 25.263708,
+   "lon": 55.300098,
+   "tags": {
+    "name": "Coffee Museum",
+    "name:en": "Coffee Museum",
+    "tourism": "museum"
+   }
+  },
+  {
+   "osm": "node/12486010908",
+   "lat": 25.264582,
+   "lon": 55.299793,
+   "tags": {
+    "name": "Coins Museum",
+    "tourism": "museum"
+   }
+  },
+  {
+   "osm": "node/6513218485",
+   "lat": 25.267624,
+   "lon": 55.298869,
+   "tags": {
+    "name": "Creek view from top of parking garage",
+    "name:en": "Creek view from top of parking garage",
+    "tourism": "viewpoint"
+   }
+  },
+  {
+   "osm": "node/4931554952",
+   "lat": 25.273308,
+   "lon": 55.299312,
+   "tags": {
+    "name": "DFC",
+    "name:en": "DFC",
+    "amenity": "cafe"
+   }
+  },
+  {
+   "osm": "node/4931515603",
+   "lat": 25.27135,
+   "lon": 55.297616,
+   "tags": {
+    "name": "Damas",
+    "name:en": "Damas",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4931515613",
+   "lat": 25.270994,
+   "lon": 55.297948,
+   "tags": {
+    "name": "Damas",
+    "name:en": "Damas",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4932499790",
+   "lat": 25.270901,
+   "lon": 55.298293,
+   "tags": {
+    "name": "Damas",
+    "name:en": "Damas",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4931180341",
+   "lat": 25.272709,
+   "lon": 55.303387,
+   "tags": {
+    "name": "Dar Al Noor Restuarant",
+    "name:en": "Dar Al Noor Restuarant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "relation/16842105",
+   "lat": 25.270048,
+   "lon": 55.29808,
+   "tags": {
+    "name": "Deira Gold Souk",
+    "name:en": "Deira Gold Souk",
+    "tourism": "attraction",
+    "amenity": "marketplace",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "osm": "node/4931575843",
+   "lat": 25.272992,
+   "lon": 55.301194,
+   "tags": {
+    "name": "Desire Perfumes",
+    "name:en": "Desire Perfumes",
+    "shop": "perfumery"
+   }
+  },
+  {
+   "osm": "node/4932575066",
+   "lat": 25.270938,
+   "lon": 55.297193,
+   "tags": {
+    "name": "Dhakan",
+    "name:en": "Dhakan",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/7887187742",
+   "lat": 25.27069,
+   "lon": 55.298495,
+   "tags": {
+    "name": "Dhanji Motiram Jewellers",
+    "shop": "jewelry",
+    "opening_hours": "Fr 16:30-21:30;Mo-Th,Sa-Su 09:30-21:30"
+   }
+  },
+  {
+   "osm": "node/4932479293",
+   "lat": 25.274004,
+   "lon": 55.300116,
+   "tags": {
+    "name": "Diamond L.L.C.",
+    "name:en": "Diamond L.L.C.",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/5879067785",
+   "lat": 25.264241,
+   "lon": 55.293992,
+   "tags": {
+    "name": "Drinks and snacks",
+    "name:en": "Drinks and snacks",
+    "amenity": "fast_food",
+    "cuisine": "indian"
+   }
+  },
+  {
+   "osm": "relation/7214752",
+   "lat": 25.264374,
+   "lon": 55.296809,
+   "tags": {
+    "name": "مسجد دبي الكبير",
+    "name:en": "Dubai Grand Masjid",
+    "amenity": "place_of_worship"
+   }
+  },
+  {
+   "osm": "way/174965686",
+   "lat": 25.264374,
+   "lon": 55.296809,
+   "tags": {
+    "name": "مسجد دبي الكبير",
+    "name:en": "Dubai Grand Mosque",
+    "amenity": "place_of_worship",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "osm": "node/4932575062",
+   "lat": 25.271207,
+   "lon": 55.297416,
+   "tags": {
+    "name": "Dubai Jewellery",
+    "name:en": "Dubai Jewellery",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "way/437617706",
+   "lat": 25.267897,
+   "lon": 55.297835,
+   "tags": {
+    "name": "Dubai Municipality Museum",
+    "name:en": "Dubai Municipality Museum",
+    "tourism": "museum",
+    "opening_hours": "Su-Th 09:00-15:00; Fr-Sa off",
+    "fee": "yes",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "osm": "node/3717446089",
+   "lat": 25.263521,
+   "lon": 55.297183,
+   "tags": {
+    "name": "متحف دبي",
+    "name:en": "Dubai Museum",
+    "tourism": "museum",
+    "opening_hours": "Sa-Th 08:30-20:30, Fr 14:30-20:30; 2021 closed \"renpvations\"",
+    "fee": "yes"
+   }
+  },
+  {
+   "osm": "node/5109606422",
+   "lat": 25.264141,
+   "lon": 55.296206,
+   "tags": {
+    "name": "سوق دبي للمنسوجات",
+    "name:en": "Dubai Textile Souk",
+    "tourism": "attraction"
+   }
+  },
+  {
+   "osm": "node/14334766704",
+   "lat": 25.265052,
+   "lon": 55.302308,
+   "tags": {
+    "name": "دانكن دونتس",
+    "name:en": "Dunkin' Donuts",
+    "amenity": "fast_food",
+    "cuisine": "donut;coffee_shop",
+    "opening_hours": "9:00AM - 11:00PM"
+   }
+  },
+  {
+   "osm": "node/7719767617",
+   "lat": 25.270525,
+   "lon": 55.297968,
+   "tags": {
+    "name": "Eagle Gems Jewellers",
+    "shop": "jewelry",
+    "opening_hours": "Fr 16:00-21:30;Mo-Th,Sa-Su 09:30-14:30,16:00-21:30",
+    "contact:website": "https://www.eaglegemsjewels.com/"
+   }
+  },
+  {
+   "osm": "node/4931113715",
+   "lat": 25.273994,
+   "lon": 55.302196,
+   "tags": {
+    "name": "Egypt Cafe",
+    "name:en": "Egypt Cafe",
+    "amenity": "cafe"
+   }
+  },
+  {
+   "osm": "node/4932499786",
+   "lat": 25.271015,
+   "lon": 55.298166,
+   "tags": {
+    "name": "Elman Jewellery Trading",
+    "name:en": "Elman Jewellery Trading",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4931539773",
+   "lat": 25.270899,
+   "lon": 55.298546,
+   "tags": {
+    "name": "Fakhruddin Khuman Perfumes",
+    "name:en": "Fakhruddin Khuman Perfumes",
+    "shop": "perfumery"
+   }
+  },
+  {
+   "osm": "node/4931539771",
+   "lat": 25.270818,
+   "lon": 55.298462,
+   "tags": {
+    "name": "Fakhruddin Khuman Trading Co.",
+    "name:en": "Fakhruddin Khuman Trading Co.",
+    "shop": "perfumery"
+   }
+  },
+  {
+   "osm": "node/3464868344",
+   "lat": 25.269314,
+   "lon": 55.307109,
+   "tags": {
+    "name": "Fast Food Restaurant",
+    "name:en": "Fast Food Restaurant",
+    "amenity": "restaurant",
+    "cuisine": "regional;shawarma"
+   }
+  },
+  {
+   "osm": "node/4931294134",
+   "lat": 25.269361,
+   "lon": 55.307357,
+   "tags": {
+    "name": "Fast Meal",
+    "name:en": "Fast Meal",
+    "amenity": "fast_food"
+   }
+  },
+  {
+   "osm": "node/4927353653",
+   "lat": 25.275123,
+   "lon": 55.302303,
+   "tags": {
+    "name": "Fedhaa Restuarant",
+    "name:en": "Fedhaa Restuarant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4931575826",
+   "lat": 25.271878,
+   "lon": 55.29998,
+   "tags": {
+    "name": "French Fragrance",
+    "name:en": "French Fragrance",
+    "shop": "perfumery"
+   }
+  },
+  {
+   "osm": "node/4931515605",
+   "lat": 25.271284,
+   "lon": 55.297677,
+   "tags": {
+    "name": "G.B. Diamonds",
+    "name:en": "G.B. Diamonds",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/12466861303",
+   "lat": 25.264077,
+   "lon": 55.293659,
+   "tags": {
+    "name": "Ghantoot Star",
+    "amenity": "restaurant",
+    "cuisine": "chinese;indian",
+    "opening_hours": "Mo-Su 10:00-02:00"
+   }
+  },
+  {
+   "osm": "node/4932575069",
+   "lat": 25.270638,
+   "lon": 55.296813,
+   "tags": {
+    "name": "Giancarlo Jewellery",
+    "name:en": "Giancarlo Jewellery",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "way/246347251",
+   "lat": 25.273618,
+   "lon": 55.299881,
+   "tags": {
+    "name": "Gold Land",
+    "name:en": "Gold Land",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/5400491721",
+   "lat": 25.271356,
+   "lon": 55.297446,
+   "tags": {
+    "name": "Gold centar",
+    "name:en": "Gold centar",
+    "tourism": "attraction"
+   }
+  },
+  {
+   "osm": "node/11405370194",
+   "lat": 25.262988,
+   "lon": 55.298319,
+   "tags": {
+    "name": "Golden Boutique",
+    "shop": "perfumery"
+   }
+  },
+  {
+   "osm": "node/4932479298",
+   "lat": 25.273805,
+   "lon": 55.29985,
+   "tags": {
+    "name": "Golden Coral",
+    "name:en": "Golden Coral",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4931489705",
+   "lat": 25.270653,
+   "lon": 55.300748,
+   "tags": {
+    "name": "Grand Mart General Trading",
+    "name:en": "Grand Mart General Trading",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4919784952",
+   "lat": 25.267934,
+   "lon": 55.304154,
+   "tags": {
+    "name": "Habasha Restaurant",
+    "name:en": "Habasha Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4931575830",
+   "lat": 25.272176,
+   "lon": 55.299875,
+   "tags": {
+    "name": "Hamidi",
+    "name:en": "Hamidi",
+    "shop": "perfumery"
+   }
+  },
+  {
+   "osm": "node/4932479299",
+   "lat": 25.273782,
+   "lon": 55.299822,
+   "tags": {
+    "name": "Hamza Jewellery",
+    "name:en": "Hamza Jewellery",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4927353648",
+   "lat": 25.275039,
+   "lon": 55.302141,
+   "tags": {
+    "name": "Hareb Mandi",
+    "name:en": "Hareb Mandi",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/3023618931",
+   "lat": 25.268091,
+   "lon": 55.305154,
+   "tags": {
+    "name": "Hatam Al Thai",
+    "name:en": "Hatam Al Thai",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/574351637",
+   "lat": 25.268624,
+   "lon": 55.294747,
+   "tags": {
+    "name": "Heritage House",
+    "name:en": "Heritage House",
+    "historic": "monument",
+    "opening_hours": "Sa-Th 08:00-19:30; Fr 14:30-19:30",
+    "fee": "no"
+   }
+  },
+  {
+   "osm": "way/28702957",
+   "lat": 25.26999,
+   "lon": 55.291148,
+   "tags": {
+    "name": "Heritage Village",
+    "name:en": "Heritage Village",
+    "tourism": "museum",
+    "opening_hours": "Mo-Su,PH 10:00-22:00",
+    "fee": "yes",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "osm": "node/2488004018",
+   "lat": 25.264823,
+   "lon": 55.296826,
+   "tags": {
+    "name": "معبد هندوسي",
+    "name:en": "Hindu Temple",
+    "tourism": "attraction",
+    "amenity": "place_of_worship",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "osm": "node/4931515618",
+   "lat": 25.270781,
+   "lon": 55.298175,
+   "tags": {
+    "name": "Hyatt Jewellers",
+    "name:en": "Hyatt Jewellers",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4932683452",
+   "lat": 25.269624,
+   "lon": 55.300765,
+   "tags": {
+    "name": "Ibrahim Perfumes",
+    "name:en": "Ibrahim Perfumes",
+    "shop": "perfumery"
+   }
+  },
+  {
+   "osm": "node/4931493901",
+   "lat": 25.272479,
+   "lon": 55.30035,
+   "tags": {
+    "name": "Id'ol Perfumes",
+    "name:en": "Id'ol Perfumes",
+    "shop": "perfumery"
+   }
+  },
+  {
+   "osm": "node/4931575834",
+   "lat": 25.272665,
+   "lon": 55.30033,
+   "tags": {
+    "name": "Idol Perfumes",
+    "name:en": "Idol Perfumes",
+    "shop": "perfumery"
+   }
+  },
+  {
+   "osm": "node/4931549870",
+   "lat": 25.272549,
+   "lon": 55.299845,
+   "tags": {
+    "name": "Island Falcon Perfumes",
+    "name:en": "Island Falcon Perfumes",
+    "shop": "perfumery"
+   }
+  },
+  {
+   "osm": "node/4584886791",
+   "lat": 25.262613,
+   "lon": 55.297354,
+   "tags": {
+    "name": "JMI Jewellers",
+    "name:en": "JMI Jewellers",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/12543302655",
+   "lat": 25.271167,
+   "lon": 55.304296,
+   "tags": {
+    "name": "Jasem Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4932488564",
+   "lat": 25.271978,
+   "lon": 55.298201,
+   "tags": {
+    "name": "Jewel Star",
+    "name:en": "Jewel Star",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4932499793",
+   "lat": 25.271023,
+   "lon": 55.298465,
+   "tags": {
+    "name": "Jewel Trading",
+    "name:en": "Jewel Trading",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/13622178210",
+   "lat": 25.272212,
+   "lon": 55.297302,
+   "tags": {
+    "name": "Jonga Jewels",
+    "shop": "jewelry",
+    "opening_hours": "Mo-Sa 10:00-19:00",
+    "website": "https://jonga.one/",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "osm": "node/4931318654",
+   "lat": 25.269043,
+   "lon": 55.303469,
+   "tags": {
+    "name": "Jovial",
+    "name:en": "Jovial",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4932499787",
+   "lat": 25.270985,
+   "lon": 55.2982,
+   "tags": {
+    "name": "Just Jewels",
+    "name:en": "Just Jewels",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4931294148",
+   "lat": 25.269255,
+   "lon": 55.306395,
+   "tags": {
+    "name": "دجاج كنتاكي",
+    "name:en": "KFC",
+    "amenity": "fast_food",
+    "cuisine": "fried_chicken"
+   }
+  },
+  {
+   "osm": "node/4931578737",
+   "lat": 25.273082,
+   "lon": 55.30152,
+   "tags": {
+    "name": "KGN Restaurant",
+    "name:en": "KGN Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/9047304465",
+   "lat": 25.270659,
+   "lon": 55.303987,
+   "tags": {
+    "name": "Kabul Darbar",
+    "amenity": "restaurant",
+    "opening_hours": "Fr 13:30-00:00;Mo-Th,Sa-Su 12:00-00:00"
+   }
+  },
+  {
+   "osm": "node/8005382885",
+   "lat": 25.272749,
+   "lon": 55.303043,
+   "tags": {
+    "name": "Kaltumi Restuarant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/6597071128",
+   "lat": 25.270575,
+   "lon": 55.298794,
+   "tags": {
+    "name": "Kavya Jewels",
+    "shop": "jewelry",
+    "website": "https://kavyajewels.com/"
+   }
+  },
+  {
+   "osm": "node/4931155078",
+   "lat": 25.272398,
+   "lon": 55.30243,
+   "tags": {
+    "name": "Khaleej Aden Restaurant",
+    "name:en": "Khaleej Aden Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4931192383",
+   "lat": 25.273442,
+   "lon": 55.30491,
+   "tags": {
+    "name": "Khalifa Ayel Restaurant",
+    "name:en": "Khalifa Ayel Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4931489707",
+   "lat": 25.270707,
+   "lon": 55.300765,
+   "tags": {
+    "name": "Khalis Perfumes",
+    "name:en": "Khalis Perfumes",
+    "shop": "perfumery"
+   }
+  },
+  {
+   "osm": "node/4932479311",
+   "lat": 25.272935,
+   "lon": 55.299046,
+   "tags": {
+    "name": "Khazana Jewellery",
+    "name:en": "Khazana Jewellery",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/10741066180",
+   "lat": 25.269161,
+   "lon": 55.297383,
+   "tags": {
+    "name": "Kicky Jewellery",
+    "shop": "jewelry",
+    "opening_hours": "Mo-Su 09:00-21:00"
+   }
+  },
+  {
+   "osm": "node/4931515619",
+   "lat": 25.27075,
+   "lon": 55.298195,
+   "tags": {
+    "name": "Krishna Jewellers",
+    "name:en": "Krishna Jewellers",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4932575071",
+   "lat": 25.270601,
+   "lon": 55.296758,
+   "tags": {
+    "name": "Kunoz Al Donya Jewellers",
+    "name:en": "Kunoz Al Donya Jewellers",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4932499788",
+   "lat": 25.270957,
+   "lon": 55.298229,
+   "tags": {
+    "name": "Lausanne Jewellers",
+    "name:en": "Lausanne Jewellers",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4931515604",
+   "lat": 25.271301,
+   "lon": 55.297651,
+   "tags": {
+    "name": "Le Paris Diamonds",
+    "name:en": "Le Paris Diamonds",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/12515537775",
+   "lat": 25.263299,
+   "lon": 55.299972,
+   "tags": {
+    "name": "مطعم البيت المحلي",
+    "name:en": "Local House Restaurant",
+    "amenity": "restaurant",
+    "website": "localhousedxb.com"
+   }
+  },
+  {
+   "osm": "way/260895318",
+   "lat": 25.263393,
+   "lon": 55.299864,
+   "tags": {
+    "name": "مطعم البيت المحلي",
+    "name:en": "Local House Restaurant",
+    "amenity": "restaurant",
+    "website": "localhousedxb.com"
+   }
+  },
+  {
+   "osm": "node/4931572208",
+   "lat": 25.271531,
+   "lon": 55.300088,
+   "tags": {
+    "name": "M.I. Perfumes",
+    "name:en": "M.I. Perfumes",
+    "shop": "perfumery"
+   }
+  },
+  {
+   "osm": "node/8334606018",
+   "lat": 25.269805,
+   "lon": 55.297099,
+   "tags": {
+    "name": "MAMAS",
+    "amenity": "cafe",
+    "cuisine": "american;arab;breakfast;burger;diner;indian"
+   }
+  },
+  {
+   "osm": "node/4931515609",
+   "lat": 25.271134,
+   "lon": 55.297808,
+   "tags": {
+    "name": "Mahallati Jewellery",
+    "name:en": "Mahallati Jewellery",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4931572198",
+   "lat": 25.270897,
+   "lon": 55.300326,
+   "tags": {
+    "name": "Majid Al Nazar Perfume",
+    "name:en": "Majid Al Nazar Perfume",
+    "shop": "perfumery"
+   }
+  },
+  {
+   "osm": "node/4539799196",
+   "lat": 25.263941,
+   "lon": 55.299426,
+   "tags": {
+    "name": "Make",
+    "name:en": "Make",
+    "amenity": "restaurant",
+    "website": "http://www.makebusinesshub.com"
+   }
+  },
+  {
+   "osm": "node/4932575060",
+   "lat": 25.271296,
+   "lon": 55.297517,
+   "tags": {
+    "name": "Malabar",
+    "name:en": "Malabar",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4932488559",
+   "lat": 25.272616,
+   "lon": 55.298709,
+   "tags": {
+    "name": "Malabar Gold and Diamonds",
+    "name:en": "Malabar Gold & Diamonds",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4931539769",
+   "lat": 25.27077,
+   "lon": 55.298404,
+   "tags": {
+    "name": "Mamiya Jewellery",
+    "name:en": "Mamiya Jewellery",
+    "shop": "jewelry",
+    "opening_hours": "Fr 16:00-21:00;Mo-Th,Sa-Su 10:00-21:00",
+    "contact:website": "https://www.mamiyadiamonds.com/"
+   }
+  },
+  {
+   "osm": "node/4929444767",
+   "lat": 25.272637,
+   "lon": 55.304549,
+   "tags": {
+    "name": "Marefa Al Noor Restaurant",
+    "name:en": "Marefa Al Noor Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4931106228",
+   "lat": 25.274819,
+   "lon": 55.30392,
+   "tags": {
+    "name": "Marfa Al Noor Caferteria",
+    "name:en": "Marfa Al Noor Caferteria",
+    "amenity": "cafe"
+   }
+  },
+  {
+   "osm": "node/4931515612",
+   "lat": 25.271024,
+   "lon": 55.29792,
+   "tags": {
+    "name": "Marhaba",
+    "name:en": "Marhaba",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4931539770",
+   "lat": 25.270791,
+   "lon": 55.29843,
+   "tags": {
+    "name": "Mashoom Jewellery",
+    "name:en": "Mashoom Jewellery",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4239228394",
+   "lat": 25.269174,
+   "lon": 55.298849,
+   "tags": {
+    "name": "Masjid Al Iman",
+    "name:en": "Masjid Al Iman",
+    "amenity": "place_of_worship",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "osm": "node/5274807122",
+   "lat": 25.264408,
+   "lon": 55.299423,
+   "tags": {
+    "name": "Mawaheb Art Studio",
+    "name:en": "Mawaheb Art Studio",
+    "tourism": "museum"
+   }
+  },
+  {
+   "osm": "node/7112591555",
+   "lat": 25.265164,
+   "lon": 55.296287,
+   "tags": {
+    "name": "Mazmi",
+    "amenity": "fast_food",
+    "cuisine": "italian",
+    "website": "https://mazmi.me",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "osm": "node/7176811985",
+   "lat": 25.265219,
+   "lon": 55.29628,
+   "tags": {
+    "name": "Mazmi",
+    "name:en": "Mazmi",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/3053763412",
+   "lat": 25.268376,
+   "lon": 55.306542,
+   "tags": {
+    "name": "McDonald's",
+    "name:en": "McDonald's",
+    "amenity": "fast_food",
+    "cuisine": "burger",
+    "opening_hours": "24/7",
+    "contact:website": "https://www.mcdelivery.ae/"
+   }
+  },
+  {
+   "osm": "node/4931515617",
+   "lat": 25.270807,
+   "lon": 55.298149,
+   "tags": {
+    "name": "Meena Jewellers",
+    "name:en": "Meena Jewellers",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/12485984535",
+   "lat": 25.264585,
+   "lon": 55.299291,
+   "tags": {
+    "name": "Mike Arnold Art",
+    "tourism": "gallery",
+    "website": "https://www.mikearnold.art/"
+   }
+  },
+  {
+   "osm": "node/4931443378",
+   "lat": 25.270462,
+   "lon": 55.302756,
+   "tags": {
+    "name": "Modern Dish Cafeteria",
+    "name:en": "Modern Dish Cafeteria",
+    "amenity": "cafe"
+   }
+  },
+  {
+   "osm": "node/4932479295",
+   "lat": 25.273942,
+   "lon": 55.300036,
+   "tags": {
+    "name": "Modern Era Jewellery",
+    "name:en": "Modern Era Jewellery",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4931515608",
+   "lat": 25.271172,
+   "lon": 55.297779,
+   "tags": {
+    "name": "Mukund Jewellery",
+    "name:en": "Mukund Jewellery",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/6193455617",
+   "lat": 25.264456,
+   "lon": 55.303856,
+   "tags": {
+    "name": "متحف الغموض",
+    "name:en": "Museum of Illusions",
+    "tourism": "museum",
+    "fee": "yes",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "osm": "node/5102471723",
+   "lat": 25.27058,
+   "lon": 55.299572,
+   "tags": {
+    "name": "My place usman",
+    "name:en": "My place usman",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "way/437727238",
+   "lat": 25.271569,
+   "lon": 55.305109,
+   "tags": {
+    "name": "Naif Market",
+    "name:en": "Naif Market",
+    "amenity": "marketplace"
+   }
+  },
+  {
+   "osm": "way/206906548",
+   "lat": 25.273241,
+   "lon": 55.307184,
+   "tags": {
+    "name": "Naif Park",
+    "name:en": "Naif Park",
+    "leisure": "park"
+   }
+  },
+  {
+   "osm": "node/2501412647",
+   "lat": 25.271533,
+   "lon": 55.305105,
+   "tags": {
+    "name": "Naif Souq",
+    "name:en": "Naif Souq",
+    "shop": "mall"
+   }
+  },
+  {
+   "osm": "way/447293123",
+   "lat": 25.272886,
+   "lon": 55.307831,
+   "tags": {
+    "name": "Naif electronics shops area",
+    "name:en": "Naif electronics shops area",
+    "amenity": "marketplace"
+   }
+  },
+  {
+   "osm": "node/14096139581",
+   "lat": 25.272336,
+   "lon": 55.297019,
+   "tags": {
+    "name": "Nareez jewellery",
+    "amenity": "marketplace",
+    "opening_hours": "10:00-22:00; Fr 16:00-22:00"
+   }
+  },
+  {
+   "osm": "node/4931539768",
+   "lat": 25.270744,
+   "lon": 55.298377,
+   "tags": {
+    "name": "Navrang Jewellers",
+    "name:en": "Navrang Jewellers",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4929440947",
+   "lat": 25.271729,
+   "lon": 55.302564,
+   "tags": {
+    "name": "New City Burger",
+    "name:en": "New City Burger",
+    "amenity": "cafe"
+   }
+  },
+  {
+   "osm": "node/10298294795",
+   "lat": 25.264284,
+   "lon": 55.299293,
+   "tags": {
+    "name": "Old boat",
+    "historic": "ship"
+   }
+  },
+  {
+   "osm": "node/4932479301",
+   "lat": 25.273712,
+   "lon": 55.299749,
+   "tags": {
+    "name": "Osan Jewellery",
+    "name:en": "Osan Jewellery",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/7987381316",
+   "lat": 25.272831,
+   "lon": 55.299746,
+   "tags": {
+    "name": "Oud World Trading",
+    "shop": "perfumery",
+    "opening_hours": "Fr 16:00-23:30;Mo-Th,Sa-Su 10:00-23:30",
+    "contact:website": "https://oudworld.ae/"
+   }
+  },
+  {
+   "osm": "node/4931489716",
+   "lat": 25.271068,
+   "lon": 55.300454,
+   "tags": {
+    "name": "Oudh Al Aasmah Perfumes",
+    "name:en": "Oudh Al Aasmah Perfumes",
+    "shop": "perfumery"
+   }
+  },
+  {
+   "osm": "node/8024801626",
+   "lat": 25.275323,
+   "lon": 55.30344,
+   "tags": {
+    "name": "Pak Darbar",
+    "amenity": "restaurant",
+    "opening_hours": "Mo-Su 06:00-02:00",
+    "contact:website": "https://pak-darbar.business.site/"
+   }
+  },
+  {
+   "osm": "node/13284406650",
+   "lat": 25.276673,
+   "lon": 55.301358,
+   "tags": {
+    "name": "Papa Johns",
+    "amenity": "fast_food",
+    "cuisine": "pizza"
+   }
+  },
+  {
+   "osm": "node/4932632778",
+   "lat": 25.269512,
+   "lon": 55.301221,
+   "tags": {
+    "name": "Paris Corner Perfumes",
+    "name:en": "Paris Corner Perfumes",
+    "shop": "perfumery"
+   }
+  },
+  {
+   "osm": "node/4932488568",
+   "lat": 25.271678,
+   "lon": 55.297938,
+   "tags": {
+    "name": "Paris Gems",
+    "name:en": "Paris Gems",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4931505741",
+   "lat": 25.272764,
+   "lon": 55.301141,
+   "tags": {
+    "name": "Perfume Paradise General Trading",
+    "name:en": "Perfume Paradise General Trading",
+    "shop": "perfumery"
+   }
+  },
+  {
+   "osm": "node/4931575840",
+   "lat": 25.272781,
+   "lon": 55.300657,
+   "tags": {
+    "name": "Perfume Village",
+    "name:en": "Perfume Village",
+    "shop": "perfumery"
+   }
+  },
+  {
+   "osm": "node/4932534544",
+   "lat": 25.272411,
+   "lon": 55.299734,
+   "tags": {
+    "name": "Perfumes Smile Trading",
+    "name:en": "Perfumes Smile Trading",
+    "shop": "perfumery"
+   }
+  },
+  {
+   "osm": "node/4932575061",
+   "lat": 25.271263,
+   "lon": 55.297482,
+   "tags": {
+    "name": "Pure Gold",
+    "name:en": "Pure Gold",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4931549873",
+   "lat": 25.272658,
+   "lon": 55.299793,
+   "tags": {
+    "name": "Queen Palace Perfumes",
+    "name:en": "Queen Palace Perfumes",
+    "shop": "perfumery"
+   }
+  },
+  {
+   "osm": "node/4931121055",
+   "lat": 25.274805,
+   "lon": 55.302612,
+   "tags": {
+    "name": "Raheeb Cafeteria",
+    "name:en": "Raheeb Cafeteria",
+    "amenity": "cafe"
+   }
+  },
+  {
+   "osm": "node/4932575068",
+   "lat": 25.270825,
+   "lon": 55.297064,
+   "tags": {
+    "name": "Rainbow Tech Watches",
+    "name:en": "Rainbow Tech Watches",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4932479302",
+   "lat": 25.27366,
+   "lon": 55.29969,
+   "tags": {
+    "name": "Rocx Jewels",
+    "name:en": "Rocx Jewels",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4932488573",
+   "lat": 25.271355,
+   "lon": 55.297866,
+   "tags": {
+    "name": "Rossella Jewellery",
+    "name:en": "Rossella Jewellery",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4932488571",
+   "lat": 25.271434,
+   "lon": 55.297801,
+   "tags": {
+    "name": "Royal Pearls",
+    "name:en": "Royal Pearls",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4932479308",
+   "lat": 25.273002,
+   "lon": 55.299117,
+   "tags": {
+    "name": "Saachi Jewellers",
+    "name:en": "Saachi Jewellers",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/3129080913",
+   "lat": 25.269865,
+   "lon": 55.302774,
+   "tags": {
+    "name": "Sabka Bus Station",
+    "name:en": "Sabka Bus Station",
+    "tourism": "viewpoint",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "osm": "relation/5755009",
+   "lat": 25.267941,
+   "lon": 55.290068,
+   "tags": {
+    "name": "Saeed Al Maktoum House",
+    "name:en": "Saeed Al Maktoum House",
+    "tourism": "museum",
+    "opening_hours": "Sa-Th 8:00-20:30, Fr 15:30-21:30, Sa-Th 09:00-17:00 \"Ramadan\", Fr 14:00-17:00 \"Ramadan\""
+   }
+  },
+  {
+   "osm": "node/8512414193",
+   "lat": 25.273506,
+   "lon": 55.304093,
+   "tags": {
+    "name": "Saifee Masjid",
+    "amenity": "place_of_worship",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "osm": "node/4929470614",
+   "lat": 25.27252,
+   "lon": 55.303306,
+   "tags": {
+    "name": "Samira Restaurant",
+    "name:en": "Samira Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4931294145",
+   "lat": 25.269161,
+   "lon": 55.306625,
+   "tags": {
+    "name": "Sea Grill",
+    "name:en": "Sea Grill",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/10004545194",
+   "lat": 25.270452,
+   "lon": 55.297808,
+   "tags": {
+    "name": "Seagull Boxes and Jewellery Display",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4931505726",
+   "lat": 25.272577,
+   "lon": 55.300597,
+   "tags": {
+    "name": "Shaker Cafeteria",
+    "name:en": "Shaker Cafeteria",
+    "amenity": "cafe"
+   }
+  },
+  {
+   "osm": "node/4919838537",
+   "lat": 25.266386,
+   "lon": 55.295775,
+   "tags": {
+    "name": "Shaker New Cafeteria",
+    "name:en": "Shaker New Cafeteria",
+    "amenity": "cafe",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "osm": "node/11260396639",
+   "lat": 25.273498,
+   "lon": 55.298526,
+   "tags": {
+    "name": "Sharda Vegetarian Restaurant",
+    "amenity": "restaurant",
+    "opening_hours": "Mo-Su 09:00-23:00"
+   }
+  },
+  {
+   "osm": "relation/5467412",
+   "lat": 25.268577,
+   "lon": 55.290537,
+   "tags": {
+    "name": "Sheikh Obaid bin Thani House",
+    "name:en": "Sheikh Obaid bin Thani House",
+    "tourism": "museum",
+    "website": "https://www.al-siraaj.com/"
+   }
+  },
+  {
+   "osm": "node/4932479300",
+   "lat": 25.27375,
+   "lon": 55.299784,
+   "tags": {
+    "name": "Shenoy Jewellery",
+    "name:en": "Shenoy Jewellery",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/3023618932",
+   "lat": 25.268094,
+   "lon": 55.305011,
+   "tags": {
+    "name": "Shiraaz Nights",
+    "name:en": "Shiraaz Nights",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4584886693",
+   "lat": 25.26382,
+   "lon": 55.293486,
+   "tags": {
+    "name": "Silver Trading",
+    "name:en": "Silver Trading",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4932488566",
+   "lat": 25.271874,
+   "lon": 55.298125,
+   "tags": {
+    "name": "Sky Jewellery",
+    "name:en": "Sky Jewellery",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4932575059",
+   "lat": 25.27132,
+   "lon": 55.297545,
+   "tags": {
+    "name": "Sky Jewellery",
+    "name:en": "Sky Jewellery",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4931493897",
+   "lat": 25.2724,
+   "lon": 55.300134,
+   "tags": {
+    "name": "Smell Attractive Perfumes",
+    "name:en": "Smell Attractive Perfumes",
+    "shop": "perfumery"
+   }
+  },
+  {
+   "osm": "node/4931443361",
+   "lat": 25.269216,
+   "lon": 55.303197,
+   "tags": {
+    "name": "Snacks & Bakes Cafeteria",
+    "name:en": "Snacks & Bakes Cafeteria",
+    "amenity": "cafe"
+   }
+  },
+  {
+   "osm": "node/4439024094",
+   "lat": 25.267854,
+   "lon": 55.29809,
+   "tags": {
+    "name": "Souk Parking",
+    "name:en": "Souk Parking",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4919848318",
+   "lat": 25.26795,
+   "lon": 55.301033,
+   "tags": {
+    "name": "Special Kaba Restaurant",
+    "name:en": "Special Kaba Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4931353761",
+   "lat": 25.270679,
+   "lon": 55.303276,
+   "tags": {
+    "name": "Spectrum Watches",
+    "name:en": "Spectrum Watches",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4931515925",
+   "lat": 25.272981,
+   "lon": 55.301974,
+   "tags": {
+    "name": "Spectrum Watches",
+    "name:en": "Spectrum Watches",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/265405305",
+   "lat": 25.267563,
+   "lon": 55.297059,
+   "tags": {
+    "name": "Spice Souk",
+    "name:en": "Spice Souk",
+    "amenity": "marketplace",
+    "opening_hours": "Mo-Su 08:00-12:00",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "osm": "way/542042596",
+   "lat": 25.267564,
+   "lon": 55.297247,
+   "tags": {
+    "name": "سوق التوابل",
+    "name:en": "Spice Souk",
+    "tourism": "attraction",
+    "amenity": "marketplace"
+   }
+  },
+  {
+   "osm": "node/2457880806",
+   "lat": 25.264674,
+   "lon": 55.296883,
+   "tags": {
+    "name": "معبد شرينثجي",
+    "name:en": "Srinathji Temple",
+    "amenity": "place_of_worship",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "osm": "node/4931572207",
+   "lat": 25.27151,
+   "lon": 55.300116,
+   "tags": {
+    "name": "Star Perfumes",
+    "name:en": "Star Perfumes",
+    "shop": "perfumery"
+   }
+  },
+  {
+   "osm": "node/13114036068",
+   "lat": 25.264615,
+   "lon": 55.30381,
+   "tags": {
+    "name": "ستاربكس",
+    "name:en": "Starbucks",
+    "amenity": "cafe",
+    "cuisine": "coffee_shop"
+   }
+  },
+  {
+   "osm": "node/4932479292",
+   "lat": 25.273989,
+   "lon": 55.300183,
+   "tags": {
+    "name": "Super Ruby Jewellers",
+    "name:en": "Super Ruby Jewellers",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4146701294",
+   "lat": 25.268085,
+   "lon": 55.305746,
+   "tags": {
+    "name": "Tavolino Pizza and Coffee",
+    "name:en": "Tavolino Pizza and Coffee",
+    "amenity": "cafe",
+    "cuisine": "pizza"
+   }
+  },
+  {
+   "osm": "node/4931575827",
+   "lat": 25.271914,
+   "lon": 55.29997,
+   "tags": {
+    "name": "Teeb",
+    "name:en": "Teeb",
+    "shop": "perfumery"
+   }
+  },
+  {
+   "osm": "node/13383845101",
+   "lat": 25.263324,
+   "lon": 55.295505,
+   "tags": {
+    "name": "The Souk Tower",
+    "tourism": "attraction"
+   }
+  },
+  {
+   "osm": "node/4931294143",
+   "lat": 25.269321,
+   "lon": 55.306674,
+   "tags": {
+    "name": "Topaz Jewellery",
+    "name:en": "Topaz Jewellery",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/12486010942",
+   "lat": 25.264122,
+   "lon": 55.300004,
+   "tags": {
+    "name": "Traditional Emirati House",
+    "tourism": "museum"
+   }
+  },
+  {
+   "osm": "node/7843646155",
+   "lat": 25.269866,
+   "lon": 55.297741,
+   "tags": {
+    "name": "Vansh Jewellery",
+    "shop": "jewelry",
+    "opening_hours": "Fr 16:00-22:00; Mo-Th,Sa-Su 11:00-22:00",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "osm": "node/4931515611",
+   "lat": 25.271046,
+   "lon": 55.2979,
+   "tags": {
+    "name": "Vaya Jewellers",
+    "name:en": "Vaya Jewellers",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4929430051",
+   "lat": 25.27361,
+   "lon": 55.30615,
+   "tags": {
+    "name": "Visitors Restaurant",
+    "name:en": "Visitors Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4919782120",
+   "lat": 25.267542,
+   "lon": 55.305875,
+   "tags": {
+    "name": "West Lake Spring",
+    "name:en": "West Lake Spring",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4931340102",
+   "lat": 25.270283,
+   "lon": 55.302878,
+   "tags": {
+    "name": "Western",
+    "name:en": "Western",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/3053304824",
+   "lat": 25.271579,
+   "lon": 55.302259,
+   "tags": {
+    "name": "Wimpy's",
+    "name:en": "Whimpy Fast Food",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4584888990",
+   "lat": 25.262621,
+   "lon": 55.297398,
+   "tags": {
+    "name": "White Screen Trading",
+    "name:en": "White Screen Trading",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/12479949255",
+   "lat": 25.26522,
+   "lon": 55.301311,
+   "tags": {
+    "name": "Wokyo Noodle Bar",
+    "amenity": "restaurant",
+    "cuisine": "noodle",
+    "opening_hours": "Mo-Su 11:00-21:45",
+    "website": "https://www.wokyo.com/"
+   }
+  },
+  {
+   "osm": "node/4813684903",
+   "lat": 25.271823,
+   "lon": 55.298703,
+   "tags": {
+    "name": "Women's museum",
+    "name:en": "Women's museum",
+    "tourism": "museum",
+    "website": "http://www.womenmuseumuae.com/"
+   }
+  },
+  {
+   "osm": "node/5858458087",
+   "lat": 25.263885,
+   "lon": 55.299785,
+   "tags": {
+    "name": "XVA Art Cafe",
+    "name:en": "XVA Art Cafe",
+    "amenity": "cafe"
+   }
+  },
+  {
+   "osm": "node/4932499791",
+   "lat": 25.270962,
+   "lon": 55.298398,
+   "tags": {
+    "name": "Zabeel Jewellery",
+    "name:en": "Zabeel Jewellery",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4931554943",
+   "lat": 25.272815,
+   "lon": 55.299703,
+   "tags": {
+    "name": "Zahrat Al Amal Perfumes",
+    "name:en": "Zahrat Al Amal Perfumes",
+    "shop": "perfumery"
+   }
+  },
+  {
+   "osm": "node/4931549871",
+   "lat": 25.272587,
+   "lon": 55.299831,
+   "tags": {
+    "name": "Zahrat Al Mahaba Perfumes",
+    "name:en": "Zahrat Al Mahaba Perfumes",
+    "shop": "perfumery"
+   }
+  },
+  {
+   "osm": "node/4784955721",
+   "lat": 25.270487,
+   "lon": 55.297051,
+   "tags": {
+    "name": "Zahrath",
+    "name:en": "Zahrath",
+    "amenity": "fast_food",
+    "cuisine": "arab",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "osm": "node/4932479297",
+   "lat": 25.273887,
+   "lon": 55.299952,
+   "tags": {
+    "name": "Zaman Jewellery",
+    "name:en": "Zaman Jewellery",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/5901889387",
+   "lat": 25.268337,
+   "lon": 55.303049,
+   "tags": {
+    "name": "bank saderat iran",
+    "name:en": "bank saderat iran",
+    "tourism": "attraction",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "osm": "node/4666832289",
+   "lat": 25.271956,
+   "lon": 55.304101,
+   "tags": {
+    "name": "car parked",
+    "name:en": "car parked",
+    "tourism": "artwork"
+   }
+  },
+  {
+   "osm": "node/11725236069",
+   "lat": 25.27074,
+   "lon": 55.300383,
+   "tags": {
+    "name": "سوق الذهب",
+    "name:en": "hussein",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4191592389",
+   "lat": 25.272025,
+   "lon": 55.293694,
+   "tags": {
+    "name": "mv 5401",
+    "name:en": "mv 5401",
+    "tourism": "artwork"
+   }
+  },
+  {
+   "osm": "node/4666745991",
+   "lat": 25.270163,
+   "lon": 55.301837,
+   "tags": {
+    "name": "sharjah laptop market",
+    "name:en": "sharjah laptop market",
+    "tourism": "artwork"
+   }
+  },
+  {
+   "osm": "node/3834064757",
+   "lat": 25.267998,
+   "lon": 55.297454,
+   "tags": {
+    "name": "utensils market",
+    "name:en": "utensils market",
+    "amenity": "marketplace"
+   }
+  },
+  {
+   "osm": "node/7516655189",
+   "lat": 25.267408,
+   "lon": 55.297351,
+   "tags": {
+    "name": "الخور",
+    "tourism": "attraction",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "osm": "node/6355366885",
+   "lat": 25.273843,
+   "lon": 55.306588,
+   "tags": {
+    "name": "باص نايف",
+    "tourism": "attraction",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "osm": "node/7516655188",
+   "lat": 25.27095,
+   "lon": 55.298145,
+   "tags": {
+    "name": "سوق الذهب",
+    "tourism": "attraction"
+   }
+  },
+  {
+   "osm": "node/4751797223",
+   "lat": 25.272394,
+   "lon": 55.304554,
+   "tags": {
+    "name": "محل شاحن متنقل ب 30 درهم دبي",
+    "tourism": "attraction",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "osm": "node/4753480623",
+   "lat": 25.27241,
+   "lon": 55.304559,
+   "tags": {
+    "name": "محل شاحن متنقل ب ٣٠ درهم دبي",
+    "tourism": "attraction"
+   }
+  },
+  {
+   "osm": "node/12704796701",
+   "lat": 25.27314,
+   "lon": 55.299466,
+   "tags": {
+    "name": "يوسف باهي صنع العطور",
+    "shop": "perfumery"
+   }
+  }
+ ]
+}

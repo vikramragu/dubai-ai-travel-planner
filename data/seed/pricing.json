@@ -1,0 +1,32 @@
+{
+  "_note": "Public transport fares and taxi tariffs. 'verified' rows were read from the official RTA / Dubai Taxi pages on as_of. App-booking fees come from press coverage of the late-2025 tariff change and are 'estimated'. Salik road tolls (about AED 4-6 per gate) are not included.",
+  "transit_fares": [
+    {"mode": "metro", "product": "silver", "zone_band": "1_zone", "fare_aed": 3.0, "source": "verified", "reference": "https://rta.ae/wps/portal/rta/ae/public-transport/Nol-Fares?lang=en", "as_of": "2026-11-15"},
+    {"mode": "metro", "product": "silver", "zone_band": "2_zones", "fare_aed": 5.0, "source": "verified", "reference": "https://rta.ae/wps/portal/rta/ae/public-transport/Nol-Fares?lang=en", "as_of": "2026-11-15"},
+    {"mode": "metro", "product": "silver", "zone_band": "3_plus_zones", "fare_aed": 7.5, "source": "verified", "reference": "https://rta.ae/wps/portal/rta/ae/public-transport/Nol-Fares?lang=en", "as_of": "2026-11-15"},
+    {"mode": "metro", "product": "red_ticket", "zone_band": "1_zone", "fare_aed": 4.0, "source": "verified", "reference": "https://rta.ae/wps/portal/rta/ae/public-transport/Nol-Fares?lang=en", "as_of": "2026-11-15"},
+    {"mode": "metro", "product": "red_ticket", "zone_band": "2_zones", "fare_aed": 6.0, "source": "verified", "reference": "https://rta.ae/wps/portal/rta/ae/public-transport/Nol-Fares?lang=en", "as_of": "2026-11-15"},
+    {"mode": "metro", "product": "red_ticket", "zone_band": "3_plus_zones", "fare_aed": 8.5, "source": "verified", "reference": "https://rta.ae/wps/portal/rta/ae/public-transport/Nol-Fares?lang=en", "as_of": "2026-11-15"},
+    {"mode": "metro", "product": "gold", "zone_band": "1_zone", "fare_aed": 6.0, "source": "verified", "reference": "https://rta.ae/wps/portal/rta/ae/public-transport/Nol-Fares?lang=en", "as_of": "2026-11-15"},
+    {"mode": "metro", "product": "gold", "zone_band": "2_zones", "fare_aed": 10.0, "source": "verified", "reference": "https://rta.ae/wps/portal/rta/ae/public-transport/Nol-Fares?lang=en", "as_of": "2026-11-15"},
+    {"mode": "metro", "product": "gold", "zone_band": "3_plus_zones", "fare_aed": 15.0, "source": "verified", "reference": "https://rta.ae/wps/portal/rta/ae/public-transport/Nol-Fares?lang=en", "as_of": "2026-11-15"},
+    {"mode": "metro", "product": "blue", "zone_band": "1_zone", "fare_aed": 3.0, "source": "verified", "reference": "https://rta.ae/wps/portal/rta/ae/public-transport/Nol-Fares?lang=en", "as_of": "2026-11-15"},
+    {"mode": "metro", "product": "blue", "zone_band": "2_zones", "fare_aed": 5.0, "source": "verified", "reference": "https://rta.ae/wps/portal/rta/ae/public-transport/Nol-Fares?lang=en", "as_of": "2026-11-15"},
+    {"mode": "metro", "product": "blue", "zone_band": "3_plus_zones", "fare_aed": 7.5, "source": "verified", "reference": "https://rta.ae/wps/portal/rta/ae/public-transport/Nol-Fares?lang=en", "as_of": "2026-11-15"},
+    {"mode": "bus", "product": "silver", "zone_band": "1_zone", "fare_aed": 3.0, "source": "verified", "reference": "https://rta.ae/wps/portal/rta/ae/public-transport/Nol-Fares?lang=en", "as_of": "2026-11-15"},
+    {"mode": "bus", "product": "silver", "zone_band": "2_zones", "fare_aed": 5.0, "source": "verified", "reference": "https://rta.ae/wps/portal/rta/ae/public-transport/Nol-Fares?lang=en", "as_of": "2026-11-15"},
+    {"mode": "bus", "product": "silver", "zone_band": "3_plus_zones", "fare_aed": 7.5, "source": "verified", "reference": "https://rta.ae/wps/portal/rta/ae/public-transport/Nol-Fares?lang=en", "as_of": "2026-11-15"},
+    {"mode": "tram", "product": "silver", "zone_band": "1_zone", "fare_aed": 3.0, "source": "verified", "reference": "https://rta.ae/wps/portal/rta/ae/public-transport/Nol-Fares?lang=en", "as_of": "2026-11-15"},
+    {"mode": "tram", "product": "silver", "zone_band": "2_zones", "fare_aed": 5.0, "source": "verified", "reference": "https://rta.ae/wps/portal/rta/ae/public-transport/Nol-Fares?lang=en", "as_of": "2026-11-15"},
+    {"mode": "tram", "product": "silver", "zone_band": "3_plus_zones", "fare_aed": 7.5, "source": "verified", "reference": "https://rta.ae/wps/portal/rta/ae/public-transport/Nol-Fares?lang=en", "as_of": "2026-11-15"},
+    {"mode": "abra", "product": "cash", "zone_band": "flat", "fare_aed": 1.0, "source": "estimated", "reference": "traditional abra crossing fare, widely reported; RTA marine page not checked"}
+  ],
+  "taxi_tariffs": [
+    {"kind": "street_day", "flagfall_aed": 5.0, "per_km_aed": 2.45, "minimum_aed": 12.0, "waiting_per_min_aed": 0.5, "source": "verified", "reference": "https://www.dubaitaxi.ae/our-services/taxi", "as_of": "2026-11-15"},
+    {"kind": "street_night", "flagfall_aed": 5.5, "per_km_aed": 2.45, "minimum_aed": 12.0, "waiting_per_min_aed": 0.5, "source": "verified", "reference": "https://www.dubaitaxi.ae/our-services/taxi", "as_of": "2026-11-15"},
+    {"kind": "app_peak", "flagfall_aed": 5.0, "booking_fee_aed": 7.5, "per_km_aed": 2.45, "minimum_aed": 13.0, "waiting_per_min_aed": 0.5, "source": "estimated", "reference": "per-km and minimum from dubaitaxi.ae (2026-11-15); booking fee from press coverage (Khaleej Times, Gulf News, Nov 2025)"},
+    {"kind": "app_off_peak", "flagfall_aed": 5.0, "booking_fee_aed": 4.0, "per_km_aed": 2.45, "minimum_aed": 13.0, "waiting_per_min_aed": 0.5, "source": "estimated", "reference": "per-km and minimum from dubaitaxi.ae (2026-11-15); booking fee from press coverage (Khaleej Times, Gulf News, Nov 2025)"},
+    {"kind": "app_night", "flagfall_aed": 5.5, "booking_fee_aed": 4.5, "per_km_aed": 2.45, "minimum_aed": 13.0, "waiting_per_min_aed": 0.5, "source": "estimated", "reference": "per-km and minimum from dubaitaxi.ae (2026-11-15); booking fee from press coverage (Khaleej Times, Gulf News, Nov 2025)"},
+    {"kind": "airport", "flagfall_aed": 25.0, "per_km_aed": 2.45, "minimum_aed": 25.0, "waiting_per_min_aed": 0.5, "source": "estimated", "reference": "AED 25 airport flag-fall from press and guides; per-km from dubaitaxi.ae (2026-11-15)"}
+  ]
+}

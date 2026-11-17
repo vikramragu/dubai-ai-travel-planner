@@ -1,0 +1,32 @@
+---
+config:
+  flowchart:
+    curve: linear
+---
+graph TD;
+	__start__([<p>__start__</p>]):::first
+	parse(parse)
+	orchestrate(orchestrate)
+	destination(destination)
+	logistics(logistics)
+	assemble(assemble)
+	budget(budget)
+	review(review)
+	finalize(finalize)
+	__end__([<p>__end__</p>]):::last
+	__start__ --> parse;
+	assemble --> budget;
+	budget --> review;
+	destination --> assemble;
+	logistics --> assemble;
+	orchestrate -.-> destination;
+	orchestrate -.-> logistics;
+	parse --> orchestrate;
+	review -.-> assemble;
+	review -.-> budget;
+	review -.-> finalize;
+	review -.-> orchestrate;
+	finalize --> __end__;
+	classDef default fill:#f2f0ff,line-height:1.2
+	classDef first fill-opacity:0
+	classDef last fill:#bfb6fc

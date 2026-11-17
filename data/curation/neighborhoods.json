@@ -1,0 +1,26 @@
+{
+  "_note": "Hand-curated neighborhood list. Centres are approximate (used for clustering, the travel matrix and the OSM export radius). metro_station is the nearest Dubai Metro station, null when there is no practical one.",
+  "neighborhoods": [
+    {"id": "al-fahidi", "name": "Al Fahidi & Al Seef (Bur Dubai)", "lat": 25.2625, "lon": 55.3010, "vibe": "Restored wind-tower quarter, museums and the creekside Al Seef promenade", "metro_station": "Al Fahidi", "beach_access": false, "search_radius_m": 1100},
+    {"id": "al-shindagha", "name": "Al Shindagha & Old Souk", "lat": 25.2665, "lon": 55.2915, "vibe": "Heritage museums at the creek mouth, textile souk and abra station", "metro_station": "Al Ghubaiba", "beach_access": false, "search_radius_m": 900},
+    {"id": "al-ras", "name": "Deira Souks (Al Ras)", "lat": 25.2705, "lon": 55.2985, "vibe": "Gold, spice and perfume souks, dhow wharfage and heritage houses", "metro_station": "Al Ras", "beach_access": false, "search_radius_m": 900},
+    {"id": "al-rigga", "name": "Al Rigga & Port Saeed (Deira)", "lat": 25.2635, "lon": 55.3235, "vibe": "Busy budget-hotel district with Levantine and South Asian eateries", "metro_station": "Al Rigga", "beach_access": false, "search_radius_m": 1100},
+    {"id": "al-karama", "name": "Al Karama & Zabeel", "lat": 25.2420, "lon": 55.3020, "vibe": "Affordable eats from across South Asia; Zabeel Park and the Dubai Frame", "metro_station": "ADCB", "beach_access": false, "search_radius_m": 1300},
+    {"id": "al-satwa", "name": "Al Satwa", "lat": 25.2290, "lon": 55.2760, "vibe": "Old-school neighbourhood of cafeterias, grills and tailors", "metro_station": null, "beach_access": false, "search_radius_m": 1000},
+    {"id": "jumeirah", "name": "Jumeirah 1 & La Mer", "lat": 25.2310, "lon": 55.2580, "vibe": "Beach road with Jumeirah Mosque, Etihad Museum, La Mer and public beaches", "metro_station": null, "beach_access": true, "search_radius_m": 1800},
+    {"id": "umm-suqeim", "name": "Umm Suqeim & Madinat", "lat": 25.1500, "lon": 55.1990, "vibe": "Kite Beach, Sunset Beach, Burj Al Arab views and Souk Madinat", "metro_station": null, "beach_access": true, "search_radius_m": 2200},
+    {"id": "al-quoz", "name": "Al Quoz (Alserkal)", "lat": 25.1440, "lon": 55.2265, "vibe": "Warehouse galleries, design studios and specialty coffee", "metro_station": null, "beach_access": false, "search_radius_m": 1000},
+    {"id": "al-barsha", "name": "Al Barsha", "lat": 25.1140, "lon": 55.1980, "vibe": "Mid-range hotels around Mall of the Emirates, good metro access", "metro_station": "Mall of the Emirates", "beach_access": false, "search_radius_m": 1300},
+    {"id": "dubai-marina", "name": "Dubai Marina", "lat": 25.0800, "lon": 55.1405, "vibe": "High-rise waterfront promenade with restaurants and boat tours", "metro_station": "DMCC", "beach_access": true, "search_radius_m": 1300},
+    {"id": "jbr", "name": "JBR & Bluewaters", "lat": 25.0790, "lon": 55.1320, "vibe": "The Walk, a busy public beach and Bluewaters island", "metro_station": "DMCC", "beach_access": true, "search_radius_m": 1100},
+    {"id": "palm-jumeirah", "name": "Palm Jumeirah", "lat": 25.1125, "lon": 55.1390, "vibe": "Resort island with The View at The Palm and beach clubs", "metro_station": null, "beach_access": true, "search_radius_m": 3000},
+    {"id": "trade-centre", "name": "Trade Centre & DIFC", "lat": 25.2160, "lon": 55.2820, "vibe": "Sheikh Zayed Road towers, the Museum of the Future and DIFC dining", "metro_station": "Emirates Towers", "beach_access": false, "search_radius_m": 1200},
+    {"id": "downtown", "name": "Downtown Dubai", "lat": 25.1960, "lon": 55.2760, "vibe": "Burj Khalifa, Dubai Mall and the fountain; very busy in the evening", "metro_station": "Burj Khalifa/Dubai Mall", "beach_access": false, "search_radius_m": 1200},
+    {"id": "business-bay", "name": "Business Bay", "lat": 25.1855, "lon": 55.2665, "vibe": "Canal-side hotels near Downtown at lower prices", "metro_station": "Business Bay", "beach_access": false, "search_radius_m": 1200},
+    {"id": "al-jaddaf", "name": "Al Jaddaf & Ras Al Khor", "lat": 25.2160, "lon": 55.3360, "vibe": "Jameel Arts Centre on the creek and the flamingo wildlife sanctuary nearby", "metro_station": "Al Jaddaf", "beach_access": false, "search_radius_m": 2500},
+    {"id": "al-mamzar", "name": "Al Mamzar", "lat": 25.2980, "lon": 55.3440, "vibe": "Calm family beach park on the Deira side, close to budget hotels", "metro_station": null, "beach_access": true, "search_radius_m": 1500},
+    {"id": "dubailand", "name": "Dubailand", "lat": 25.0700, "lon": 55.2750, "vibe": "Seasonal attractions: Global Village and Dubai Miracle Garden", "metro_station": null, "beach_access": false, "search_radius_m": 4000},
+    {"id": "al-qudra", "name": "Al Qudra Desert", "lat": 24.8370, "lon": 55.3700, "vibe": "Desert lakes, cycling track and stargazing, about 45 minutes from the city", "metro_station": null, "beach_access": false, "search_radius_m": 4000},
+    {"id": "hatta", "name": "Hatta", "lat": 24.7990, "lon": 56.1250, "vibe": "Mountain enclave with the dam, kayaking and a heritage village, about 90 minutes away", "metro_station": null, "beach_access": false, "search_radius_m": 4000}
+  ]
+}

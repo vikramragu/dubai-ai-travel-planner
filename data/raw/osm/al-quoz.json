@@ -1,0 +1,352 @@
+{
+ "neighborhood_id": "al-quoz",
+ "exported_at": "2026-11-15",
+ "osm_base": "2026-11-15T16:41:48Z",
+ "license": "ODbL — (c) OpenStreetMap contributors",
+ "query": "[out:json][timeout:60]; ( nwr(around:1000,25.144,55.2265)[\"tourism\"~\"^(museum|attraction|gallery|viewpoint|artwork|theme_park|zoo|aquarium)$\"][\"name\"]; nwr(around:1000,25.144,55.2265)[\"historic\"][\"name\"]; nwr(around:1000,25.144,55.2265)[\"natural\"=\"beach\"][\"name\"]; nwr(around:1000,25.144,55.2265)[\"leisure\"~\"^(beach_resort|park|marina|nature_reserve|water_park)$\"][\"name\"]; nwr(around:1000,25.144,55.2265)[\"amenity\"~\"^(restaurant|cafe|fast_food|food_court|place_of_worship|marketplace|arts_centre|theatre)$\"][\"name\"]; nwr(around:1000,25.144,55.2265)[\"shop\"~\"^(gold|jewelry|spices|perfumery|mall)$\"][\"name\"]; ); out tags center;",
+ "elements": [
+  {
+   "osm": "node/5463968123",
+   "lat": 25.14259,
+   "lon": 55.224887,
+   "tags": {
+    "name": "Bns good life Al quoz",
+    "tourism": "artwork"
+   }
+  },
+  {
+   "osm": "node/4587247274",
+   "lat": 25.151361,
+   "lon": 55.223513,
+   "tags": {
+    "name": "Bundoo Khan",
+    "name:en": "Bundoo Khan",
+    "amenity": "restaurant",
+    "cuisine": "pakistani"
+   }
+  },
+  {
+   "osm": "node/4915339601",
+   "lat": 25.152395,
+   "lon": 55.22684,
+   "tags": {
+    "name": "Cafe Prima",
+    "name:en": "Cafe Prima",
+    "amenity": "cafe"
+   }
+  },
+  {
+   "osm": "node/10543057808",
+   "lat": 25.136105,
+   "lon": 55.22262,
+   "tags": {
+    "name": "City Pearl Palace Restaurant",
+    "name:en": "City Pearl Palace Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/5038042818",
+   "lat": 25.141019,
+   "lon": 55.21761,
+   "tags": {
+    "name": "Denny's",
+    "name:en": "Denny's",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/10543079322",
+   "lat": 25.138589,
+   "lon": 55.224696,
+   "tags": {
+    "name": "Festival Restaurant",
+    "name:en": "Festival Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4368154093",
+   "lat": 25.144163,
+   "lon": 55.219907,
+   "tags": {
+    "name": "Jones the grocer",
+    "name:en": "Jones the grocer",
+    "amenity": "restaurant",
+    "website": "https://www.jonesthegrocer.com/"
+   }
+  },
+  {
+   "osm": "node/4631949391",
+   "lat": 25.139968,
+   "lon": 55.219825,
+   "tags": {
+    "name": "Jungle Juice",
+    "name:en": "Jungle Juice",
+    "amenity": "fast_food"
+   }
+  },
+  {
+   "osm": "node/4631975998",
+   "lat": 25.139234,
+   "lon": 55.220052,
+   "tags": {
+    "name": "كرسبي كريم",
+    "name:en": "Krispy Krem",
+    "amenity": "fast_food",
+    "cuisine": "donut"
+   }
+  },
+  {
+   "osm": "node/4697407990",
+   "lat": 25.142947,
+   "lon": 55.225176,
+   "tags": {
+    "name": "MAD Gallery Dubai",
+    "name:en": "MAD Gallery Dubai",
+    "tourism": "gallery",
+    "opening_hours": "Mo-Su 10:00-23:30",
+    "fee": "no",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "osm": "node/4140696502",
+   "lat": 25.139793,
+   "lon": 55.219664,
+   "tags": {
+    "name": "Mandilicious",
+    "name:en": "Mandilicious",
+    "amenity": "restaurant",
+    "website": "www.mandilicious.net"
+   }
+  },
+  {
+   "osm": "node/4587247273",
+   "lat": 25.151402,
+   "lon": 55.223607,
+   "tags": {
+    "name": "Maraheb Restaurant",
+    "name:en": "Maraheb Restaurant",
+    "amenity": "restaurant",
+    "cuisine": "local"
+   }
+  },
+  {
+   "osm": "node/14191955101",
+   "lat": 25.152193,
+   "lon": 55.228339,
+   "tags": {
+    "name": "Mille Miglia Gallery and Cafe",
+    "amenity": "cafe",
+    "website": "https://mmgallery.ae"
+   }
+  },
+  {
+   "osm": "node/14191954602",
+   "lat": 25.142735,
+   "lon": 55.224872,
+   "tags": {
+    "name": "Nightjar Coffee Roasters",
+    "amenity": "cafe",
+    "website": "https://nightjar.coffee"
+   }
+  },
+  {
+   "osm": "node/4787887028",
+   "lat": 25.149856,
+   "lon": 55.226098,
+   "tags": {
+    "name": "Rajju omelette",
+    "name:en": "Rajju omelette",
+    "amenity": "cafe"
+   }
+  },
+  {
+   "osm": "node/14301540391",
+   "lat": 25.142044,
+   "lon": 55.226292,
+   "tags": {
+    "name": "SALATA",
+    "name:en": "SALATA",
+    "amenity": "restaurant",
+    "cuisine": "salad",
+    "opening_hours": "Mo-Su 09:00-21:00",
+    "website": "https://salata.co/saladalserkal",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "osm": "node/9840486798",
+   "lat": 25.14174,
+   "lon": 55.225446,
+   "tags": {
+    "name": "Sima Performing Arts",
+    "amenity": "theatre",
+    "opening_hours": "Sa-Th 10:00-22:00",
+    "website": "https://simaarts.com/",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "osm": "node/13428919122",
+   "lat": 25.141001,
+   "lon": 55.226257,
+   "tags": {
+    "name": "Subko Specialty Coffee Roasters and Bakehouse",
+    "amenity": "cafe",
+    "cuisine": "coffee_shop;asian",
+    "opening_hours": "Mo-Su 09:00-22:00",
+    "website": "https://subko.coffee/"
+   }
+  },
+  {
+   "osm": "way/1463956688",
+   "lat": 25.14094,
+   "lon": 55.22634,
+   "tags": {
+    "name": "Subko Specialty Coffee Roasters and Bakehouse",
+    "amenity": "cafe",
+    "cuisine": "coffee_shop;asian",
+    "opening_hours": "Mo-Su 09:00-22:00",
+    "website": "https://subko.coffee/"
+   }
+  },
+  {
+   "osm": "node/4631975002",
+   "lat": 25.139997,
+   "lon": 55.220077,
+   "tags": {
+    "name": "Subway",
+    "amenity": "fast_food",
+    "cuisine": "sandwich"
+   }
+  },
+  {
+   "osm": "node/8676572281",
+   "lat": 25.14349,
+   "lon": 55.223401,
+   "tags": {
+    "name": "The Courtyard",
+    "amenity": "theatre",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "osm": "node/9840486797",
+   "lat": 25.142395,
+   "lon": 55.224354,
+   "tags": {
+    "name": "The Junction",
+    "amenity": "theatre",
+    "opening_hours": "Monday - Saturday 10:00AM - 5:00PM ***Opens late during show times*** Sunday - Closed",
+    "website": "https://www.thejunctiondubai.com/",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "osm": "node/5774416477",
+   "lat": 25.143747,
+   "lon": 55.223509,
+   "tags": {
+    "name": "The Lime Tree Cafe - Al Quoz",
+    "name:en": "The Lime Tree Cafe - Al Quoz",
+    "amenity": "cafe",
+    "opening_hours": "Mo-Su 07:30-18:00",
+    "website": "https://www.thelimetreecafe.com/",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "osm": "node/5274840822",
+   "lat": 25.14123,
+   "lon": 55.225874,
+   "tags": {
+    "name": "The National Gallery",
+    "name:en": "The National Gallery",
+    "tourism": "museum",
+    "opening_hours": "Mo-Su 10:00-23:30",
+    "website": "http://www.galerie-nationale.com",
+    "fee": "no",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "osm": "way/91393001",
+   "lat": 25.139538,
+   "lon": 55.220043,
+   "tags": {
+    "name": "مركز تايمز سكوير",
+    "name:en": "Times Square Center",
+    "shop": "mall",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "website": "https://timessquarecenter.ae/"
+   }
+  },
+  {
+   "osm": "node/3793737357",
+   "lat": 25.145972,
+   "lon": 55.2233,
+   "tags": {
+    "name": "Tom & Serg",
+    "name:en": "Tom & Serg",
+    "amenity": "cafe",
+    "opening_hours": "Mo-Fr 08:00-16:00, Sa-Su 08:00-18:00",
+    "website": "http://www.tomandserg.com"
+   }
+  },
+  {
+   "osm": "node/5841506291",
+   "lat": 25.14251,
+   "lon": 55.225577,
+   "tags": {
+    "name": "When will you return?",
+    "tourism": "artwork"
+   }
+  },
+  {
+   "osm": "node/5841517489",
+   "lat": 25.143213,
+   "lon": 55.224714,
+   "tags": {
+    "name": "Where do you come from?",
+    "tourism": "artwork"
+   }
+  },
+  {
+   "osm": "node/5274807221",
+   "lat": 25.142725,
+   "lon": 55.224658,
+   "tags": {
+    "name": "Wild & The Moon",
+    "name:en": "Wild & The Moon",
+    "amenity": "restaurant",
+    "opening_hours": "Mo-Su 10:00-23:30",
+    "website": "https://www.wildandthemoon.com/",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "osm": "node/12717545501",
+   "lat": 25.145881,
+   "lon": 55.225486,
+   "tags": {
+    "name": "وو-هوو!",
+    "name:en": "Woo-hoo!",
+    "tourism": "museum",
+    "opening_hours": "Mo-Su 10:00-19:00",
+    "website": "https://woo-hoo.ae/"
+   }
+  },
+  {
+   "osm": "node/4227034394",
+   "lat": 25.150519,
+   "lon": 55.227275,
+   "tags": {
+    "name": "morse technical alquoz",
+    "name:en": "morse technical alquoz",
+    "tourism": "artwork"
+   }
+  }
+ ]
+}

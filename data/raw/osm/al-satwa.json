@@ -1,0 +1,1114 @@
+{
+ "neighborhood_id": "al-satwa",
+ "exported_at": "2026-11-15",
+ "osm_base": "2026-11-15T16:38:51Z",
+ "license": "ODbL — (c) OpenStreetMap contributors",
+ "query": "[out:json][timeout:60]; ( nwr(around:1000,25.229,55.276)[\"tourism\"~\"^(museum|attraction|gallery|viewpoint|artwork|theme_park|zoo|aquarium)$\"][\"name\"]; nwr(around:1000,25.229,55.276)[\"historic\"][\"name\"]; nwr(around:1000,25.229,55.276)[\"natural\"=\"beach\"][\"name\"]; nwr(around:1000,25.229,55.276)[\"leisure\"~\"^(beach_resort|park|marina|nature_reserve|water_park)$\"][\"name\"]; nwr(around:1000,25.229,55.276)[\"amenity\"~\"^(restaurant|cafe|fast_food|food_court|place_of_worship|marketplace|arts_centre|theatre)$\"][\"name\"]; nwr(around:1000,25.229,55.276)[\"shop\"~\"^(gold|jewelry|spices|perfumery|mall)$\"][\"name\"]; ); out tags center;",
+ "elements": [
+  {
+   "osm": "node/4906303213",
+   "lat": 25.234006,
+   "lon": 55.276789,
+   "tags": {
+    "name": "Al Aseel",
+    "name:en": "Al Aseel",
+    "amenity": "cafe"
+   }
+  },
+  {
+   "osm": "node/4453793870",
+   "lat": 25.234935,
+   "lon": 55.277915,
+   "tags": {
+    "name": "Al Diyafa Shopping Center",
+    "name:en": "Al Diyafa Shopping Center",
+    "shop": "mall"
+   }
+  },
+  {
+   "osm": "node/4911325398",
+   "lat": 25.230384,
+   "lon": 55.271627,
+   "tags": {
+    "name": "Al Fai",
+    "name:en": "Al Fai",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4917406974",
+   "lat": 25.22942,
+   "lon": 55.27596,
+   "tags": {
+    "name": "Al Hadeyya Jewellery",
+    "name:en": "Al Hadeyya Jewellery",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "way/388273881",
+   "lat": 25.236873,
+   "lon": 55.280028,
+   "tags": {
+    "name": "مركز الهنا",
+    "name:en": "Al Hana Centre",
+    "shop": "mall"
+   }
+  },
+  {
+   "osm": "node/4911547858",
+   "lat": 25.234184,
+   "lon": 55.278055,
+   "tags": {
+    "name": "Al Khayal",
+    "name:en": "Al Khayal",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4917359679",
+   "lat": 25.227891,
+   "lon": 55.27481,
+   "tags": {
+    "name": "Al Kifaf",
+    "name:en": "Al Kifaf",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4904955745",
+   "lat": 25.236703,
+   "lon": 55.276939,
+   "tags": {
+    "name": "Al Mallah",
+    "name:en": "Al Mallah",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4917444383",
+   "lat": 25.227604,
+   "lon": 55.274971,
+   "tags": {
+    "name": "Al Reem",
+    "name:en": "Al Reem",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/3485879272",
+   "lat": 25.230428,
+   "lon": 55.276699,
+   "tags": {
+    "name": "Al Reza",
+    "name:en": "Al Reza",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "way/257414051",
+   "lat": 25.232085,
+   "lon": 55.277159,
+   "tags": {
+    "name": "مسجد السطوة",
+    "name:en": "Al Satwa Mosque",
+    "amenity": "place_of_worship"
+   }
+  },
+  {
+   "osm": "node/4917380757",
+   "lat": 25.228622,
+   "lon": 55.275335,
+   "tags": {
+    "name": "Al Sewar Al Zahari",
+    "name:en": "Al Sewar Al Zahari",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4917355506",
+   "lat": 25.224658,
+   "lon": 55.272408,
+   "tags": {
+    "name": "Al Shafa Restaurant",
+    "name:en": "Al Shafa Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4911325384",
+   "lat": 25.235065,
+   "lon": 55.275561,
+   "tags": {
+    "name": "الشمس",
+    "name:en": "Al Shams",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4917406991",
+   "lat": 25.229982,
+   "lon": 55.276387,
+   "tags": {
+    "name": "Aliyeh Towfigh",
+    "name:en": "Aliyeh Towfigh",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/6883641752",
+   "lat": 25.237051,
+   "lon": 55.275304,
+   "tags": {
+    "name": "Amo Deek Chicken",
+    "amenity": "fast_food",
+    "cuisine": "chicken",
+    "opening_hours": "11:00-2:00",
+    "website": "https://amodeek.com/"
+   }
+  },
+  {
+   "osm": "node/4917492136",
+   "lat": 25.229579,
+   "lon": 55.27582,
+   "tags": {
+    "name": "Ashok Jewellers",
+    "name:en": "Ashok Jewellers",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4906303218",
+   "lat": 25.234901,
+   "lon": 55.275836,
+   "tags": {
+    "name": "Bawaba Satwa",
+    "name:en": "Bawaba Satwa",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4904444650",
+   "lat": 25.237721,
+   "lon": 55.275274,
+   "tags": {
+    "name": "بيروت",
+    "name:en": "Beirut",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4924455819",
+   "lat": 25.229018,
+   "lon": 55.275562,
+   "tags": {
+    "name": "Bharat",
+    "name:en": "Bharat",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4917406968",
+   "lat": 25.229139,
+   "lon": 55.275673,
+   "tags": {
+    "name": "Bhaskar Jewellers",
+    "name:en": "Bhaskar Jewellers",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4917406971",
+   "lat": 25.229243,
+   "lon": 55.275824,
+   "tags": {
+    "name": "Bohol",
+    "name:en": "Bohol",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4917380759",
+   "lat": 25.228697,
+   "lon": 55.275387,
+   "tags": {
+    "name": "Buyousif",
+    "name:en": "Buyousif",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4787887031",
+   "lat": 25.221338,
+   "lon": 55.2805,
+   "tags": {
+    "name": "Chai Tea",
+    "name:en": "Cha Cha Chai",
+    "amenity": "cafe",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "osm": "node/4911494571",
+   "lat": 25.236674,
+   "lon": 55.279182,
+   "tags": {
+    "name": "Chowking",
+    "name:en": "Chowking",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4917362487",
+   "lat": 25.226163,
+   "lon": 55.273425,
+   "tags": {
+    "name": "DRS Juice",
+    "name:en": "DRS Juice",
+    "amenity": "cafe",
+    "cuisine": "juice"
+   }
+  },
+  {
+   "osm": "node/4917380753",
+   "lat": 25.228374,
+   "lon": 55.27517,
+   "tags": {
+    "name": "Damas",
+    "name:en": "Damas",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4917380762",
+   "lat": 25.228917,
+   "lon": 55.275469,
+   "tags": {
+    "name": "Darshan Jewellers",
+    "name:en": "Darshan Jewellers",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4917380763",
+   "lat": 25.228961,
+   "lon": 55.275499,
+   "tags": {
+    "name": "Deepak Sagar",
+    "name:en": "Deepak Sagar",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4917406970",
+   "lat": 25.229204,
+   "lon": 55.275712,
+   "tags": {
+    "name": "Deepak Sagar",
+    "name:en": "Deepak Sagar",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4917380760",
+   "lat": 25.228764,
+   "lon": 55.275433,
+   "tags": {
+    "name": "Dharmendra",
+    "name:en": "Dharmendra",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4917380764",
+   "lat": 25.229008,
+   "lon": 55.275526,
+   "tags": {
+    "name": "Dharmendra",
+    "name:en": "Dharmendra",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4917406975",
+   "lat": 25.229454,
+   "lon": 55.275983,
+   "tags": {
+    "name": "Dilu",
+    "name:en": "Dilu",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4917406978",
+   "lat": 25.229572,
+   "lon": 55.27607,
+   "tags": {
+    "name": "Eskandar",
+    "name:en": "Eskandar",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4917406973",
+   "lat": 25.229297,
+   "lon": 55.275863,
+   "tags": {
+    "name": "Faiz",
+    "name:en": "Faiz",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/14265116200",
+   "lat": 25.233689,
+   "lon": 55.274715,
+   "tags": {
+    "name": "Fillet King",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4917383950",
+   "lat": 25.229107,
+   "lon": 55.275655,
+   "tags": {
+    "name": "Gold Petal",
+    "name:en": "Gold Petal",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/2133497445",
+   "lat": 25.235952,
+   "lon": 55.279641,
+   "tags": {
+    "name": "Golden Fork",
+    "name:en": "Golden Fork",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/6180826885",
+   "lat": 25.236985,
+   "lon": 55.275831,
+   "tags": {
+    "name": "Golden Fork",
+    "name:en": "Golden Fork",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/9722746012",
+   "lat": 25.224424,
+   "lon": 55.283216,
+   "tags": {
+    "name": "Golden Fork",
+    "amenity": "restaurant",
+    "opening_hours": "Mo-Su 07:00-04:00",
+    "contact:website": "https://www.goldenfork.ae/",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "osm": "node/8236966014",
+   "lat": 25.231031,
+   "lon": 55.275437,
+   "tags": {
+    "name": "Gorkha Restaurant",
+    "amenity": "restaurant",
+    "opening_hours": "Mo-Su 09:00-01:00"
+   }
+  },
+  {
+   "osm": "node/4911494574",
+   "lat": 25.23636,
+   "lon": 55.279082,
+   "tags": {
+    "name": "Grill Corner",
+    "name:en": "Grill Corner",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4917362490",
+   "lat": 25.226455,
+   "lon": 55.273642,
+   "tags": {
+    "name": "Haram Restaurant",
+    "name:en": "Haram Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4917380751",
+   "lat": 25.228291,
+   "lon": 55.275086,
+   "tags": {
+    "name": "Harilal Sunderji",
+    "name:en": "Harilal Sunderji",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4911341834",
+   "lat": 25.233901,
+   "lon": 55.276954,
+   "tags": {
+    "name": "Helen Sweets",
+    "name:en": "Helen Sweets",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4904955737",
+   "lat": 25.23756,
+   "lon": 55.278197,
+   "tags": {
+    "name": "جبل النور",
+    "name:en": "Jabal Al Noor",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4911248119",
+   "lat": 25.237397,
+   "lon": 55.277221,
+   "tags": {
+    "name": "Jabal Al Noor",
+    "name:en": "Jabal Al Noor",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4917320552",
+   "lat": 25.227048,
+   "lon": 55.273389,
+   "tags": {
+    "name": "Jewel Clouds Jewellery",
+    "name:en": "Jewel Clouds Jewellery",
+    "shop": "jewelry",
+    "wheelchair": "yes"
+   }
+  },
+  {
+   "osm": "node/4911325405",
+   "lat": 25.230415,
+   "lon": 55.272492,
+   "tags": {
+    "name": "Jollibee",
+    "name:en": "Jollibee",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/5192388359",
+   "lat": 25.233516,
+   "lon": 55.277813,
+   "tags": {
+    "name": "Jovial",
+    "name:en": "Jovial",
+    "shop": "jewelry",
+    "website": "https://www.jovialwatch.com/"
+   }
+  },
+  {
+   "osm": "way/437754976",
+   "lat": 25.23249,
+   "lon": 55.269652,
+   "tags": {
+    "name": "Jumaira Flacon",
+    "name:en": "Jumaira Flacon",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4917380755",
+   "lat": 25.228508,
+   "lon": 55.275236,
+   "tags": {
+    "name": "Jumeria Oasis",
+    "name:en": "Jumeria Oasis",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4917380754",
+   "lat": 25.228473,
+   "lon": 55.275212,
+   "tags": {
+    "name": "Juthalal Mulji",
+    "name:en": "Juthalal Mulji",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4135233589",
+   "lat": 25.235735,
+   "lon": 55.27725,
+   "tags": {
+    "name": "دجاج كنتاكي",
+    "name:en": "KFC",
+    "amenity": "fast_food",
+    "cuisine": "chicken"
+   }
+  },
+  {
+   "osm": "way/259056411",
+   "lat": 25.222395,
+   "lon": 55.270815,
+   "tags": {
+    "name": "Khadri Masjid",
+    "amenity": "place_of_worship"
+   }
+  },
+  {
+   "osm": "node/4904955738",
+   "lat": 25.237603,
+   "lon": 55.278079,
+   "tags": {
+    "name": "Khafayef",
+    "name:en": "Khafayef",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4911637813",
+   "lat": 25.230707,
+   "lon": 55.272679,
+   "tags": {
+    "name": "Kungfu Hotpot",
+    "name:en": "Kungfu Hotpot",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4911637811",
+   "lat": 25.230553,
+   "lon": 55.272561,
+   "tags": {
+    "name": "La Mesa",
+    "name:en": "La Mesa",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4917380756",
+   "lat": 25.228553,
+   "lon": 55.275272,
+   "tags": {
+    "name": "Lazurite",
+    "name:en": "Lazurite",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4917359686",
+   "lat": 25.228868,
+   "lon": 55.275155,
+   "tags": {
+    "name": "Lucky Star",
+    "name:en": "Lucky Star",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4911637810",
+   "lat": 25.230426,
+   "lon": 55.272499,
+   "tags": {
+    "name": "Majid Ghasemi",
+    "name:en": "Majid Ghasemi",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4917380758",
+   "lat": 25.228656,
+   "lon": 55.275355,
+   "tags": {
+    "name": "Maneklal Mulji",
+    "name:en": "Maneklal Mulji",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4904659329",
+   "lat": 25.236318,
+   "lon": 55.276474,
+   "tags": {
+    "name": "Mini Chinese",
+    "name:en": "Mini Chinese",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4917296085",
+   "lat": 25.228466,
+   "lon": 55.273781,
+   "tags": {
+    "name": "Mohamed Jassem Mill",
+    "name:en": "Mohamed Jassem Mill",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4917296102",
+   "lat": 25.227849,
+   "lon": 55.273326,
+   "tags": {
+    "name": "Momo",
+    "name:en": "Momo",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/6170296224",
+   "lat": 25.230159,
+   "lon": 55.273021,
+   "tags": {
+    "name": "National Aquarium",
+    "tourism": "aquarium"
+   }
+  },
+  {
+   "osm": "node/4327056299",
+   "lat": 25.237092,
+   "lon": 55.272013,
+   "tags": {
+    "name": "Nayaab Handi",
+    "name:en": "Nayaab Handi",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/7843646101",
+   "lat": 25.236722,
+   "lon": 55.279205,
+   "tags": {
+    "name": "New Marina Restaurant",
+    "amenity": "restaurant",
+    "opening_hours": "Mo-Su 12:00-24:00",
+    "contact:website": "https://www.newmarinarestaurant.com/"
+   }
+  },
+  {
+   "osm": "node/5568910605",
+   "lat": 25.236914,
+   "lon": 55.275488,
+   "tags": {
+    "name": "Noodle Bowl",
+    "amenity": "restaurant",
+    "cuisine": "cantonese",
+    "opening_hours": "Mo-Su 11:00-23:00"
+   }
+  },
+  {
+   "osm": "node/4911547880",
+   "lat": 25.233162,
+   "lon": 55.277285,
+   "tags": {
+    "name": "Noor Al Haya Roastery",
+    "name:en": "Noor Al Haya Roastery",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4917355504",
+   "lat": 25.224404,
+   "lon": 55.272163,
+   "tags": {
+    "name": "Tasty Food Restaurant",
+    "name:en": "Noor Alain Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/8423934529",
+   "lat": 25.237306,
+   "lon": 55.274153,
+   "tags": {
+    "name": "Olive Oil",
+    "amenity": "restaurant",
+    "cuisine": "international"
+   }
+  },
+  {
+   "osm": "node/4911494572",
+   "lat": 25.236585,
+   "lon": 55.279161,
+   "tags": {
+    "name": "Ortego's grill",
+    "name:en": "Ortego's grill",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4911494568",
+   "lat": 25.237286,
+   "lon": 55.279442,
+   "tags": {
+    "name": "Pan De Manila",
+    "name:en": "Pan De Manila",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4906303216",
+   "lat": 25.234108,
+   "lon": 55.276728,
+   "tags": {
+    "name": "Papa's",
+    "name:en": "Papa's",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/2639079551",
+   "lat": 25.234137,
+   "lon": 55.281057,
+   "tags": {
+    "name": "Pars",
+    "name:en": "Pars",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/9722758035",
+   "lat": 25.224315,
+   "lon": 55.282987,
+   "tags": {
+    "name": "Piccolo Mondo SHZ",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/3875113938",
+   "lat": 25.234411,
+   "lon": 55.278256,
+   "tags": {
+    "name": "Picnic restaurant",
+    "name:en": "Picnic restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4462849289",
+   "lat": 25.235357,
+   "lon": 55.277746,
+   "tags": {
+    "name": "Pizza Company",
+    "name:en": "Pizza Company",
+    "amenity": "restaurant",
+    "cuisine": "pizza"
+   }
+  },
+  {
+   "osm": "node/4904444649",
+   "lat": 25.237594,
+   "lon": 55.275503,
+   "tags": {
+    "name": "Popeyes",
+    "amenity": "fast_food",
+    "cuisine": "chicken"
+   }
+  },
+  {
+   "osm": "node/4911547872",
+   "lat": 25.233406,
+   "lon": 55.277476,
+   "tags": {
+    "name": "Raoof Sweets",
+    "name:en": "Raoof Sweets",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/2639079550",
+   "lat": 25.233662,
+   "lon": 55.27903,
+   "tags": {
+    "name": "Ravi",
+    "name:en": "Ravi",
+    "amenity": "restaurant",
+    "cuisine": "pakistani"
+   }
+  },
+  {
+   "osm": "node/4917359691",
+   "lat": 25.228829,
+   "lon": 55.275727,
+   "tags": {
+    "name": "Recipe Restaurant",
+    "name:en": "Recipe Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4911325397",
+   "lat": 25.230404,
+   "lon": 55.271577,
+   "tags": {
+    "name": "Red Rooster",
+    "name:en": "Red Rooster",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4917359680",
+   "lat": 25.228033,
+   "lon": 55.274898,
+   "tags": {
+    "name": "Red Rose",
+    "name:en": "Red Rose",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4904659328",
+   "lat": 25.235806,
+   "lon": 55.277158,
+   "tags": {
+    "name": "Red Table",
+    "name:en": "Red Table",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4917406977",
+   "lat": 25.22953,
+   "lon": 55.276043,
+   "tags": {
+    "name": "Sadegh",
+    "name:en": "Sadegh",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4917406976",
+   "lat": 25.229481,
+   "lon": 55.276004,
+   "tags": {
+    "name": "Sami Barakat",
+    "name:en": "Sami Barakat",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4911559784",
+   "lat": 25.232494,
+   "lon": 55.276777,
+   "tags": {
+    "name": "Satwa Palace",
+    "name:en": "Satwa Palace",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4917406969",
+   "lat": 25.229177,
+   "lon": 55.275695,
+   "tags": {
+    "name": "Sewar Jewellery",
+    "name:en": "Sewar Jewellery",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4917407005",
+   "lat": 25.230973,
+   "lon": 55.277089,
+   "tags": {
+    "name": "Shams Al Aseel",
+    "name:en": "Shams Al Aseel",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/6815861257",
+   "lat": 25.237166,
+   "lon": 55.275084,
+   "tags": {
+    "name": "Sidra",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4906324879",
+   "lat": 25.233983,
+   "lon": 55.277017,
+   "tags": {
+    "name": "Signal Plus",
+    "name:en": "Signal Plus",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4917406983",
+   "lat": 25.229829,
+   "lon": 55.276266,
+   "tags": {
+    "name": "Soni Bhagqandas Bhai",
+    "name:en": "Soni Bhagqandas Bhai",
+    "shop": "jewelry"
+   }
+  },
+  {
+   "osm": "node/4911249224",
+   "lat": 25.236987,
+   "lon": 55.27684,
+   "tags": {
+    "name": "Sultan Palace Cafe",
+    "name:en": "Sultan Palace Cafe",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4327032878",
+   "lat": 25.235261,
+   "lon": 55.277985,
+   "tags": {
+    "name": "TAZA Dhiyafa Restaurant",
+    "amenity": "restaurant",
+    "cuisine": "chicken",
+    "website": "https://www.tazauae.com/"
+   }
+  },
+  {
+   "osm": "node/9840486796",
+   "lat": 25.226516,
+   "lon": 55.284195,
+   "tags": {
+    "name": "The Theater Dubai",
+    "amenity": "theatre",
+    "website": "https://www.thetheaterdubai.com/"
+   }
+  },
+  {
+   "osm": "node/4963640994",
+   "lat": 25.221424,
+   "lon": 55.281195,
+   "tags": {
+    "name": "تيم هورتونز",
+    "name:en": "Tim Hortons",
+    "amenity": "cafe",
+    "cuisine": "coffee_shop",
+    "wheelchair": "limited"
+   }
+  },
+  {
+   "osm": "node/4911638233",
+   "lat": 25.235193,
+   "lon": 55.277357,
+   "tags": {
+    "name": "Tinapayan Goldilocks",
+    "name:en": "Tinapayan Goldilocks",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4904420692",
+   "lat": 25.236012,
+   "lon": 55.277837,
+   "tags": {
+    "name": "Tipanan Restaurant",
+    "name:en": "Tipanan Restaurant",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/3963875539",
+   "lat": 25.223342,
+   "lon": 55.282421,
+   "tags": {
+    "name": "Tresind",
+    "name:en": "Tresind",
+    "amenity": "restaurant",
+    "cuisine": "modernist;indian",
+    "opening_hours": "12:00-15:30; 19:00-23:30"
+   }
+  },
+  {
+   "osm": "node/4917355495",
+   "lat": 25.223537,
+   "lon": 55.271512,
+   "tags": {
+    "name": "Tuwar Traditional Kitchen",
+    "name:en": "Tuwar Traditional Kitchen",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4911637812",
+   "lat": 25.230608,
+   "lon": 55.272597,
+   "tags": {
+    "name": "Uling at Parilya",
+    "name:en": "Uling at Parilya",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4917413005",
+   "lat": 25.231902,
+   "lon": 55.277787,
+   "tags": {
+    "name": "Wadi Darbar",
+    "name:en": "Wadi Darbar",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4310296291",
+   "lat": 25.23088,
+   "lon": 55.270959,
+   "tags": {
+    "name": "Yellow Cab Pizza",
+    "name:en": "Yellow Cab Pizza",
+    "amenity": "fast_food",
+    "cuisine": "american;pizza",
+    "opening_hours": "Su-Th 11:00-00:00; Fr-Sa 11:00-01:00"
+   }
+  },
+  {
+   "osm": "node/4358697792",
+   "lat": 25.230836,
+   "lon": 55.271297,
+   "tags": {
+    "name": "Yellow cab satwa",
+    "name:en": "Yellow cab satwa",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/4904955740",
+   "lat": 25.237022,
+   "lon": 55.277247,
+   "tags": {
+    "name": "Yos",
+    "name:en": "Yos",
+    "amenity": "restaurant"
+   }
+  },
+  {
+   "osm": "node/10614164421",
+   "lat": 25.220813,
+   "lon": 55.275175,
+   "tags": {
+    "name": "al turath Al maghiribi",
+    "amenity": "restaurant",
+    "cuisine": "moroccan",
+    "opening_hours": "always open"
+   }
+  },
+  {
+   "osm": "way/438372910",
+   "lat": 25.230733,
+   "lon": 55.267949,
+   "tags": {
+    "name": "مسجد الإمام الحسين الإيراني",
+    "amenity": "place_of_worship"
+   }
+  }
+ ]
+}
