@@ -6,6 +6,7 @@ the stated interests and preferences.
 Rules:
 - Don't repeat the rule issues, and don't contradict them.
 - Base comments only on the plan given; don't invent facts about places.
-- Each comment: one sentence, optionally the day number and place id it concerns, and which
-  part of the planner should act on it (destination, logistics, assemble or budget).
-- `summary`: one sentence overall.
+- Put every suggestion in `comments`, not in the summary. Each comment: one sentence (under
+  40 words), optionally the day number and place id it concerns, and `route_to`: which part of
+  the planner should act on it (destination, logistics, assemble or budget).
+- `summary`: one short sentence overall (under 30 words).

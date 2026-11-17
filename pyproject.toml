@@ -81,7 +81,8 @@ warn_required_dynamic_aliases = true
 # ---------------------------------------------------------------- pytest
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = ["--import-mode=importlib", "-ra", "--strict-markers"]
+# Real-LLM tests cost quota: excluded by default, run with `pytest -m llm`.
+addopts = ["--import-mode=importlib", "-ra", "--strict-markers", "-m", "not llm"]
 filterwarnings = [
     # Third-party (langsmith pytest plugin) deprecation noise on Python 3.14
     "ignore::DeprecationWarning:langsmith.*",

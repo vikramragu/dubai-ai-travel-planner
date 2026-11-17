@@ -21,10 +21,11 @@ import math
 import re
 from dataclasses import dataclass, field
 from datetime import date
+from typing import Annotated
 
 from pydantic import Field, PositiveInt
 
-from agents.base import AgentContext, feedback, to_json
+from agents.base import AgentContext, ClipTo, feedback, to_json
 from agents.skills.budget_engine import BudgetOptions, Plan, PlanInputs, plan_trip
 from agents.skills.calendar import DEFAULT_MONTH
 from agents.skills.scheduler import SchedulerOptions, TransportPolicy
@@ -346,7 +347,7 @@ def normalize(parsed: ParsedTrip, text: str, settings: Settings) -> tuple[TripRe
 # ------------------------------------------------------------------ LLM outputs
 class DayTheme(StrictModel):
     day: PositiveInt
-    theme: str = Field(min_length=3, max_length=80)
+    theme: Annotated[str, ClipTo(80)] = Field(min_length=3)
 
 
 class DayThemes(StrictModel):

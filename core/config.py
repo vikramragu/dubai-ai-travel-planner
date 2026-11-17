@@ -27,7 +27,7 @@ AGENT_ROLES: tuple[AgentRole, ...] = (
 # A provider's model when a role switches provider without naming one.
 DEFAULT_MODELS = {
     "groq": "openai/gpt-oss-120b",
-    "google_genai": "gemini-flash-latest",
+    "google_genai": "gemini-3.5-flash-lite",
     "anthropic": "claude-sonnet-5-5",
 }
 
@@ -66,12 +66,18 @@ class Settings(BaseSettings):
     llm_model_destination: str | None = None
     llm_model_logistics: str | None = None
     llm_model_budget: str | None = None
-    llm_model_review: str | None = "gemini-flash-latest"
+    llm_model_review: str | None = "gemini-3.5-flash-lite"
     groq_api_key: SecretStr | None = None
     google_api_key: SecretStr | None = None  # Gemini; GEMINI_API_KEY also works
     gemini_api_key: SecretStr | None = None
     anthropic_api_key: SecretStr | None = None
     openai_api_key: SecretStr | None = None
+    # Client limits. Free tiers are small (Groq: 8,000 tokens per minute for gpt-oss-120b), so a
+    # call gives up quickly and the agent falls back instead of a run stalling for minutes.
+    llm_timeout_s: float = Field(default=60.0, gt=0)
+    llm_max_retries: int = Field(default=2, ge=0, le=6)
+    llm_max_tokens: int = Field(default=1500, ge=256)  # output cap for Groq (incl. reasoning)
+    llm_reasoning_effort: Literal["low", "medium", "high"] = "low"  # gpt-oss on Groq
 
     # ------------------------------------------------------------------ data
     data_mode: DataMode = DataMode.LOCAL

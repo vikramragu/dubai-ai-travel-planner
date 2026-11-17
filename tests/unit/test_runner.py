@@ -11,7 +11,8 @@ from core.llm import ScriptedLLM as FakeLLM
 from core.llm import llm_configured
 from core.runner import run
 from core.tracing import TraceKind
-from data.providers import DataProviders
+from data.providers import DataProviders, get_providers
+from tools.views import table_ids
 
 EXAMPLE_REQUEST_TEXT = example_request().raw_text
 
@@ -57,9 +58,9 @@ def test_with_stubbed_llm(providers: DataProviders) -> None:
                 "travelers": 2,
             },
             "DestinationPicks": lambda p: {
-                "attraction_ids": [a["id"] for a in p["attractions"][:10]],
-                "restaurant_ids": [r["id"] for r in p["restaurants"][:8]],
-                "rationale": {a["id"]: "Fits the interests." for a in p["attractions"][:10]},
+                "attraction_ids": table_ids(p["attractions"])[:10],
+                "restaurant_ids": table_ids(p["restaurants"])[:8],
+                "rationale": {i: "Fits the interests." for i in table_ids(p["attractions"])[:10]},
             },
             "LogisticsChoice": lambda p: {
                 "hotel_ranking": [h["area"] for h in p["hotel_areas"]][::-1],
@@ -132,7 +133,12 @@ def test_real_llm_smoke() -> None:  # pragma: no cover - needs API keys
     result = run(EXAMPLE_REQUEST_TEXT)
     it = result.itinerary
     assert result.metrics.llm_calls > 0
-    errors = [e.summary for e in result.trace if e.kind is TraceKind.ERROR]
-    assert not errors, errors
+    # Every agent got a usable LLM answer (no fallback to deterministic code). Guardrail events,
+    # e.g. an invented place id being dropped, are allowed: that is the guardrail working.
+    fallbacks = [e.summary for e in result.trace if "deterministic fallback" in e.summary]
+    assert not fallbacks, fallbacks
+    places = get_providers().places
+    invented = [pid for pid in it.place_ids if places.get_place(pid) is None]
+    assert not invented, invented
     assert it.review is not None and it.budget is not None
     assert it.request.constraints.days == 4 and it.request.constraints.budget_aed == 5000

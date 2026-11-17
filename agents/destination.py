@@ -33,11 +33,14 @@ from schemas import (
 )
 from schemas.base import StrictModel
 from tools import search_attractions, search_restaurants
-from tools.views import attraction_view, restaurant_view
+from tools.views import attraction_view, restaurant_view, table
 
 AGENT = "destination"
 MIN_PER_INTEREST = 3  # fewer suitable places than this is "limited data"
 STOPS_PER_DAY = 4  # picks to offer the scheduler per trip day (it keeps what fits)
+# Restaurants shown to the LLM (best matches first). The scheduler still searches the whole
+# dataset for meals; this only keeps the prompt within small token-per-minute limits.
+LLM_RESTAURANTS = 20
 # Review findings that mean "don't offer this place again".
 EXCLUDE_CODES = {"crowded_place", "duplicate_place", "closed_for_season", "unknown_place"}
 
@@ -138,6 +141,7 @@ class DestinationAgent:
 
         # 3. rank and justify
         wanted = c.days * STOPS_PER_DAY
+        offered = restaurants[:LLM_RESTAURANTS]
         picks = self.ctx.ask(
             "destination",
             DestinationPicks,
@@ -146,8 +150,8 @@ class DestinationAgent:
                 {
                     "request": _request_view(request),
                     "pick_about": wanted,
-                    "attractions": [attraction_view(a) for a in ranked],
-                    "restaurants": [restaurant_view(r) for r in restaurants],
+                    "attractions": table([attraction_view(a) for a in ranked]),
+                    "restaurants": table([restaurant_view(r) for r in offered]),
                 }
             ),
             revision_feedback=feedback(issues),
@@ -159,7 +163,7 @@ class DestinationAgent:
             chosen_r = restaurants
         else:
             by_id = {a.id: a for a in ranked}
-            by_r = {r.id: r for r in restaurants}
+            by_r = {r.id: r for r in offered}
             dropped = [
                 i
                 for i in [*picks.attraction_ids, *picks.restaurant_ids]

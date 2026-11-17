@@ -13,10 +13,11 @@ apply and phrases the explanation (architecture.md §5.3).
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from typing import Annotated
 
 from pydantic import Field
 
-from agents.base import AgentContext, feedback, to_json
+from agents.base import AgentContext, ClipTo, feedback, to_json
 from agents.skills.budget_engine import (
     BudgetOptions,
     Plan,
@@ -43,7 +44,7 @@ BUDGET_CODES = {"over_budget", "hotel_cost_driver"}
 
 class BudgetChoice(StrictModel):
     apply_ids: list[str] = Field(description="alternative ids to apply, in order of preference")
-    explanation: str = Field(default="", max_length=600)
+    explanation: Annotated[str, ClipTo(600)] = ""
 
 
 @dataclass

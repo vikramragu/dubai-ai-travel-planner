@@ -30,7 +30,7 @@ def test_defaults_without_env_file() -> None:
     s = load()
     assert s.llm_provider == "groq"
     assert s.chat_model_id("orchestrator") == "groq:openai/gpt-oss-120b"
-    assert s.chat_model_id("review") == "google_genai:gemini-flash-latest"
+    assert s.chat_model_id("review") == "google_genai:gemini-3.5-flash-lite"
     assert s.data_mode is DataMode.LOCAL
     assert s.max_revisions == 3
     assert s.contingency_pct == 10.0
@@ -76,7 +76,7 @@ def test_env_example_is_loadable() -> None:
     s = load(example)
     assert s.data_mode is DataMode.LOCAL
     assert s.chat_model_id("budget") == "groq:openai/gpt-oss-120b"
-    assert s.chat_model_id("review") == "google_genai:gemini-flash-latest"
+    assert s.chat_model_id("review") == "google_genai:gemini-3.5-flash-lite"
 
 
 def test_per_role_model_override(monkeypatch: pytest.MonkeyPatch) -> None:
@@ -93,7 +93,7 @@ def test_per_role_model_override(monkeypatch: pytest.MonkeyPatch) -> None:
 def test_role_on_another_provider_uses_its_default_model(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setenv("LLM_PROVIDER_BUDGET", "google_genai")
     s = load()
-    assert s.chat_model_id("budget") == "google_genai:gemini-flash-latest"
+    assert s.chat_model_id("budget") == "google_genai:gemini-3.5-flash-lite"
     assert s.chat_model_id("logistics") == "groq:openai/gpt-oss-120b"
 
 

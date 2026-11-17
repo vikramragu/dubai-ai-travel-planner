@@ -198,11 +198,10 @@ trips faster than shorter ones (now applied per stretch, so time always grows wi
 **Exit criteria:**
 
 - Agent tests pass with a stubbed LLM (canned structured outputs).
-- One real-LLM smoke test passes for the example request — **waiting on the model decision**; everything else in this phase can be completed without it.
+- One real-LLM smoke test passes for the example request — **passed 2026-11-17** (Groq + Gemini).
 - The parser extracts the correct constraints from 5 varied sample requests that cover the data's edge cases: a month or dates, a USD budget, more than 7 days, a non-Dubai destination, a vegetarian diet, 2 travellers in 1 room, and phrases that map to interests ("museums", "nightlife").
 
-**Status: done, except the real-LLM smoke test** (written and marked `llm`; it runs once a
-model is chosen and a key is set). `core/llm.py` (`get_llm`, `LangChainLLM` with one retry,
+**Status: done** (the real-LLM smoke test passed on 2026-11-17; see the note at the end). `core/llm.py` (`get_llm`, `LangChainLLM` with one retry,
 `ScriptedLLM` for tests), `tools/views.py` + `tools/langchain_tools.py`, six prompts, the five
 agents and `core/runner.py` (`uv run python -m core.runner ["request"] [--no-llm]`). Agent
 tests use canned LLM answers; the parser passes the 5 sample requests (keyword parser). Without
@@ -227,6 +226,18 @@ use spare afternoon time, and a coverage repair guarantees each interest a nearb
 comes before a long stop that would skip it; swap descriptions separate the ticket saving from
 the re-planned saving; heavy-travel days caused by a far hotel are routed to Logistics, which
 then won't pick the blamed area again, and other heavy days drop their longest detour.
+Real-LLM run (2026-11-17, Groq `openai/gpt-oss-120b` + Gemini): the first run failed. Destination's
+prompt was ~8.5k tokens, over Groq's free-tier 8,000 tokens per minute; Gemini returned 503;
+and retries stretched the run to 6 min. Fixes: places go to the LLM as compact tables (column
+names once, then rows) with the top 20 restaurants (Destination ~6.9k → ~2.7k tokens) and all
+prompt JSON is unindented; per-call limits (`LLM_TIMEOUT_S` 60, `LLM_MAX_RETRIES` 2,
+`LLM_MAX_TOKENS` 1500, `LLM_REASONING_EFFORT` low for gpt-oss); review moved to
+`gemini-3.5-flash-lite` (the `gemini-flash-latest` alias returned 404 for this key and the larger
+Flash models were overloaded); LLM-written text over its length limit is now trimmed
+(`ClipTo`) instead of rejecting the whole answer (Gemini wrote a 500-character summary). Now:
+example request ~20 s, over-budget request ~35 s with 11 LLM calls and no fallbacks. The guardrails
+were exercised for real: gpt-oss invented a place id (dropped) and picked a cheaper option that
+caused a 60+ min leg (rejected by the Budget agent).
 
 ---
 
@@ -272,7 +283,7 @@ over-budget plan is costed but not revised in round 1, so Review reports the vio
 is fixed; when the loop is capped, `finalize` returns the best-scoring draft and records the
 unresolved issues in `assumptions`. `SqliteSaver` was not added (needs an extra package).
 LLMs (decision of 2026-11-17): Groq `openai/gpt-oss-120b` for the orchestrator, destination,
-logistics and budget agents and Gemini (`gemini-flash-latest`) for review, set per role with
+logistics and budget agents and Gemini (`gemini-3.5-flash-lite`) for review, set per role with
 `LLM_PROVIDER_<ROLE>`/`LLM_MODEL_<ROLE>`; Groq uses JSON-schema structured output. A role whose
 key is missing falls back to deterministic code while the others still use their LLM.
 

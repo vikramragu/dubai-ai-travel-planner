@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import json
 import os
+import warnings
 from dataclasses import dataclass
 from typing import Any, Protocol, TypeVar
 
@@ -26,6 +27,9 @@ from pydantic import BaseModel, ValidationError
 from core.config import AGENT_ROLES, AgentRole, Settings, get_settings
 
 M = TypeVar("M", bound=BaseModel)
+
+# Some Gemini models use fixed sampling and ignore `temperature`; the warning is expected noise.
+warnings.filterwarnings("ignore", message=r"Model '.*' uses fixed sampling defaults")
 
 # Low temperature for parsing, budget and review; a little more for ranking; NARRATIVE for prose.
 ROLE_TEMPERATURE: dict[AgentRole, float] = {
@@ -117,6 +121,20 @@ def llm_configured(settings: Settings | None = None, *, every_role: bool = False
     return check(role_configured(r, settings) for r in AGENT_ROLES)
 
 
+def provider_kwargs(provider: str, model: str, settings: Settings) -> dict[str, Any]:
+    """Client options per provider: retries and a timeout everywhere; for Groq's gpt-oss also
+    an output cap and low reasoning effort (both count towards the tokens-per-minute limit)."""
+    out: dict[str, Any] = {
+        "max_retries": settings.llm_max_retries,
+        "timeout": settings.llm_timeout_s,
+    }
+    if provider == "groq":
+        out["max_tokens"] = settings.llm_max_tokens
+        if "gpt-oss" in model:  # reasoning models; others reject the option
+            out["reasoning_effort"] = settings.llm_reasoning_effort
+    return out
+
+
 def get_llm(
     role: AgentRole, *, temperature: float | None = None, settings: Settings | None = None
 ) -> BaseChatModel:
@@ -124,10 +142,12 @@ def get_llm(
     from langchain.chat_models import init_chat_model
 
     settings = settings or get_settings()
+    provider = settings.provider_for(role)
     kwargs: dict[str, Any] = {
-        "temperature": ROLE_TEMPERATURE[role] if temperature is None else temperature
+        "temperature": ROLE_TEMPERATURE[role] if temperature is None else temperature,
+        **provider_kwargs(provider, settings.model_for(role), settings),
     }
-    key = _api_key(settings, settings.provider_for(role))
+    key = _api_key(settings, provider)
     if key is not None:
         kwargs["api_key"] = key
     model: BaseChatModel = init_chat_model(settings.chat_model_id(role), **kwargs)

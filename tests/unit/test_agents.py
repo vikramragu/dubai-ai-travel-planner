@@ -8,7 +8,7 @@ import pytest
 
 from agents.base import PROMPTS, AgentContext, feedback, load_prompt
 from agents.budget import BudgetAgent, is_downgrade
-from agents.destination import DestinationAgent
+from agents.destination import LLM_RESTAURANTS, DestinationAgent
 from agents.logistics import LogisticsAgent
 from agents.orchestrator import Orchestrator
 from agents.review import ReviewAgent
@@ -32,6 +32,7 @@ from schemas import (
     SlotKind,
     TripRequest,
 )
+from tools.views import table_ids
 
 
 def _req(**changes: object) -> TripRequest:
@@ -97,10 +98,11 @@ class TestDestination:
 
         def answer(payload: dict) -> dict:  # type: ignore[type-arg]
             seen.append(payload)
-            third, first = payload["attractions"][2]["id"], payload["attractions"][0]["id"]
+            ids = table_ids(payload["attractions"])
+            third, first = ids[2], ids[0]
             return {
                 "attraction_ids": [third, "burj-al-moon", first],
-                "restaurant_ids": [payload["restaurants"][0]["id"]],
+                "restaurant_ids": table_ids(payload["restaurants"])[:1],
                 "rationale": {third: "Quiet and free.", "burj-al-moon": "x"},
             }
 
@@ -109,7 +111,10 @@ class TestDestination:
         out = DestinationAgent(ctx).research(example_request())
         r = out.research
         assert out.dropped_ids == ["burj-al-moon"]
-        third, first = seen[0]["attractions"][2]["id"], seen[0]["attractions"][0]["id"]
+        ids = table_ids(seen[0]["attractions"])
+        third, first = ids[2], ids[0]
+        assert seen[0]["attractions"]["columns"][0] == "id"
+        assert len(table_ids(seen[0]["restaurants"])) <= LLM_RESTAURANTS
         assert [a.id for a in r.attractions[:2]] == [third, first]  # the LLM's order is kept
         assert r.rationale[third] == "Quiet and free."
         assert "burj-al-moon" not in r.rationale

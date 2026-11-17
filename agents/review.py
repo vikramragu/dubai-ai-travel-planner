@@ -9,10 +9,11 @@ from __future__ import annotations
 
 from collections import Counter
 from dataclasses import dataclass
+from typing import Annotated
 
 from pydantic import Field
 
-from agents.base import AgentContext, to_json
+from agents.base import AgentContext, ClipTo, to_json
 from agents.skills.rule_checks import check_itinerary, score
 from core.tracing import TraceKind
 from schemas import (
@@ -31,7 +32,7 @@ MAX_LLM_COMMENTS = 5
 
 
 class LLMComment(StrictModel):
-    message: str = Field(min_length=3, max_length=300)
+    message: Annotated[str, ClipTo(300)] = Field(min_length=3)
     day: int | None = Field(default=None, ge=1, le=7)
     place_id: str | None = None
     route_to: RouteTarget = RouteTarget.ASSEMBLE
@@ -39,7 +40,7 @@ class LLMComment(StrictModel):
 
 class LLMReview(StrictModel):
     comments: list[LLMComment] = Field(default_factory=list)
-    summary: str = Field(default="", max_length=400)
+    summary: Annotated[str, ClipTo(400)] = ""
 
 
 @dataclass

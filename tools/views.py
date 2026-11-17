@@ -115,3 +115,14 @@ def leg_view(leg: Leg) -> dict[str, Any]:
         "km": leg.distance_km.value,
         "cost_pp_aed": leg.cost_aed.value,
     }
+
+
+def table(views: list[dict[str, Any]]) -> dict[str, Any]:
+    """Views as one table (column names once, then one row per item): about half the tokens of
+    a list of objects. The first column is the id."""
+    return {"columns": list(views[0]) if views else [], "rows": [list(v.values()) for v in views]}
+
+
+def table_ids(t: dict[str, Any]) -> list[str]:
+    """The ids (first column) of a :func:`table`."""
+    return [str(row[0]) for row in t["rows"]]

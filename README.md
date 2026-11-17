@@ -118,7 +118,7 @@ UI can replay it and diff drafts), runtime context for non-data dependencies, an
 | **Destination research** | Groq `openai/gpt-oss-120b` (temp 0.3) | Ranks attractions and restaurants against the interests and "avoid" list, with one-line reasons | Searches the dataset, drops ids the LLM invented, flags interests with little data, excludes places Review rejected | Ranks by interest match × crowd penalty × quality |
 | **Logistics** | Groq `openai/gpt-oss-120b` (temp 0.3) | Ranks hotel areas for the tier and explains transport trade-offs | Seasonal hotel prices, RTA fares, travel-time matrix; puts an area Review blamed last | Ranks by metro access, then centrality, then price (price first when the hotel is the cost driver) |
 | **Budget** | Groq `openai/gpt-oss-120b` (temp 0.2) | Chooses among cheaper alternatives (no arithmetic) | Costs everything; measures each alternative's saving by re-planning; rejects alternatives that break another rule; prefers the requested hotel tier | Applies the biggest same-tier saving first |
-| **Review** | Gemini `gemini-flash-latest` (temp 0.2) | Adds up to 5 qualitative comments (variety, pacing, fit); these are always minor | 19 rule checks, each with a severity and the agent to route to; score and pass/fail | Rule checks only |
+| **Review** | Gemini `gemini-3.5-flash-lite` (temp 0.2) | Adds up to 5 qualitative comments (variety, pacing, fit); these are always minor | 19 rule checks, each with a severity and the agent to route to; score and pass/fail | Rule checks only |
 
 The reviewer uses a different model family on purpose: a second model checks the first one's
 work. Any agent can use any provider through configuration (see [Configuration](#configuration)).
@@ -207,6 +207,10 @@ uv run python -m core.runner --no-llm      # the example request, offline
 | `GROQ_API_KEY` | Orchestrator, Destination, Logistics, Budget | https://console.groq.com/keys |
 | `GOOGLE_API_KEY` | Review (Gemini; `GEMINI_API_KEY` also works) | https://aistudio.google.com/apikey |
 
+With real models, the example request takes about 20 seconds and the over-budget request (one
+revision) about 35 seconds, both within the free tiers: prompts send places as compact tables,
+so a run uses roughly 5,000-10,000 input tokens.
+
 If an agent's key is missing, that agent uses its deterministic fallback and the others still use
 their LLM. LLM errors (timeouts, invalid output after one retry) also fall back, so a run never
 fails because of the LLM.
@@ -220,10 +224,12 @@ Settings are read from environment variables or `.env` (see [.env.example](.env.
 | Variable | Default | Meaning |
 | --- | --- | --- |
 | `LLM_PROVIDER` / `LLM_MODEL` | `groq` / `openai/gpt-oss-120b` | Default model for all agents |
-| `LLM_PROVIDER_REVIEW` / `LLM_MODEL_REVIEW` | `google_genai` / `gemini-flash-latest` | Model for the review agent |
+| `LLM_PROVIDER_REVIEW` / `LLM_MODEL_REVIEW` | `google_genai` / `gemini-3.5-flash-lite` | Model for the review agent |
 | `LLM_PROVIDER_<ROLE>` / `LLM_MODEL_<ROLE>` | — | Per-agent override: `ORCHESTRATOR`, `DESTINATION`, `LOGISTICS`, `BUDGET`, `REVIEW` |
 | `GROQ_API_KEY`, `GOOGLE_API_KEY` | — | Provider keys (Anthropic and OpenAI keys are also supported) |
 | `DATA_MODE` | `local` | `local` (offline dataset); `hybrid` / `live` arrive in Phase 7 |
+| `LLM_TIMEOUT_S` / `LLM_MAX_RETRIES` | `60` / `2` | Per-call limits; past them the agent falls back instead of stalling |
+| `LLM_MAX_TOKENS` / `LLM_REASONING_EFFORT` | `1500` / `low` | Groq output cap and gpt-oss reasoning effort (both count towards Groq's tokens-per-minute limit) |
 | `MAX_REVISIONS` | `3` | Cap on the review loop |
 | `CONTINGENCY_PCT` | `10` | Buffer added to estimated prices |
 

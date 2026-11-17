@@ -15,7 +15,7 @@ from pathlib import Path
 from string import Template
 from typing import Any, TypeVar
 
-from pydantic import BaseModel
+from pydantic import BaseModel, BeforeValidator
 
 from core.config import AgentRole, Settings, get_settings
 from core.llm import LLMClient, LLMError
@@ -27,6 +27,19 @@ M = TypeVar("M", bound=BaseModel)
 PROMPTS = Path(__file__).resolve().parent / "prompts"
 
 
+def ClipTo(limit: int) -> BeforeValidator:  # noqa: N802 - reads like a type marker
+    """For LLM-written text, ``Annotated[str, ClipTo(300)]``: longer text is cut at a word
+    boundary instead of failing validation (models don't reliably respect length limits, and a
+    long sentence is no reason to throw away an otherwise valid answer)."""
+
+    def clip(value: Any) -> Any:
+        if not isinstance(value, str) or len(value) <= limit:
+            return value
+        return value[: limit - 1].rsplit(" ", 1)[0].rstrip(" ,;:.") + "…"
+
+    return BeforeValidator(clip)
+
+
 def load_prompt(name: str, **values: Any) -> str:
     """``agents/prompts/<name>.md`` with ``$placeholders`` filled in."""
     text = (PROMPTS / f"{name}.md").read_text(encoding="utf-8")
@@ -34,7 +47,9 @@ def load_prompt(name: str, **values: Any) -> str:
 
 
 def to_json(data: Any) -> str:
-    return json.dumps(data, ensure_ascii=False, indent=1, default=str)
+    """Compact JSON for prompts (no indentation: whitespace costs tokens, and Groq's free tier
+    allows 8,000 tokens per minute)."""
+    return json.dumps(data, ensure_ascii=False, separators=(",", ":"), default=str)
 
 
 def feedback(issues: list[ReviewIssue]) -> str:
