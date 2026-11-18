@@ -16,7 +16,7 @@ from pathlib import Path
 from typing import NamedTuple
 
 from data import heuristics
-from data.providers.base import AttractionQuery, ProviderError, RestaurantQuery
+from data.providers.base import AttractionQuery, ProviderError, RestaurantQuery, UnknownPlace
 from schemas import (
     Attraction,
     ClimateMonth,
@@ -66,6 +66,13 @@ class LocalProvider:
         uri = f"file:{db_path.resolve()}?mode=ro"
         # Read-only and shareable across threads (the UI runs the graph in a worker thread).
         self._con = sqlite3.connect(uri, uri=True, check_same_thread=False)
+        self._has_roads = bool(
+            self._rows("SELECT 1 FROM sqlite_master WHERE type='table' AND name='road_times'")
+        )
+        as_of = self._rows("SELECT value FROM meta WHERE key = 'road_times_as_of'")
+        self._road_basis = heuristics.ROAD_BASIS + (
+            f", routed {as_of[0][0]}" if as_of and as_of[0][0] else ""
+        )
 
     def close(self) -> None:
         self._con.close()
@@ -202,6 +209,21 @@ class LocalProvider:
                 return _Point(LatLon(lat=float(lat), lon=float(lon)), str(hood))  # type: ignore[arg-type]
         return None
 
+    def _road(self, from_id: str, to_id: str, mode: TransportMode) -> tuple[float, float] | None:
+        """Stored OSRM (minutes, km) for taxi/walking between two curated points."""
+        profile = {
+            TransportMode.TAXI: "car",
+            TransportMode.RIDE_HAIL: "car",
+            TransportMode.WALK: "foot",
+        }.get(mode)
+        if profile is None or not self._has_roads:  # older databases have no road table
+            return None
+        row = self._rows(
+            "SELECT minutes, km FROM road_times WHERE from_id = ? AND to_id = ? AND profile = ?",
+            [from_id, to_id, profile],
+        )
+        return (float(row[0][0]), float(row[0][1])) if row else None  # type: ignore[arg-type]
+
     def _station(self, hood_id: str) -> str | None:
         row = self._rows("SELECT metro_station FROM neighborhoods WHERE id = ?", [hood_id])
         return str(row[0][0]) if row and row[0][0] is not None else None
@@ -213,16 +235,30 @@ class LocalProvider:
             return None
         a, b = self._point(from_id), self._point(to_id)
         if a is None or b is None:
-            raise ProviderError(f"unknown place or neighborhood: {from_id if a is None else to_id}")
+            raise UnknownPlace(f"unknown place or neighborhood: {from_id if a is None else to_id}")
 
         stored = self._rows(
             "SELECT data FROM travel_matrix WHERE mode = ? AND "
             "((from_id = ? AND to_id = ?) OR (from_id = ? AND to_id = ?))",
             [mode.value, from_id, to_id, to_id, from_id],
         )
+        road = self._road(from_id, to_id, mode) if not stored else None
         if stored:
             entry = TravelMatrixEntry.model_validate_json(str(stored[0][0]))
             minutes, km = entry.duration_min, entry.distance_km
+        elif road is not None:  # stored OSRM route between two curated points
+            leg = heuristics.road_leg(
+                mode,
+                road[0],
+                road[1],
+                a.location.distance_km(b.location),
+                hood_a=a.neighborhood_id,
+                hood_b=b.neighborhood_id,
+            )
+            if leg is None:
+                return None
+            minutes = estimated(leg[0], self._road_basis)
+            km = estimated(leg[1], self._road_basis)
         else:
             if mode is TransportMode.METRO and a.neighborhood_id == b.neighborhood_id:
                 return None  # same area: walk or taxi
@@ -239,7 +275,7 @@ class LocalProvider:
                 return None
             minutes = estimated(est[0], heuristics.BASIS)
             km = estimated(est[1], heuristics.BASIS)
-        cost = self._leg_cost(mode, km.value, party_size)
+        cost = self.leg_cost(mode, km.value, party_size)
         if cost is None:
             return None
         return Leg(
@@ -251,7 +287,7 @@ class LocalProvider:
             cost_aed=cost,
         )
 
-    def _leg_cost(
+    def leg_cost(
         self, mode: TransportMode, km: float, party_size: int
     ) -> SourcedValue[float] | None:
         """Cost per person for one leg."""

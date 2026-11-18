@@ -10,7 +10,7 @@ from __future__ import annotations
 import threading
 from dataclasses import dataclass, field
 
-from core.config import Settings
+from core.config import DataMode, Settings
 from core.llm import LLMClient
 from core.runner import AUTO, RunResult, run
 from core.tracing import TraceBus, TraceEvent
@@ -22,6 +22,7 @@ class RunOptions:
     text: str
     use_llm: bool = True
     max_revisions: int = 3
+    data_mode: DataMode = DataMode.LOCAL
 
 
 @dataclass

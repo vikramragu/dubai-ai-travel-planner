@@ -13,7 +13,7 @@ in taxis), the graph sends it back to the agent responsible, and only that agent
 Streamlit UI shows the agents working live, the graph, the itinerary on a map, the budget and
 how each revision changed the plan.
 
-- **Free and open data only:** OpenStreetMap, official RTA fares, Open-Meteo climate data, and a
+- **Free and open data only:** OpenStreetMap, OSRM routes, official RTA fares, Open-Meteo, and a
   curated dataset. The LLM is the only paid dependency.
 - **Runs fully offline:** without API keys, every agent falls back to deterministic code, so
   runs are free and reproducible.
@@ -22,9 +22,9 @@ how each revision changed the plan.
 - **Every value has a source:** prices, fares and travel times are tagged `verified`, `api` or
   `estimated`, and the UI shows the tag.
 
-> **Status:** Phases 0-6 of the [implementation plan](docs/implementation-plan.md) are done:
-> contracts, dataset, deterministic skills, agents, LangGraph orchestration and the Streamlit
-> UI. Next: free live data (Phase 7), then hardening and the demo (Phase 8).
+> **Status:** Phases 0-7 of the [implementation plan](docs/implementation-plan.md) are done:
+> contracts, dataset, deterministic skills, agents, LangGraph orchestration, the Streamlit UI
+> and free live data. Next: hardening and the demo (Phase 8).
 
 ---
 
@@ -153,8 +153,20 @@ major − 3 per minor.
 | 21 neighbourhoods, 50 attractions, 62 restaurants | Curated; 109 of 112 places matched to OpenStreetMap (Overpass) | `verified` (with OSM link) where matched |
 | 17 hotel areas (area × tier) with seasonal multipliers | Curated typical ranges; Tourism Dirham, service charge, VAT | `estimated` |
 | Metro, bus, abra fares; taxi tariffs | RTA and Dubai Taxi official tables | `verified` |
-| Travel-time matrix (284 entries) | Distance heuristic with creek crossings and speed bands | `estimated` |
+| Driving and walking times between every curated point (~17,500 routes each) | OSRM on OpenStreetMap, fetched once; plus taxi pickup and a city-traffic factor | `estimated` |
+| Metro and abra times | Heuristic (no open RTA timetable feed) | `estimated` |
 | Monthly climate | Open-Meteo climate normals | `verified` |
+
+**Live data** (`DATA_MODE`):
+- **`local`** (the default) is fully offline.
+- **`hybrid`** adds live sources within a per-run budget of network calls:
+  - OpenStreetMap places via Overpass;
+  - Open-Meteo forecasts for trips in the next 16 days;
+  - live OSRM routes for those places.
+- **`live`** routes every taxi and walking leg with OSRM.
+
+Live values are tagged `api`. If a live source fails, the plan falls back to the curated data,
+and the failure shows in the trace.
 
 The SQLite database is built from `data/seed/*.json` on first run (it is not committed).
 Details and refresh commands: [data/README.md](data/README.md). Source research:
@@ -227,7 +239,9 @@ Settings are read from environment variables or `.env` (see [.env.example](.env.
 | `LLM_PROVIDER_REVIEW` / `LLM_MODEL_REVIEW` | `google_genai` / `gemini-3.5-flash-lite` | Model for the review agent |
 | `LLM_PROVIDER_<ROLE>` / `LLM_MODEL_<ROLE>` | — | Per-agent override: `ORCHESTRATOR`, `DESTINATION`, `LOGISTICS`, `BUDGET`, `REVIEW` |
 | `GROQ_API_KEY`, `GOOGLE_API_KEY` | — | Provider keys (Anthropic and OpenAI keys are also supported) |
-| `DATA_MODE` | `local` | `local` (offline dataset); `hybrid` / `live` arrive in Phase 7 |
+| `DATA_MODE` | `local` | `local` (offline dataset), `hybrid` or `live` (free live sources, local fallback) |
+| `EXTERNAL_CALL_BUDGET` | `40` | Max network calls per run in hybrid mode (cache hits are free) |
+| `OSRM_CAR_URL` / `OSRM_FOOT_URL` | public OSRM servers | Routing servers (self-hosted OSRM works too) |
 | `LLM_TIMEOUT_S` / `LLM_MAX_RETRIES` | `60` / `2` | Per-call limits; past them the agent falls back instead of stalling |
 | `LLM_MAX_TOKENS` / `LLM_REASONING_EFFORT` | `1500` / `low` | Groq output cap and gpt-oss reasoning effort (both count towards Groq's tokens-per-minute limit) |
 | `MAX_REVISIONS` | `3` | Cap on the review loop |
@@ -289,5 +303,6 @@ docs/       problem statement, architecture, data research, implementation plan
 
 - Prices are estimates from curated and open data, and nothing is booked. The UI says so.
 - Hotel prices are per area and tier, not per named hotel.
-- Travel times are heuristic until live routing (OSRM) arrives in Phase 7.
+- Travel times come from OSRM routes without live traffic (a fixed city-traffic factor is
+  applied); metro times are estimates.
 - Dubai only, 1-7 days, no flights.

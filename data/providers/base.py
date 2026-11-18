@@ -42,6 +42,16 @@ class ProviderError(RuntimeError):
     """A provider could not answer (network error, quota, bad response)."""
 
 
+class NotApplicable(Exception):  # noqa: N818 - not an error: "ask someone else"
+    """This provider doesn't handle the request (e.g. OSRM and metro legs). The chain moves on
+    to the next provider without logging a fallback."""
+
+
+class UnknownPlace(ProviderError, NotApplicable):  # noqa: N818
+    """The id isn't in this provider's data (e.g. a live OpenStreetMap place for the local
+    provider). Callers see a ``ProviderError``; a chain just asks the next provider."""
+
+
 class AttractionQuery(StrictModel):
     """Filters for attraction search. Empty filters match everything."""
 

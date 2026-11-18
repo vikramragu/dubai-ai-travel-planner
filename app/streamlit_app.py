@@ -40,12 +40,25 @@ DISCLAIMER = (
 )
 
 
+MODE_HELP = {
+    DataMode.LOCAL: "Curated dataset only: offline, free and reproducible.",
+    DataMode.HYBRID: "Adds live OpenStreetMap places and Open-Meteo forecasts, and routes live "
+    "places with OSRM, within a per-run call budget; falls back to local data on any failure.",
+    DataMode.LIVE: "Like hybrid, and routes every taxi and walking leg live with OSRM (slower "
+    "the first time; answers are cached).",
+}
+
+
+def mode_settings(settings: Settings, mode: DataMode) -> Settings:
+    return settings.model_copy(update={"data_mode": mode})
+
+
 @st.cache_resource(show_spinner="Loading the Dubai dataset…")
-def providers() -> DataProviders:
-    return get_providers()
+def providers(mode: str) -> DataProviders:
+    return get_providers(mode_settings(get_settings(), DataMode(mode)))
 
 
-def sidebar(settings: Settings) -> tuple[bool, int]:
+def sidebar(settings: Settings) -> tuple[bool, int, DataMode]:
     st.sidebar.header("Options")
     can_llm = llm_configured(settings)
     model = st.sidebar.radio(
@@ -68,10 +81,14 @@ def sidebar(settings: Settings) -> tuple[bool, int]:
             st.markdown(f"{icon} **{role}** · {provider}")
             st.caption(f"`{name}`" + ("" if role_configured(role, settings) else " · no key"))
     max_revisions = st.sidebar.slider("Max revisions", 0, 5, settings.max_revisions, key="max_rev")
-    mode = st.sidebar.selectbox("Data mode", [m.value for m in DataMode], index=0, key="data_mode")
-    if mode != DataMode.LOCAL.value:
-        st.sidebar.info("Live data providers arrive in Phase 7; the local dataset is used.")
-    return model == LLM_ON, max_revisions
+    modes = [m.value for m in DataMode]
+    mode = DataMode(
+        st.sidebar.selectbox(
+            "Data mode", modes, index=modes.index(settings.data_mode.value), key="data_mode"
+        )
+    )
+    st.sidebar.caption(MODE_HELP[mode])
+    return model == LLM_ON, max_revisions, mode
 
 
 def show_live(handle: RunHandle) -> None:
@@ -117,7 +134,7 @@ def show_result(handle: RunHandle) -> None:
         ["Itinerary", "Budget", "Review & revisions", "Agent timeline", "Graph", "Metrics"]
     )
     with tabs[0]:
-        render_itinerary(it, providers(), result.unscheduled)
+        render_itinerary(it, providers(handle.options.data_mode.value), result.unscheduled)
     with tabs[1]:
         render_budget(it.budget, it.alternatives)
     with tabs[2]:
@@ -138,13 +155,13 @@ def main() -> None:
         "Five agents on a LangGraph graph: research and logistics in parallel, then "
         "assembly, budget and review, with targeted revisions."
     )
-    use_llm, max_revisions = sidebar(settings)
+    use_llm, max_revisions, mode = sidebar(settings)
     text = st.text_area("Your trip", example_request().raw_text, height=110, key="request")
     if st.button("Plan my trip", type="primary", key="plan"):
         st.session_state["run"] = start_run(
-            RunOptions(text, use_llm=use_llm, max_revisions=max_revisions),
-            providers=providers(),
-            settings=settings,
+            RunOptions(text, use_llm=use_llm, max_revisions=max_revisions, data_mode=mode),
+            providers=providers(mode.value),
+            settings=mode_settings(settings, mode),
         )
     handle: RunHandle | None = st.session_state.get("run")
     if handle is not None:

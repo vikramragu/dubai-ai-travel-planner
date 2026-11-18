@@ -335,20 +335,53 @@ provider and key status listed.
 
 **Tasks**
 
-- [ ] `data/providers/overpass.py` — POI search by category and radius; merge with curated records (curated prices and crowd levels win).
-- [ ] `data/providers/osrm.py` — `/route` and `/table` for car and foot; peak-hour multiplier for car times.
-  - [ ] Decide self-hosted (Docker + Geofabrik GCC extract) vs public demo server for the demo.
-  - [ ] Refresh the stored `travel_matrix` with OSRM values (tagged accordingly).
-- [ ] `data/providers/gtfs.py` — only if an RTA GTFS feed is confirmed: metro/tram station-to-station times; otherwise curate metro times manually.
-- [ ] `data/providers/open_meteo.py` — daily forecast; climate-average fallback beyond the forecast range; heat rules feed the scheduler.
-- [ ] Wire live providers into the chained providers; `DATA_MODE=local|hybrid|live`.
-- [ ] HTTP cache with per-source TTLs; rate limiting, generic User-Agent, per-run external-call budget; log every call and fallback in the trace.
-- [ ] Recorded HTTP fixtures for tests; simulated timeouts/429s to test fallback.
+- [x] `data/providers/overpass.py` — POI search by category and radius; merge with curated records (curated prices and crowd levels win).
+- [x] `data/providers/osrm.py` — `/route` and `/table` for car and foot; peak-hour multiplier for car times.
+  - [x] Decide self-hosted (Docker + Geofabrik GCC extract) vs public demo server for the demo.
+  - [x] Refresh the stored `travel_matrix` with OSRM values (tagged accordingly).
+- [x] ~~`data/providers/gtfs.py`~~ (not built: no open feed, see status) — only if an RTA GTFS feed is confirmed: metro/tram station-to-station times; otherwise curate metro times manually.
+- [x] `data/providers/open_meteo.py` — daily forecast; climate-average fallback beyond the forecast range; heat rules feed the scheduler.
+- [x] Wire live providers into the chained providers; `DATA_MODE=local|hybrid|live`.
+- [x] HTTP cache with per-source TTLs; rate limiting, generic User-Agent, per-run external-call budget; log every call and fallback in the trace.
+- [x] Recorded HTTP fixtures for tests; simulated timeouts/429s to test fallback.
 - [ ] Optional: Amadeus test-environment provider (hotels), clearly marked optional.
 
 **Deliverables:** hybrid mode uses live POIs, routing and weather, and falls back silently to local data on failure.
 
 **Exit criteria:** provider tests pass from fixtures; with the network disabled the app still completes in hybrid mode (fallback events visible in the trace); provenance badges show `api` for live values.
+
+**Status: done** (details in [data/README.md](../data/README.md#live-data-phase-7)). Stored
+routes: `data/scripts/osrm_tables.py` fetched real driving and walking times between all 133
+curated points from the public OSRM servers (~32 requests, once) into `seed/road_times.json`;
+every taxi/walking leg between curated places now uses them (before, only neighborhood pairs used
+the matrix and every place-to-place leg was the haversine heuristic), and `build_matrix.py`
+derives the neighborhood matrix from them. Live providers: `osrm.py`, `open_meteo.py`,
+`overpass.py`, on a shared `http.py` (disk cache with per-source TTLs, 1 request/s per host,
+generic User-Agent, per-run call budget, a trace event per call) and `runtime.py` (per-run
+context: graph nodes route data events into their own trace, even in parallel). The UI's data
+mode now switches the chains, and the Metrics tab lists network calls and fallbacks. Measured:
+hybrid ~13 s with 5 live places and 9 live legs; live ~70 s the first time (92 OSRM calls),
+instant when cached. Tests: 24 offline provider/graph tests from recorded responses, including
+the two exit criteria (network down → hybrid run passes with fallbacks in the trace; live values
+carry `api` and the UI badge). 386 tests pass; the 300-trip property test passes.
+Choices made: OSRM uses the **public servers** (car: router.project-osrm.org, foot:
+routing.openstreetmap.de) for a one-off stored table plus light live use, since Streamlit Cloud
+can't run Docker (`OSRM_BASE_URL` became `OSRM_CAR_URL` / `OSRM_FOOT_URL`); stored OSRM routes
+are tagged `estimated`, not `api` (research §3.3: `api` = fetched in this run); taxi legs add a
+5-min pickup and a ×1.35 city-traffic factor that fades beyond ~10 km; walking keeps the creek
+rule (OSRM's foot profile crosses on the abra ferry); **no GTFS**: the RTA feed on Dubai Pulse
+needs a permission request and public copies are token-gated or stale, so metro times stay
+heuristic; hybrid routes check the stored data first and use live OSRM only for live places,
+live mode routes every road leg; Overpass is one city-wide query cached for a week and
+downloaded in the background (public servers took 27–60 s), so runs never wait for it; live
+places are attractions only, a few per search, dropped when a curated record covers them;
+restaurants stay curated; a provider that doesn't handle a request (`NotApplicable`) hands over
+silently, "no provider handles it" means "not available", and an unexpected error in a live
+provider becomes a fallback. Found and fixed on the way: OSRM's slower desert-highway times made
+a 1-day Al Qudra trip break the long-leg rule, so the traffic factor now fades on highways and
+the scheduler's "within an hour of the hotel" check uses the same routes as the legs; the first
+live place in a schedule crashed a run (no provider for metro to an unknown place), fixed by the
+"not available" rule plus an estimating last link in the routes chain. Amadeus was not added.
 
 ---
 
@@ -405,6 +438,6 @@ provider and key status listed.
 
 - [x] Default LLM provider and model for the demo — Groq `openai/gpt-oss-120b` for four agents, Gemini for review (2026-11-17). The real-LLM smoke test runs once both keys are set.
 - [x] Target travel season for the demo — modelled per month in Phase 2; demo defaults to the cool season (Nov–Mar).
-- [ ] Self-hosted OSRM vs public demo server / OpenRouteService — **needed in Phase 7**.
-- [ ] Whether RTA publishes a GTFS feed — **needed in Phase 7**.
+- [x] Self-hosted OSRM vs public demo server / OpenRouteService — public OSRM servers, used for a stored table plus light live use (2026-11-18).
+- [x] Whether RTA publishes a GTFS feed — only behind a Dubai Pulse permission request; not used, metro times stay heuristic (2026-11-18).
 - [ ] Whether to keep the optional Amadeus test-environment provider at all.

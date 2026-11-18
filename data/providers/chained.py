@@ -15,12 +15,14 @@ from typing import Any, Generic, TypeVar
 from core.tracing import TraceEvent, TraceKind
 from data.providers.base import (
     AttractionQuery,
+    NotApplicable,
     PlacesProvider,
     ProviderError,
     RestaurantQuery,
     RoutesProvider,
     WeatherProvider,
 )
+from data.providers.runtime import data_event
 from schemas import (
     Attraction,
     DayWeather,
@@ -47,16 +49,34 @@ class _Chain(Generic[P]):
         self.run_id = run_id
         self.name = "chain(" + ",".join(p.name for p in self.providers) + ")"
 
-    def _first(self, op: str, call: Callable[[P], R], empty: Callable[[R], bool]) -> R:
+    def _first(
+        self,
+        op: str,
+        call: Callable[[P], R],
+        empty: Callable[[R], bool],
+        unhandled: Callable[[], R] | None = None,
+    ) -> R:
+        """The first non-empty answer. ``unhandled`` gives the answer when no provider handles
+        the request at all (every one is :class:`NotApplicable`)."""
         answers: list[R] = []  # empty answers, kept so "no result" is not an error
         errors: list[str] = []
         for i, provider in enumerate(self.providers):
             pname = provider.name
             try:
                 result = call(provider)
+            except NotApplicable:
+                continue
             except (ProviderError, TimeoutError, OSError) as exc:
                 errors.append(f"{pname}: {exc}")
                 self._fallback(op, pname, f"failed: {exc}", i)
+                continue
+            except Exception as exc:
+                # A live source answering in an unexpected way must not break a run; a bug in
+                # the last provider (the curated data) still surfaces.
+                if i == len(self.providers) - 1:
+                    raise
+                errors.append(f"{pname}: {type(exc).__name__}: {exc}")
+                self._fallback(op, pname, f"failed unexpectedly: {type(exc).__name__}", i)
                 continue
             if not empty(result):
                 return result
@@ -64,21 +84,28 @@ class _Chain(Generic[P]):
             self._fallback(op, pname, "returned no results", i)
         if answers:
             return answers[-1]
+        if not errors and unhandled is not None:
+            return unhandled()
         raise ProviderError(f"{op}: every provider failed ({'; '.join(errors)})")
 
     def _fallback(self, op: str, provider: str, why: str, index: int) -> None:
-        if self.emit is None or index == len(self.providers) - 1:
+        if index == len(self.providers) - 1:
             return  # nothing left to fall back to; the caller sees the result/error
         nxt = self.providers[index + 1].name
-        self.emit(
-            TraceEvent(
-                run_id=self.run_id,
-                agent="data",
-                kind=TraceKind.FALLBACK,
-                summary=f"{provider}.{op} {why}; using {nxt}",
-                payload={"op": op, "from": provider, "to": nxt},
+        summary = f"{provider}.{op} {why}; using {nxt}"
+        payload = {"op": op, "from": provider, "to": nxt}
+        if self.emit is not None:
+            self.emit(
+                TraceEvent(
+                    run_id=self.run_id,
+                    agent="data",
+                    kind=TraceKind.FALLBACK,
+                    summary=summary,
+                    payload=payload,
+                )
             )
-        )
+        else:  # the current run's trace (see data.providers.runtime)
+            data_event(TraceKind.FALLBACK, summary, payload)
 
 
 def _no_items(result: Any) -> bool:
@@ -96,17 +123,22 @@ class ChainedPlacesProvider(_Chain[PlacesProvider]):
         return self._first("search_restaurants", lambda p: p.search_restaurants(query), _no_items)
 
     def get_place(self, place_id: str) -> Attraction | Restaurant | None:
-        return self._first("get_place", lambda p: p.get_place(place_id), lambda r: r is None)
+        return self._first(
+            "get_place", lambda p: p.get_place(place_id), lambda r: r is None, lambda: None
+        )
 
 
 class ChainedRoutesProvider(_Chain[RoutesProvider]):
     def travel(
         self, from_id: str, to_id: str, mode: TransportMode, *, party_size: int = 1
     ) -> Leg | None:
+        # ``None`` is a real answer here ("this mode isn't an option", e.g. too far to walk),
+        # not a miss: only an error or an unknown id moves on to the next provider.
         return self._first(
             "travel",
             lambda p: p.travel(from_id, to_id, mode, party_size=party_size),
-            lambda r: r is None,
+            lambda r: False,
+            unhandled=lambda: None,  # nobody offers this mode between these places
         )
 
     def matrix(

@@ -85,9 +85,21 @@ class Settings(BaseSettings):
     use_overpass: bool = True
     overpass_url: str = "https://overpass-api.de/api/interpreter"
     use_osrm: bool = True
-    osrm_base_url: str = "http://localhost:5000"
+    # Public OSRM servers (no key). The car demo server allows only light use, so curated
+    # places use stored tables (data/scripts/osrm_tables.py); live calls are for new places
+    # (hybrid) or every leg (live). Self-hosting stays possible by changing these URLs.
+    osrm_car_url: str = "https://router.project-osrm.org"
+    osrm_foot_url: str = "https://routing.openstreetmap.de/routed-foot"
     use_open_meteo: bool = True
     open_meteo_url: str = "https://api.open-meteo.com/v1/forecast"
+    # Live-data limits: at most this many network calls per run in hybrid mode (cache hits are
+    # free); then the run falls back to local data. Live mode has no cap.
+    external_call_budget: int = Field(default=40, ge=0)
+    min_request_interval_s: float = Field(default=1.0, ge=0)  # per host, fair use
+    overpass_timeout_s: float = Field(default=60.0, gt=0)  # downloads run in the background
+    cache_ttl_places_h: float = Field(default=24 * 7, gt=0)
+    cache_ttl_routes_h: float = Field(default=24 * 7, gt=0)
+    cache_ttl_weather_h: float = Field(default=3, gt=0)
     amadeus_client_id: SecretStr | None = None
     amadeus_client_secret: SecretStr | None = None
     http_user_agent: str = "dubai-travel-planner/0.1 (educational demo)"

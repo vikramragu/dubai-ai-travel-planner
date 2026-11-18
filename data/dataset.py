@@ -11,7 +11,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 from schemas import (
     Attraction,
@@ -33,6 +33,7 @@ from schemas import (
     ZoneBand,
 )
 from schemas.pricing import FareProduct
+from schemas.provenance import Provenance
 
 SEED_DIR = Path(__file__).resolve().parent / "seed"
 
@@ -53,6 +54,31 @@ LOCAL_CUISINES = {
 }
 
 
+class RoadProfile(BaseModel):
+    """One OSRM profile's route times between every pair of ``RoadTimes.ids``."""
+
+    server: str
+    minutes: list[list[float | None]]  # [from][to]; None when OSRM found no route
+    km: list[list[float | None]]
+
+
+class RoadTimes(Provenance):
+    """Stored OSRM routes between every curated point (``data/scripts/osrm_tables.py``)."""
+
+    ids: list[str]
+    profiles: dict[str, RoadProfile] = Field(default_factory=dict)  # "car", "foot"
+
+    def pairs(self, profile: str) -> list[tuple[str, str, float, float]]:
+        """(from, to, minutes, km) for every routed pair of a profile."""
+        p = self.profiles[profile]
+        return [
+            (a, b, m, k)
+            for i, a in enumerate(self.ids)
+            for j, b in enumerate(self.ids)
+            if i != j and (m := p.minutes[i][j]) is not None and (k := p.km[i][j]) is not None
+        ]
+
+
 def _read(seed_dir: Path, name: str) -> dict[str, Any]:
     data: dict[str, Any] = json.loads((seed_dir / f"{name}.json").read_text(encoding="utf-8"))
     return data
@@ -71,6 +97,7 @@ class Dataset(BaseModel):
     taxi_tariffs: list[TaxiTariff]
     travel_matrix: TravelMatrix
     climate: list[ClimateMonth]
+    road_times: RoadTimes | None = None  # optional: OSRM tables (Phase 7)
 
     @classmethod
     def load(cls, seed_dir: Path = SEED_DIR) -> Dataset:
@@ -88,6 +115,13 @@ class Dataset(BaseModel):
             taxi_tariffs=pricing["taxi_tariffs"],
             travel_matrix=TravelMatrix(entries=matrix["entries"]),
             climate=_read(seed_dir, "climate")["months"],
+            road_times=(
+                RoadTimes.model_validate(
+                    {k: v for k, v in _read(seed_dir, "road_times").items() if k != "_note"}
+                )
+                if (seed_dir / "road_times.json").exists()
+                else None
+            ),
         )
 
     # ------------------------------------------------------------ validation
@@ -147,6 +181,18 @@ class Dataset(BaseModel):
         for e in self.travel_matrix.entries:
             if e.from_id not in hood_ids or e.to_id not in hood_ids:
                 out.append(f"travel matrix: unknown neighborhood in {e.from_id}->{e.to_id}")
+        if self.road_times is not None:
+            known = hood_ids | {a.id for a in self.attractions} | {r.id for r in self.restaurants}
+            rt = self.road_times
+            unknown = [i for i in rt.ids if i not in known]
+            if unknown:
+                out.append(f"road times: unknown ids {unknown[:5]} (re-run osrm_tables.py)")
+            n = len(rt.ids)
+            for name, prof in rt.profiles.items():
+                if len(prof.minutes) != n or any(len(r) != n for r in prof.minutes):
+                    out.append(f"road times: {name} minutes is not {n}x{n}")
+                if len(prof.km) != n or any(len(r) != n for r in prof.km):
+                    out.append(f"road times: {name} km is not {n}x{n}")
         return out
 
     # ------------------------------------------------------------ coverage

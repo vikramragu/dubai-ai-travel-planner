@@ -5,6 +5,7 @@ from __future__ import annotations
 import streamlit as st
 
 from core.runner import RunResult
+from core.tracing import TraceKind
 
 
 def render_metrics(result: RunResult) -> None:
@@ -20,3 +21,29 @@ def render_metrics(result: RunResult) -> None:
     row2[2].metric("Issues resolved", m.issues_resolved)
     row2[3].metric("Stopped because", result.stop_reason.replace("_", " "))
     st.caption("Graph steps: " + " → ".join(result.steps))
+    render_data_activity(result)
+
+
+def data_activity(result: RunResult) -> tuple[list[str], list[str]]:
+    """(network calls, fallbacks) the data layer logged during the run."""
+    data = [e for e in result.trace if e.agent == "data"]
+    calls = [e.summary for e in data if e.kind is TraceKind.TOOL_CALL]
+    fallbacks = [e.summary for e in data if e.kind is TraceKind.FALLBACK]
+    return calls, fallbacks
+
+
+def render_data_activity(result: RunResult) -> None:
+    calls, fallbacks = data_activity(result)
+    st.markdown("**Live data**")
+    if not calls and not fallbacks:
+        st.caption("No live calls: every value came from the curated dataset or the cache.")
+        return
+    cols = st.columns(2)
+    cols[0].metric("Network calls", len(calls))
+    cols[1].metric("Fallbacks to local data", len(fallbacks))
+    if calls or fallbacks:
+        with st.expander("Calls and fallbacks"):
+            for line in calls:
+                st.markdown(f"- 🌐 {line}")
+            for line in fallbacks:
+                st.markdown(f"- ↩️ {line}")

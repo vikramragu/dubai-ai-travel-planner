@@ -33,7 +33,8 @@ def test_curation_reproduces_seed_places() -> None:
 
 
 def test_matrix_script_reproduces_seed_matrix() -> None:
-    matrix = build_matrix.build(Dataset.load().neighborhoods)
+    ds = Dataset.load()
+    matrix = build_matrix.build(ds.neighborhoods, ds.road_times)
     assert (
         matrix.model_dump(mode="json", exclude_none=True)["entries"]
         == (_seed("travel_matrix")["entries"])

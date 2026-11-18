@@ -20,6 +20,7 @@ from agents.logistics import LogisticsAgent
 from agents.orchestrator import Orchestrator
 from agents.review import ReviewAgent
 from core.tracing import TraceKind
+from data.providers.runtime import set_node_sink
 from graph.state import GraphContext, PlannerState
 from schemas import (
     BudgetAlternative,
@@ -37,7 +38,7 @@ ROUTER = "router"
 def _ctx(state: PlannerState, runtime: Runtime[GraphContext], node: str) -> AgentContext:
     c = runtime.context
     writer = get_stream_writer()
-    return AgentContext(
+    ctx = AgentContext(
         providers=c.providers,
         llm=c.llm,
         settings=c.settings,
@@ -47,6 +48,13 @@ def _ctx(state: PlannerState, runtime: Runtime[GraphContext], node: str) -> Agen
         on_event=writer,
         node=node,
     )
+
+    # Network calls and fallbacks in the data layer go to this node's trace (data.providers).
+    def sink(kind: TraceKind, summary: str, payload: dict[str, Any] | None) -> None:
+        ctx.emit("data", kind, summary, payload)
+
+    set_node_sink(sink)
+    return ctx
 
 
 def _blocking(state: PlannerState) -> list[ReviewIssue]:

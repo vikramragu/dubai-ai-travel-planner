@@ -2,8 +2,9 @@
 
 Used both to pre-compute the stored neighborhood travel matrix (``data/scripts/build_matrix.py``)
 and as the last-resort fallback in the local routes provider, so the two always agree.
-Every value produced here is tagged ``estimated``; Phase 7 replaces taxi and walking times
-with OSRM routes and metro times with GTFS where available.
+Every value produced here is tagged ``estimated``. Since Phase 7, taxi and walking legs between
+curated points use stored OSRM routes instead (``road_leg`` below, same rules for the stored
+matrix and the local provider); metro times stay heuristic because no open GTFS feed exists.
 """
 
 from __future__ import annotations
@@ -137,6 +138,39 @@ def estimate_minutes(
         minutes = abra_minutes(hood_a, hood_b)
         return None if minutes is None else (minutes, round(straight, 2))
     return None  # bus/tram are not modelled offline
+
+
+# ------------------------------------------------------------------ OSRM-based legs
+ROAD_BASIS = "OSRM route on OpenStreetMap (no live traffic) + pickup time, x traffic factor"
+TRAFFIC_FACTOR = 1.35  # OSRM car times are free-flow; city traffic is slower (research §2.4)
+CITY_KM = 10.0  # the factor applies to the city part of a trip; long highway runs flow freely
+TAXI_PICKUP_MIN = 5  # find/hail a cab and drop off (same as ``taxi_minutes``)
+MAX_WALK_DETOUR = 3.0  # a walking route over 3x the straight line is not a real walk
+
+
+def road_leg(
+    mode: TransportMode,
+    route_minutes: float,
+    route_km: float,
+    straight_km: float,
+    *,
+    hood_a: str | None = None,
+    hood_b: str | None = None,
+) -> tuple[int, float] | None:
+    """(minutes, km) for a taxi or walking leg from an OSRM route, or ``None`` when the mode is
+    not a sensible option. Walking uses our slower, heat-aware pace and keeps the creek rule:
+    OSRM's foot profile crosses Dubai Creek on the abra ferry, which is its own mode here."""
+    if mode in (TransportMode.TAXI, TransportMode.RIDE_HAIL):
+        city_share = min(1.0, CITY_KM / route_km) if route_km > 0 else 1.0
+        factor = 1 + (TRAFFIC_FACTOR - 1) * city_share
+        return math.ceil(TAXI_PICKUP_MIN + route_minutes * factor), round(route_km, 2)
+    if mode is TransportMode.WALK:
+        if straight_km > MAX_WALK_KM or crosses_creek(hood_a, hood_b):
+            return None
+        if straight_km > 0.2 and route_km > straight_km * MAX_WALK_DETOUR:
+            return None
+        return walk_minutes(route_km), round(route_km, 2)
+    return None
 
 
 def zone_band_for_km(km: float) -> str:

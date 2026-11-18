@@ -22,10 +22,11 @@ from langchain_core.runnables import RunnableConfig
 from langgraph.types import StateSnapshot
 
 from agents.skills.budget_engine import BudgetOptions
-from core.config import Settings, get_settings
+from core.config import DataMode, Settings, get_settings
 from core.llm import LLMClient, make_llm
 from core.tracing import RunMetrics, TraceBus, TraceEvent, TraceKind
 from data.providers import DataProviders, get_providers
+from data.providers.runtime import data_run
 from schemas import Itinerary, ItinerarySnapshot
 
 AUTO = "auto"
@@ -95,17 +96,20 @@ def run(
     )
     publish(start)
     steps: list[str] = []
+    # Live data: hybrid mode caps the network calls per run; live mode doesn't.
+    budget = settings.external_call_budget if settings.data_mode is DataMode.HYBRID else None
     try:
-        for mode, chunk in graph.stream(
-            {"raw_request": text},
-            config,
-            context=context,
-            stream_mode=["updates", "custom"],
-        ):
-            if mode == "custom" and isinstance(chunk, TraceEvent):
-                publish(chunk)
-            elif mode == "updates" and isinstance(chunk, dict):
-                steps += [node for node in chunk if not node.startswith("__")]
+        with data_run(budget):
+            for mode, chunk in graph.stream(
+                {"raw_request": text},
+                config,
+                context=context,
+                stream_mode=["updates", "custom"],
+            ):
+                if mode == "custom" and isinstance(chunk, TraceEvent):
+                    publish(chunk)
+                elif mode == "updates" and isinstance(chunk, dict):
+                    steps += [node for node in chunk if not node.startswith("__")]
         return _result(graph, config, client, start, steps, publish)
     finally:
         if bus is not None:

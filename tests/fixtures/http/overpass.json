@@ -1,0 +1,149 @@
+{
+ "version": 0.6,
+ "elements": [
+  {
+   "type": "node",
+   "id": 3272826588,
+   "lat": 25.3217905,
+   "lon": 55.3765887,
+   "tags": {
+    "addr:city": "Sharjah, UAE",
+    "addr:housenumber": "Level 2",
+    "addr:street": "Maraya Art Centre, Al Qasba",
+    "name": "Barjeel Art Foundation",
+    "name:en": "Barjeel Art Foundation",
+    "note": "BARJEEL ART FOUNDATION",
+    "opening_hours": "Su-Th 10:00-22:00, Fr 16:00-22:00",
+    "tourism": "museum",
+    "wikidata": "Q15961599",
+    "wikimedia_commons": "Category:Maraya Art Centre",
+    "wikipedia": "en:Barjeel Art Foundation"
+   }
+  },
+  {
+   "type": "node",
+   "id": 4628418750,
+   "lat": 25.0971385,
+   "lon": 55.1789043,
+   "tags": {
+    "addr:city": "\u062f\u0628\u064a",
+    "addr:street": "\u0634\u0627\u0631\u0639 \u0627\u0644\u0646\u0647\u0627\u0631 1",
+    "name": "\u0645\u062a\u062d\u0641 \u062f\u0628\u064a \u0644\u0644\u0635\u0648\u0631 \u0627\u0644\u0645\u062a\u062d\u0631\u0643\u0629",
+    "name:ar": "\u0645\u062a\u062d\u0641 \u062f\u0628\u064a \u0644\u0644\u0635\u0648\u0631 \u0627\u0644\u0645\u062a\u062d\u0631\u0643\u0629",
+    "name:en": "Dubai Moving Image Museum",
+    "tourism": "museum",
+    "wheelchair": "yes",
+    "wikidata": "Q18352718",
+    "wikipedia": "en:History of Cinema Museum"
+   }
+  },
+  {
+   "type": "way",
+   "id": 21081900,
+   "center": {
+    "lat": 25.2408523,
+    "lon": 55.3273614
+   },
+   "tags": {
+    "access": "customers",
+    "addr:city": "\u062f\u0628\u064a",
+    "addr:city:ar": "\u062f\u0628\u064a",
+    "charge": "5 AED",
+    "fee": "yes",
+    "leisure": "park",
+    "name": "\u062d\u062f\u064a\u0642\u0629 \u0627\u0644\u062e\u0648\u0631",
+    "name:ar": "\u062d\u062f\u064a\u0642\u0629 \u0627\u0644\u062e\u0648\u0631",
+    "name:en": "Creek Park",
+    "name:he": "\u05e4\u05d0\u05e8\u05e7 \u05e0\u05d7\u05dc \u05d3\u05d5\u05d1\u05d0\u05d9",
+    "operator": "\u0628\u0644\u062f\u064a\u0629 \u062f\u0628\u064a",
+    "wikidata": "Q21737829"
+   }
+  },
+  {
+   "type": "way",
+   "id": 24504053,
+   "center": {
+    "lat": 25.3218644,
+    "lon": 55.349683
+   },
+   "tags": {
+    "addr:street": "Al Mamzar Beach Street",
+    "image": "https://photos.app.goo.gl/k4NzecYTeZL9nmx48",
+    "leisure": "park",
+    "name": "\u062d\u062f\u064a\u0642\u0629 \u0627\u0644\u0645\u0645\u0632\u0631",
+    "name:ar": "\u062d\u062f\u064a\u0642\u0629 \u0627\u0644\u0645\u0645\u0632\u0631",
+    "name:en": "Al Mamzar Park",
+    "tourism": "attraction",
+    "wikidata": "Q21737834"
+   }
+  },
+  {
+   "type": "way",
+   "id": 230622240,
+   "center": {
+    "lat": 25.2225934,
+    "lon": 55.2659209
+   },
+   "tags": {
+    "access": "yes",
+    "addr:city": "\u062f\u0628\u064a",
+    "addr:street": "\u0634\u0627\u0631\u0639 \u0627\u0644\u0648\u0635\u0644",
+    "leisure": "park",
+    "name": "\u062d\u062f\u064a\u0642\u0629 \u0627\u0644\u0648\u0635\u0644",
+    "name:ar": "\u062d\u062f\u064a\u0642\u0629 \u0627\u0644\u0648\u0635\u0644",
+    "name:en": "Al Wasl Park",
+    "name:ur": "\u0627\u0644\u0648\u0635\u0644 \u067e\u0627\u0631\u06a9",
+    "opening_hours": "Su-Th 08:00-23:00; Fr-Sa 8:00-23:30; PH 08:00-24:00",
+    "operator": "\u0628\u0644\u062f\u064a\u0629 \u062f\u0628\u064a",
+    "operator:ar": "\u0628\u0644\u062f\u064a\u0629 \u062f\u0628\u064a",
+    "operator:en": "Dubai Municipality",
+    "operator:ur": "\u062f\u0628\u0626\u06cc \u0628\u0644\u062f\u06cc\u06c1",
+    "wikidata": "Q21737830"
+   }
+  },
+  {
+   "type": "way",
+   "id": 468287548,
+   "center": {
+    "lat": 25.1968283,
+    "lon": 55.2417502
+   },
+   "tags": {
+    "archaeological_site": "city",
+    "barrier": "fence",
+    "fence_type": "concrete",
+    "historic": "archaeological_site",
+    "name": "\u0645\u0648\u0642\u0639 \u062c\u0645\u064a\u0631\u0627 \u0627\u0644\u0623\u062b\u0631\u064a",
+    "name:ar": "\u0645\u0648\u0642\u0639 \u062c\u0645\u064a\u0631\u0627 \u0627\u0644\u0623\u062b\u0631\u064a",
+    "name:en": "Jumeirah Archaeological Site",
+    "name:fr": "Site arch\u00e9ologique de Jumeira",
+    "operator": "\u0628\u0644\u062f\u064a\u0629 \u062f\u0628\u064a",
+    "operator:ar": "\u0628\u0644\u062f\u064a\u0629 \u062f\u0628\u064a",
+    "operator:en": "Dubai Municipality",
+    "operator:fr": "Municipalit\u00e9 de Dubai",
+    "wikidata": "Q16892960",
+    "wikipedia": "ar:\u0645\u0648\u0642\u0639 \u062c\u0645\u064a\u0631\u0627 \u0627\u0644\u0623\u062b\u0631\u064a"
+   }
+  },
+  {
+   "type": "way",
+   "id": 490616164,
+   "center": {
+    "lat": 25.1112701,
+    "lon": 55.1750244
+   },
+   "tags": {
+    "archaeological_site": "necropolis",
+    "historic": "archaeological_site",
+    "historic:period": "bronze-age",
+    "name": "\u0645\u0648\u0642\u0639 \u0627\u0644\u0635\u0641\u0648\u062d \u0627\u0644\u0623\u062b\u0631\u064a",
+    "name:ar": "\u0645\u0648\u0642\u0639 \u0627\u0644\u0635\u0641\u0648\u062d \u0627\u0644\u0623\u062b\u0631\u064a",
+    "name:en": "Al Sufouh Archaeological Site",
+    "wikidata": "Q16148650",
+    "wikimedia_commons": "Category:Al Sufouh Archaeological Site",
+    "wikipedia": "ar:\u0645\u0648\u0642\u0639 \u0627\u0644\u0635\u0641\u0648\u062d \u0627\u0644\u0623\u062b\u0631\u064a",
+    "wikipedia:ar": "\u0645\u0648\u0642\u0639 \u0627\u0644\u0635\u0641\u0648\u062d \u0627\u0644\u0623\u062b\u0631\u064a"
+   }
+  }
+ ]
+}

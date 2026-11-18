@@ -31,7 +31,7 @@ from datetime import time
 from agents.skills.calendar import SEASONAL_MONTHS, trip_calendar
 from agents.skills.scheduler import LONG_LEG_MIN, suits_diet, taxi_minutes_between
 from data.dataset import LOCAL_CUISINES
-from data.providers import DataProviders
+from data.providers import DataProviders, ProviderError
 from schemas import (
     Attraction,
     Avoidance,
@@ -46,6 +46,7 @@ from schemas import (
     RouteTarget,
     Severity,
     SlotKind,
+    TransportMode,
 )
 
 MAX_LEG_MIN = LONG_LEG_MIN
@@ -99,9 +100,14 @@ def check_itinerary(
     hood_loc = {h.id: h.location for h in providers.places.neighborhoods()}
 
     def _hotel_minutes(a: str, b: str) -> int:
-        if a not in hood_loc or b not in hood_loc:
+        """Taxi minutes between two areas, from the same routes the legs use."""
+        if a not in hood_loc or b not in hood_loc or a == b:
             return 0
-        return taxi_minutes_between(hood_loc[a], hood_loc[b])
+        try:
+            leg = providers.routes.travel(a, b, TransportMode.TAXI)
+        except ProviderError:
+            leg = None
+        return leg.duration_min.value if leg else taxi_minutes_between(hood_loc[a], hood_loc[b])
 
     places: dict[str, Attraction | Restaurant] = {}
 

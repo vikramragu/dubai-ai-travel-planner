@@ -58,6 +58,9 @@ CREATE TABLE travel_matrix (
     distance_km REAL NOT NULL, source TEXT NOT NULL, data TEXT NOT NULL,
     PRIMARY KEY (from_id, to_id, mode));
 CREATE TABLE climate (month INTEGER PRIMARY KEY, data TEXT NOT NULL);
+CREATE TABLE road_times (
+    from_id TEXT NOT NULL, to_id TEXT NOT NULL, profile TEXT NOT NULL, minutes REAL NOT NULL,
+    km REAL NOT NULL, PRIMARY KEY (from_id, to_id, profile));
 CREATE INDEX attractions_hood ON attractions (neighborhood_id);
 CREATE INDEX attraction_tags_tag ON attraction_tags (tag);
 CREATE INDEX restaurants_hood ON restaurants (neighborhood_id);
@@ -195,12 +198,22 @@ def _insert(con: sqlite3.Connection, ds: Dataset) -> None:
         ],
     )
     con.executemany("INSERT INTO climate VALUES (?,?)", [(c.month, j(c)) for c in ds.climate])
+    rt = ds.road_times
+    if rt is not None:
+        for profile in rt.profiles:
+            con.executemany(
+                "INSERT INTO road_times VALUES (?,?,?,?,?)",
+                [(a, b, profile, m, k) for a, b, m, k in rt.pairs(profile)],
+            )
     meta = {
         "built_at": datetime.now(UTC).isoformat(timespec="seconds"),
         "attractions": str(len(ds.attractions)),
         "restaurants": str(len(ds.restaurants)),
         "neighborhoods": str(len(ds.neighborhoods)),
     }
+    if rt is not None:
+        meta["road_times_reference"] = rt.reference or ""
+        meta["road_times_as_of"] = rt.as_of.isoformat() if rt.as_of else ""
     con.executemany("INSERT INTO meta VALUES (?,?)", meta.items())
 
 

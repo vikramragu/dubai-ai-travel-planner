@@ -29,7 +29,7 @@ from functools import cache
 from agents.skills.calendar import SEASONAL_MONTHS, TripDay, trip_calendar
 from data.dataset import LOCAL_CUISINES
 from data.heuristics import crosses_creek, estimate_minutes
-from data.providers import AttractionQuery, DataProviders, RestaurantQuery
+from data.providers import AttractionQuery, DataProviders, ProviderError, RestaurantQuery
 from schemas import (
     Attraction,
     Avoidance,
@@ -311,6 +311,26 @@ class Scheduler:
         self.used_restaurants: set[str] = set()
         self.heat = self._heat()
         self.notes: list[str] = []
+        self._hotel_minutes: dict[str, int] = {}
+
+    def from_hotel(self, place: Attraction | Restaurant) -> int:
+        """Taxi minutes between the hotel area and a place, the slower direction, from the same
+        routes the legs use (so "under an hour from the hotel" agrees with the long-leg rule)."""
+        if place.id not in self._hotel_minutes:
+            worst = 0
+            for a, b in ((self.hotel_id, place.id), (place.id, self.hotel_id)):
+                try:
+                    leg = self.p.routes.travel(a, b, TransportMode.TAXI)
+                except ProviderError:
+                    leg = None
+                minutes = (
+                    leg.duration_min.value
+                    if leg is not None
+                    else taxi_minutes_between(self.hotel_loc, place.location)
+                )
+                worst = max(worst, minutes)
+            self._hotel_minutes[place.id] = worst
+        return self._hotel_minutes[place.id]
 
     def _heat(self) -> dict[int, HeatLevel]:
         days = self.p.weather.forecast(self.calendar[0].date, self.c.days)
@@ -375,7 +395,7 @@ class Scheduler:
         for _ in range(self.c.days):
             clusters: dict[str, list[_Scored]] = {}
             for x in remaining:
-                if taxi_minutes_between(self.hotel_loc, x.place.location) > LONG_LEG_MIN:
+                if self.from_hotel(x.place) > LONG_LEG_MIN:
                     continue  # e.g. Hatta from the city: every leg would break the long-leg rule
                 clusters.setdefault(x.place.neighborhood_id, []).append(x)
             if not clusters:
@@ -414,8 +434,7 @@ class Scheduler:
             options = [
                 x
                 for x in remaining
-                if interest in x.place.tags
-                and taxi_minutes_between(self.hotel_loc, x.place.location) <= LONG_LEG_MIN
+                if interest in x.place.tags and self.from_hotel(x.place) <= LONG_LEG_MIN
             ]
             used = [d for d in range(len(days)) if days[d]]
             # The best (place, day) pair that's close: a top beach an hour away is no use.
@@ -452,11 +471,7 @@ class Scheduler:
                 remaining = [x for x in remaining if x is not best] + removed
         # Fill pass: days with time left take the best leftovers close to their anchor, so
         # good places aren't dropped while afternoons stay empty.
-        leftovers = [
-            x
-            for x in remaining
-            if taxi_minutes_between(self.hotel_loc, x.place.location) <= LONG_LEG_MIN
-        ]
+        leftovers = [x for x in remaining if self.from_hotel(x.place) <= LONG_LEG_MIN]
         for d, day in enumerate(days):
             if not day or not leftovers:
                 continue
