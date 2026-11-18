@@ -58,8 +58,8 @@ def sidebar(settings: Settings) -> tuple[bool, int]:
     )
     if not can_llm:
         st.sidebar.caption(
-            "No API keys found. Add `GROQ_API_KEY` and `GOOGLE_API_KEY` to `.env` and restart "
-            "to use the LLMs."
+            "No API keys found. Add `GROQ_API_KEY` and `GOOGLE_API_KEY` to `.env` when running "
+            "locally, or to the app's **Secrets** on Streamlit Cloud, then restart to use the LLMs."
         )
     with st.sidebar.expander("Agent models", expanded=can_llm):
         for role in AGENT_ROLES:
