@@ -17,9 +17,9 @@
       ]
     }
   },
-  "updateContentCommand": "[ -f packages.txt ] && sudo apt update && sudo apt upgrade -y && sudo xargs apt install -y <packages.txt; [ -f requirements.txt ] && pip3 install --user -r requirements.txt; pip3 install --user streamlit; echo '✅ Packages installed and Requirements met'",
+  "updateContentCommand": "[ -f packages.txt ] && sudo apt update && sudo apt upgrade -y && sudo xargs apt install -y <packages.txt; pip3 install --user uv && python3 -m uv sync --locked && echo '✅ Packages installed from uv.lock'",
   "postAttachCommand": {
-    "server": "streamlit run app/streamlit_app.py --server.enableCORS false --server.enableXsrfProtection false"
+    "server": "python3 -m uv run streamlit run app/streamlit_app.py --server.enableCORS false --server.enableXsrfProtection false"
   },
   "portsAttributes": {
     "8501": {
