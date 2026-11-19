@@ -197,12 +197,14 @@ Pages (sidebar):
   to avoid, must-visit places); no typing.
 - **Ask the agents:** describe the trip in your own words, or pick an example.
 - **Browse Dubai:** every place on a map, with filters and "Add to my trip".
-- **Saved trips:** plans saved this session, side by side; download and upload trip files.
+- **Saved trips:** plans saved this session, side by side. There are no accounts: **Download**
+  saves a plan as a small `.json` file, and "Open a trip you downloaded earlier" brings it back.
 
 Each plan offers **Make it cheaper**, and **Change → Swap / Remove** on every stop. These
 re-run only the agents responsible. The **Dev mode** switch adds the model, data mode and
 revision settings, plus the review rounds, agent timeline, graph replay, metrics and a
-Travel data page. The background skyline follows Streamlit's light/dark theme (⋮ → Settings).
+Travel data page. The background, a day/night Dubai skyline seen through frosted-glass panels,
+follows Streamlit's light/dark theme (⋮ → Settings).
 
 **Free-tier protection:** identical LLM questions are answered from a cache. The whole app
 uses at most `LLM_DAILY_TOKEN_BUDGET` (150,000) tokens a day, and each visitor gets 3 AI plans
@@ -210,15 +212,16 @@ per session; after that, planning continues without AI. Before a demo, run
 `uv run python -m core.warmup`: the demo requests are then answered from
 `data/demo_llm_cache.json` with no LLM calls.
 
-While the plan is being built, you see each agent's status and the active graph node.
-Afterwards there are tabs for:
+While the plan is being built, travellers see a short progress list. With **Dev mode** on, you
+see each agent's card and the **live graph** next to it: finished nodes turn green and the
+running node amber. Afterwards there are tabs for:
 
 - the itinerary, with a route map per day and source badges;
 - the budget, against your limit;
-- each review round, with the draft-to-draft diff;
-- the agent timeline;
-- a replay of the graph's checkpoints;
-- run metrics.
+- (Dev mode) each review round, with the draft-to-draft diff;
+- (Dev mode) the agent timeline;
+- (Dev mode) **Graph**: a replay of the graph's checkpoints, step by step with a slider;
+- (Dev mode) run metrics.
 
 **Run from the command line**
 
