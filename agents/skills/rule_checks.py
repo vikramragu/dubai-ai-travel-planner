@@ -14,6 +14,7 @@ authoritative: the LLM may add qualitative issues but can't clear a failed block
 | duplicate_place (attraction)       | major    | destination |
 | crowded_place ("avoid crowds")     | major    | destination |
 | interest_missing                   | major    | destination |
+| must_visit_missing                 | major    | assemble (minor when it can't be placed) |
 | missing_meal (no lunch or dinner)  | minor    | assemble    |
 | missing_leg (moved without a leg)  | minor    | assemble    |
 | repeated_restaurant                | minor    | assemble    |
@@ -25,6 +26,7 @@ authoritative: the LLM may add qualitative issues but can't clear a failed block
 
 from __future__ import annotations
 
+from calendar import month_name
 from collections import Counter
 from datetime import time
 
@@ -363,7 +365,49 @@ def check_itinerary(
                     f"Nothing in the plan matches the '{interest.value}' interest",
                 )
             )
+
+    # ---------------------------------------------------------------- must-visit places
+    in_plan = set(itinerary.place_ids)
+    for pid in c.must_visit:
+        if pid in in_plan:
+            continue
+        wanted = providers.places.get_place(pid)
+        name = wanted.name if wanted else pid
+        why = _cannot_place(wanted, itinerary, providers, calendar[0].month)
+        issues.append(
+            _issue(
+                "must_visit_missing",
+                Severity.MINOR if why else Severity.MAJOR,  # re-planning can't fix a known reason
+                RouteTarget.ASSEMBLE,
+                f"{name} isn't in the plan" + (f": {why}" if why else ""),
+                place_id=pid,
+            )
+        )
     return issues
+
+
+def _cannot_place(
+    place: Attraction | Restaurant | None,
+    itinerary: Itinerary,
+    providers: DataProviders,
+    month: int,
+) -> str | None:
+    """Why a must-visit place can't be scheduled at all, or ``None`` if it should fit."""
+    if place is None:
+        return "it isn't in the dataset"
+    if "seasonal" in place.tags and month not in SEASONAL_MONTHS:
+        return f"it is closed in {month_name[month]}"
+    hotel = itinerary.hotel.neighborhood_id
+    worst = 0
+    for a, b in ((hotel, place.id), (place.id, hotel)):
+        try:
+            leg = providers.routes.travel(a, b, TransportMode.TAXI)
+        except ProviderError:
+            leg = None
+        worst = max(worst, leg.duration_min.value if leg else 0)
+    if worst > LONG_LEG_MIN:
+        return f"it is {worst} min by taxi from the hotel area, over the {LONG_LEG_MIN}-min limit"
+    return None
 
 
 def score(issues: list[ReviewIssue]) -> float:

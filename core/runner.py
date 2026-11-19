@@ -16,6 +16,7 @@ import uuid
 from collections.abc import Callable, Iterator
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
+from enum import StrEnum
 from typing import Any
 
 from langchain_core.runnables import RunnableConfig
@@ -23,11 +24,20 @@ from langgraph.types import StateSnapshot
 
 from agents.skills.budget_engine import BudgetOptions
 from core.config import DataMode, Settings, get_settings
-from core.llm import LLMClient, make_llm
+from core.llm import LLMClient, make_protected_llm
 from core.tracing import RunMetrics, TraceBus, TraceEvent, TraceKind
 from data.providers import DataProviders, get_providers
 from data.providers.runtime import data_run
-from schemas import Itinerary, ItinerarySnapshot
+from schemas import (
+    IssueOrigin,
+    Itinerary,
+    ItinerarySnapshot,
+    ReviewIssue,
+    ReviewReport,
+    RouteTarget,
+    Severity,
+    TripRequest,
+)
 
 AUTO = "auto"
 
@@ -41,6 +51,7 @@ class RunResult:
     history: list[ItinerarySnapshot] = field(default_factory=list)  # every reviewed draft
     steps: list[str] = field(default_factory=list)  # node names in the order they finished
     stop_reason: str = "passed"
+    rationale: dict[str, str] = field(default_factory=dict)  # place id -> why it was picked
     thread_id: str = ""
     graph: Any = None  # the compiled graph (with its checkpointer), for replay
 
@@ -62,13 +73,16 @@ def run(
     on_event: Callable[[TraceEvent], None] | None = None,
     bus: TraceBus | None = None,
     max_revisions: int | None = None,
+    request: TripRequest | None = None,
 ) -> RunResult:
-    """Plan a trip from free text. ``llm="auto"`` uses the configured providers if keys are set."""
+    """Plan a trip from free text, or from a ready ``request`` (the trip form; ``text`` is then
+    its one-line summary). ``llm="auto"`` uses the configured providers if keys are set, with
+    the answer cache and the free-tier guard."""
     from graph.build import build_graph, make_checkpointer
     from graph.state import GraphContext
 
     settings = settings or get_settings()
-    client = make_llm(settings) if llm == AUTO else llm
+    client = make_protected_llm(settings) if llm == AUTO else llm
     assert client is None or not isinstance(client, str)
     run_id = run_id or uuid.uuid4().hex[:8]
     context = GraphContext(
@@ -95,25 +109,178 @@ def run(
         summary="Run started" + ("" if client else " (no LLM: deterministic mode)"),
     )
     publish(start)
-    steps: list[str] = []
-    # Live data: hybrid mode caps the network calls per run; live mode doesn't.
-    budget = settings.external_call_budget if settings.data_mode is DataMode.HYBRID else None
     try:
-        with data_run(budget):
-            for mode, chunk in graph.stream(
-                {"raw_request": text},
-                config,
-                context=context,
-                stream_mode=["updates", "custom"],
-            ):
-                if mode == "custom" and isinstance(chunk, TraceEvent):
-                    publish(chunk)
-                elif mode == "updates" and isinstance(chunk, dict):
-                    steps += [node for node in chunk if not node.startswith("__")]
+        first = {"raw_request": text, **({"request": request} if request else {})}
+        steps = _stream(graph, first, config, context, settings, publish)
         return _result(graph, config, client, start, steps, publish)
     finally:
         if bus is not None:
             bus.close()  # also on failure (e.g. a rejected request), so readers stop waiting
+
+
+def _stream(
+    graph: Any,
+    graph_input: dict[str, Any] | None,
+    config: RunnableConfig,
+    context: Any,
+    settings: Settings,
+    publish: Callable[[TraceEvent], None],
+) -> list[str]:
+    """Stream the graph (``graph_input=None`` resumes a checkpointed run); returns the nodes
+    in the order they finished."""
+    steps: list[str] = []
+    # Live data: hybrid mode caps the network calls per run; live mode doesn't.
+    budget = settings.external_call_budget if settings.data_mode is DataMode.HYBRID else None
+    with data_run(budget):
+        for mode, chunk in graph.stream(
+            graph_input, config, context=context, stream_mode=["updates", "custom"]
+        ):
+            if mode == "custom" and isinstance(chunk, TraceEvent):
+                publish(chunk)
+            elif mode == "updates" and isinstance(chunk, dict):
+                steps += [node for node in chunk if not node.startswith("__")]
+    return steps
+
+
+# ------------------------------------------------------------------ change requests
+class ChangeKind(StrEnum):
+    CHEAPER = "cheaper"  # lower the target (default 15% below the current total) -> Budget
+    REMOVE = "remove"  # take a stop out of the plan -> Assemble
+    SWAP = "swap"  # replace a stop with another place -> Destination
+
+
+@dataclass
+class ChangeRequest:
+    kind: ChangeKind
+    place_id: str | None = None
+    target_aed: float | None = None  # CHEAPER only
+
+    def describe(self, names: dict[str, str]) -> str:
+        name = names.get(self.place_id or "", self.place_id or "")
+        return {
+            ChangeKind.CHEAPER: f"make it cheaper (target AED {self.target_aed or 0:,.0f})",
+            ChangeKind.REMOVE: f"remove {name}",
+            ChangeKind.SWAP: f"swap {name} for another place",
+        }[self.kind]
+
+
+CHEAPER_SHARE = 0.85
+
+
+def revise(
+    result: RunResult,
+    change: ChangeRequest,
+    *,
+    providers: DataProviders | None = None,
+    llm: LLMClient | str | None = AUTO,
+    settings: Settings | None = None,
+    on_event: Callable[[TraceEvent], None] | None = None,
+    bus: TraceBus | None = None,
+) -> RunResult:
+    """Apply a traveller's change to a finished plan (architecture.md §6.3).
+
+    The change is written into the checkpointed state as a review issue from the ``user``
+    (``update_state`` as the review node), and the graph resumes from the router: only the
+    agents responsible re-run, and the revised plan goes through Review like any draft."""
+    from graph.state import GraphContext
+
+    if result.graph is None:
+        raise ValueError("this plan has no saved graph state (e.g. it was loaded from a file)")
+    settings = settings or get_settings()
+    client = make_protected_llm(settings) if llm == AUTO else llm
+    assert client is None or not isinstance(client, str)
+    graph = result.graph
+    source: RunnableConfig = {"configurable": {"thread_id": result.thread_id}}
+    state = graph.get_state(source).values
+    # Fork: the change runs on a copy of the saved state, so the original plan (and anything
+    # saved from it) stays exactly as it was.
+    thread_id = f"{result.thread_id.split('~')[0]}~{uuid.uuid4().hex[:6]}"
+    config: RunnableConfig = {"configurable": {"thread_id": thread_id}, "recursion_limit": 100}
+    graph.update_state(config, dict(state), as_node="finalize")
+    final: Itinerary = state["final"]
+    request: TripRequest = state["request"]
+    revision = int(state.get("revision", 0)) + 1
+    excluded = list(state.get("user_excluded", []))
+    update: dict[str, Any] = {"revision": revision, "stop_reason": "", "change_from": revision}
+
+    if change.kind is ChangeKind.CHEAPER:
+        total = final.budget.total if final.budget else request.constraints.budget_aed
+        target = round(change.target_aed or total * CHEAPER_SHARE, 2)
+        change = ChangeRequest(ChangeKind.CHEAPER, target_aed=target)
+        note = f"You asked for a cheaper plan: target AED {target:,.0f} (was AED {total:,.0f})"
+        update["request"] = request.model_copy(update={"assumptions": [*request.assumptions, note]})
+        update["budget_target"] = target  # the Budget agent's goal; the budget stays the budget
+        targets = [RouteTarget.BUDGET]
+        issue = ReviewIssue(
+            code="user_cheaper",
+            severity=Severity.MAJOR,
+            message=f"The traveller asked for a cheaper plan (target AED {target:,.0f})",
+            route_to=RouteTarget.BUDGET,
+            origin=IssueOrigin.USER,
+        )
+    else:
+        if not change.place_id:
+            raise ValueError(f"{change.kind.value} needs a place_id")
+        excluded.append(change.place_id)
+        update["user_excluded"] = list(dict.fromkeys(excluded))
+        if change.place_id in request.constraints.must_visit:  # they changed their mind
+            must = [p for p in request.constraints.must_visit if p != change.place_id]
+            c = request.constraints.model_copy(update={"must_visit": must})
+            update["request"] = request.model_copy(update={"constraints": c})
+        swap = change.kind is ChangeKind.SWAP
+        target_node = RouteTarget.DESTINATION if swap else RouteTarget.ASSEMBLE
+        targets = [target_node]
+        issue = ReviewIssue(
+            code="user_swap" if swap else "user_remove",
+            severity=Severity.MAJOR,
+            message="The traveller asked to "
+            + ("swap this stop for another place" if swap else "remove this stop"),
+            route_to=target_node,
+            origin=IssueOrigin.USER,
+            place_id=change.place_id,
+        )
+    update["review"] = ReviewReport.from_issues(
+        [issue],
+        score=final.review.score if final.review else 0.0,
+        summary="Change requested by the traveller",
+    )
+    update["revision_targets"] = targets
+
+    def publish(event: TraceEvent) -> None:
+        if on_event is not None:
+            on_event(event)
+        if bus is not None:
+            bus.publish(event)
+
+    data = providers or get_providers(settings)
+    place = data.places.get_place(change.place_id) if change.place_id else None
+    names = {place.id: place.name} if place else {}
+    start = TraceEvent(
+        run_id=thread_id,
+        agent="router",
+        kind=TraceKind.ROUTE,
+        summary=f"Revision {revision}: you asked to {change.describe(names)}; sending it to "
+        + ", ".join(t.value for t in targets),
+        payload={"targets": [t.value for t in targets], "change": change.kind.value},
+        revision=revision,
+    )
+    update["trace"] = [start]  # kept in the run's history, like every routing decision
+    graph.update_state(config, update, as_node="review")
+    publish(start)
+    context = GraphContext(
+        providers=data,
+        llm=client,
+        settings=settings,
+        run_id=thread_id,
+        max_revisions=revision + settings.max_revisions,  # the change gets its own rounds
+        budget_options=BudgetOptions(contingency_pct=settings.contingency_pct),
+    )
+    try:
+        steps = _stream(graph, None, config, context, settings, publish)
+        return _result(graph, config, client, start, steps, publish)
+    finally:
+        if bus is not None:
+            bus.close()
 
 
 def _result(
@@ -136,6 +303,7 @@ def _result(
     metrics = RunMetrics(
         wall_time_s=round((datetime.now(UTC) - start.ts).total_seconds(), 3),
         llm_calls=usage.calls if usage else 0,
+        llm_cache_hits=int(getattr(client, "cache_hits", 0)),
         tokens_in=usage.tokens_in if usage else 0,
         tokens_out=usage.tokens_out if usage else 0,
         revisions=state.get("revision", 0),
@@ -156,12 +324,13 @@ def _result(
     publish(end)
     return RunResult(
         itinerary=final,
-        trace=[start, *state["trace"], end],
+        trace=[*([] if start in state["trace"] else [start]), *state["trace"], end],
         metrics=metrics,
         unscheduled=state["drafts_unscheduled"][chosen],
         history=history,
         steps=steps,
         stop_reason=state.get("stop_reason", "passed"),
+        rationale=dict(state["research"].rationale) if "research" in state else {},
         thread_id=config["configurable"]["thread_id"],
         graph=graph,
     )

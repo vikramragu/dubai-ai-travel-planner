@@ -43,6 +43,7 @@ class TraceEvent(StrictModel):
 class RunMetrics(StrictModel):
     wall_time_s: NonNegativeFloat = 0.0
     llm_calls: NonNegativeInt = 0
+    llm_cache_hits: NonNegativeInt = 0  # answers reused from the cache (no call, no tokens)
     tokens_in: NonNegativeInt = 0
     tokens_out: NonNegativeInt = 0
     est_llm_cost_usd: NonNegativeFloat = 0.0

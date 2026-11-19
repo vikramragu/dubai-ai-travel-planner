@@ -14,21 +14,24 @@ from langgraph.config import get_stream_writer
 from langgraph.runtime import Runtime
 
 from agents.base import AgentContext
-from agents.budget import BudgetAgent
+from agents.budget import BudgetAgent, BudgetRevision
 from agents.destination import DestinationAgent
 from agents.logistics import LogisticsAgent
 from agents.orchestrator import Orchestrator
 from agents.review import ReviewAgent
+from agents.skills.budget_engine import Plan
 from core.tracing import TraceKind
 from data.providers.runtime import set_node_sink
 from graph.state import GraphContext, PlannerState
 from schemas import (
     BudgetAlternative,
+    BudgetBreakdown,
     Itinerary,
     ItinerarySnapshot,
     ReviewIssue,
     ReviewReport,
     RouteTarget,
+    TripRequest,
 )
 
 Update = dict[str, Any]
@@ -67,9 +70,11 @@ def _for(state: PlannerState, target: RouteTarget) -> list[ReviewIssue]:
 
 
 def _assumptions(state: PlannerState) -> list[str]:
+    plan = state.get("plan")
     return [
         *state["request"].assumptions,
         *state.get("research_notes", []),
+        *(plan.schedule.notes if plan is not None else []),  # e.g. a must-visit that didn't fit
         *state.get("budget_notes", []),
     ]
 
@@ -77,6 +82,23 @@ def _assumptions(state: PlannerState) -> list[str]:
 # ------------------------------------------------------------------ nodes
 def parse(state: PlannerState, runtime: Runtime[GraphContext]) -> Update:
     ctx = _ctx(state, runtime, "parse")
+    given = state.get("request")
+    if given is not None:  # the trip form: exact values, no parsing (and no LLM call)
+        c = given.constraints
+        ctx.emit(
+            "orchestrator",
+            TraceKind.OUTPUT,
+            f"Request from the trip form: {c.days} days, AED {c.budget_aed:,.0f}, "
+            f"{c.travelers} traveller(s)",
+            {"constraints": c.model_dump(mode="json"), "parser": "form"},
+        )
+        return {
+            "request": given,
+            "month": None,
+            "revision": 0,
+            "revision_targets": [],
+            "trace": ctx.events,
+        }
     parsed = Orchestrator(ctx, runtime.context.budget_options).parse(state["raw_request"])
     return {
         "request": parsed.request,
@@ -104,7 +126,10 @@ def orchestrate(state: PlannerState, runtime: Runtime[GraphContext]) -> Update:
 def destination(state: PlannerState, runtime: Runtime[GraphContext]) -> Update:
     ctx = _ctx(state, runtime, "destination")
     found = DestinationAgent(ctx).research(
-        state["request"], month=state.get("month"), issues=_for(state, RouteTarget.DESTINATION)
+        state["request"],
+        month=state.get("month"),
+        issues=_for(state, RouteTarget.DESTINATION),
+        exclude_ids=frozenset(state.get("user_excluded", [])),
     )
     return {"research": found.research, "research_notes": found.assumptions, "trace": ctx.events}
 
@@ -124,9 +149,9 @@ def logistics(state: PlannerState, runtime: Runtime[GraphContext]) -> Update:
 def assemble(state: PlannerState, runtime: Runtime[GraphContext]) -> Update:
     ctx = _ctx(state, runtime, "assemble")
     issues = _blocking(state)
-    exclude: frozenset[str] = frozenset()
+    exclude: frozenset[str] = frozenset(state.get("user_excluded", []))
     if RouteTarget.ASSEMBLE in state.get("revision_targets", []):
-        exclude = frozenset(i.place_id for i in issues if i.place_id) | detours(
+        exclude |= frozenset(i.place_id for i in issues if i.place_id) | detours(
             state["draft"], _for(state, RouteTarget.ASSEMBLE)
         )
     plan = Orchestrator(ctx, runtime.context.budget_options).assemble(
@@ -149,10 +174,32 @@ def budget(state: PlannerState, runtime: Runtime[GraphContext]) -> Update:
     evaluation = agent.evaluate(plan, request)
     alternatives: list[BudgetAlternative] = list(evaluation.alternatives)
     notes = list(state.get("budget_notes", []))
-    if not plan.budget.within_budget and state.get("revision", 0) > 0:
+    target = state.get("budget_target")
+    update: Update = {}
+    if target is not None and plan.budget.total > target:
+        # "Make it cheaper": cut towards the traveller's target, best effort. The trip's real
+        # budget stays the budget, so a plan that gets close but not all the way still passes.
+        issues = _for(state, RouteTarget.BUDGET) or _blocking(state)
+        revision = _cut_to(agent, plan, request, target, issues)
+        update["budget_target"] = None  # one-shot
+        got = revision.plan.budget.total
+        notes.append(
+            f"Cut the plan to AED {got:,.0f} (you asked for about AED {target:,.0f})"
+            if got > target + 1
+            else f"Cut the plan to AED {got:,.0f} (target AED {target:,.0f})"
+        )
+    elif not plan.budget.within_budget and state.get("revision", 0) > 0:
         issues = _for(state, RouteTarget.BUDGET) or _blocking(state)
         revision = agent.revise(plan, request, issues)
-        plan = Orchestrator(ctx, options).write_themes(revision.plan, state["research"], issues)
+    else:
+        revision = None
+    if revision is not None:
+        before = [d.place_ids for d in plan.schedule.itinerary.days]
+        plan = revision.plan
+        if [d.place_ids for d in plan.schedule.itinerary.days] != before:
+            # the cheaper plan changed the days: their themes need rewriting (an LLM call
+            # saved when only the hotel area or the transport changed)
+            plan = Orchestrator(ctx, options).write_themes(plan, state["research"], issues)
         applied = {a.id for a in revision.applied}
         known = {a.id for a in alternatives}
         alternatives = [a.model_copy(update={"applied": a.id in applied}) for a in alternatives] + [
@@ -160,6 +207,7 @@ def budget(state: PlannerState, runtime: Runtime[GraphContext]) -> Update:
         ]
         notes += revision.notes
     return {
+        **update,
         "plan": plan,
         "draft": plan.itinerary,
         "budget": plan.budget,
@@ -169,13 +217,38 @@ def budget(state: PlannerState, runtime: Runtime[GraphContext]) -> Update:
     }
 
 
+def _cut_to(
+    agent: BudgetAgent,
+    plan: Plan,
+    request: TripRequest,
+    target: float,
+    issues: list[ReviewIssue],
+) -> BudgetRevision:
+    """Run the Budget agent with ``target`` as the budget, then put the trip's real budget
+    (and request) back on the result."""
+    c = request.constraints.model_copy(update={"budget_aed": target})
+    aim = request.model_copy(update={"constraints": c})
+    start = Plan(plan.inputs, plan.schedule, BudgetBreakdown.from_lines(plan.budget.lines, target))
+    revision = agent.revise(start, aim, issues)
+    done = revision.plan
+    schedule = done.schedule
+    schedule.itinerary = schedule.itinerary.model_copy(update={"request": request})
+    real = BudgetBreakdown.from_lines(done.budget.lines, request.constraints.budget_aed)
+    revision.plan = Plan(done.inputs, schedule, real)
+    # "still over budget" would refer to the target, not the trip's budget: the caller says
+    # how close the cut got instead
+    revision.notes = [n for n in revision.notes if "over budget" not in n]
+    return revision
+
+
 def review(state: PlannerState, runtime: Runtime[GraphContext]) -> Update:
     """Review the draft, store it in ``history`` and decide whether to revise."""
     ctx = _ctx(state, runtime, "review")
     revision = state.get("revision", 0)
     draft = with_outcome(state["draft"], _assumptions(state), state.get("alternatives", []))
     report = ReviewAgent(ctx).review(
-        draft.model_copy(update={"revisions": revision}), month=state.get("month")
+        draft.model_copy(update={"revisions": revision}),
+        month=state.get("month"),
     )
     reviewed = with_outcome(draft, [], [], report, revision)
     snapshot = ItinerarySnapshot(
@@ -211,10 +284,14 @@ def finalize(state: PlannerState, runtime: Runtime[GraphContext]) -> Update:
     ctx = _ctx(state, runtime, "finalize")
     history = state["history"]
     reason = state.get("stop_reason", "passed")
+    # After a traveller's change, only the drafts made for it count: the plan from before the
+    # change is never handed back, even if it scored higher.
+    since = state.get("change_from", 0)
+    pool = [i for i in range(len(history)) if history[i].revision >= since] or [len(history) - 1]
     if reason == "passed":
         chosen = len(history) - 1
     else:  # best score; the later draft wins a tie
-        chosen = max(range(len(history)), key=lambda i: (_score(history[i].itinerary), i))
+        chosen = max(pool, key=lambda i: (_score(history[i].itinerary), i))
     final = history[chosen].itinerary.model_copy(update={"revisions": state.get("revision", 0)})
     if reason != "passed":
         open_issues = [

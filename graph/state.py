@@ -47,6 +47,9 @@ class PlannerState(TypedDict, total=False):
     review: ReviewReport
     revision: int  # 0 = first draft; n = n-th revision round
     revision_targets: list[RouteTarget]  # who must act this round; empty = finalize
+    user_excluded: list[str]  # places the traveller removed or swapped out (kept out for good)
+    budget_target: float | None  # "make it cheaper": the Budget agent's goal (not the budget)
+    change_from: int  # revision a traveller's change started at (finalize picks from here)
     stop_reason: str  # passed | max_revisions | no_improvement
     final: Itinerary
     final_draft: int  # revision number of the draft ``finalize`` chose

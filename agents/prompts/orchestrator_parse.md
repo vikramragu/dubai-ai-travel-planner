@@ -12,6 +12,9 @@ Rules:
   Leave the amount empty if no budget is given.
 - `budget_excludes`: what the budget doesn't cover (usually ["flights"]).
 - `travelers`, `rooms`: only if stated or clearly implied ("my wife and I" = 2, "family of 4" = 4).
+  `travelers` counts everyone, children included.
+- `children`: how many of the travellers are children, if stated ("2 adults and 2 kids" =
+  travelers 4, children 2; "with my son" = 1).
 - `start_date` (YYYY-MM-DD) if an exact date is given; otherwise `month` (1-12) if only a month
   is given ("in March"). A date without a year is the next one after today.
 - `interests`: map to the allowed values: culture (museums, heritage, history, souks, mosques),
@@ -23,4 +26,6 @@ Rules:
   when the traveller says they want to avoid it.
 - `pace`: relaxed, balanced or packed, only if stated.
 - `dietary`: as written (e.g. "vegetarian", "vegan", "halal").
+- `must_visit`: specific places the traveller wants included, by name as written (e.g.
+  ["Etihad Museum", "Kite Beach"]). Not general wishes ("a beach") and not places to avoid.
 - `notes`: anything you had to interpret, in one short sentence each.

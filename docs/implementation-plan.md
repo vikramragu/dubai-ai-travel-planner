@@ -26,12 +26,13 @@
 | 5 | LangGraph orchestration | Stateful graph, parallel fan-out, router, review loop, streaming | 3–4 days |
 | 6 | Streamlit UI | Timeline, graph view, itinerary, budget, review diff, metrics | 3–4 days |
 | 7 | Free live data | Overpass, OSRM, Open-Meteo, (GTFS) behind flags + cache | 3–4 days |
-| 8 | Hardening & demo | Scenario tests, baseline comparison, docs, demo script | 2–3 days |
+| 8 | Traveller UX | Trip form, browse, saved trips, day cards, change requests, dev mode, day/night skyline, fewer LLM calls | 4–5 days |
+| 9 | Hardening & demo | Scenario tests, baseline comparison, docs, demo script | 2–3 days |
 
 Estimates are for one developer and are planning guides only.
 
 ```
-P0 ─▶ P1 ─▶ P2 ─▶ P3 ─▶ P4 ─▶ P5 ─▶ P6 ─▶ P8
+P0 ─▶ P1 ─▶ P2 ─▶ P3 ─▶ P4 ─▶ P5 ─▶ P6 ─▶ P8 ─▶ P9
                    │                  ▲
                    └──────▶ P7 ───────┘   (P7 can start after P2, in parallel with P4–P6)
 ```
@@ -385,7 +386,87 @@ live place in a schedule crashed a run (no provider for metro to an unknown plac
 
 ---
 
-## Phase 8 — Hardening, Evaluation & Demo
+## Phase 8 — Traveller UX
+
+**Goal:** a planner a non-technical traveller can use without typing, with the technical views
+one switch away (architecture.md §4.3, §6.3, §11.2; agreed 2026-11-18). The design rule is
+"plan first, details when you need them".
+
+**Tasks — contracts and agents**
+
+- [x] `schemas/request.py` — `TripConstraints.children` (fewer than `travelers`, so at least one adult; `adults` property) and `must_visit: list[Slug]` (at most 10, de-duplicated); `IssueOrigin.USER` in `schemas/review.py`.
+- [x] Orchestrator: the keyword and LLM parsers read children ("2 kids", "a family of four with two children") and must-visit places named in the text (matched to dataset names); an unknown must-visit place is recorded in `assumptions`.
+- [x] Children: count as travellers for every cost and charge the adult price (no child prices in the dataset), with an assumption saying so; family-tagged places score higher.
+- [x] Destination: `must_visit` places are always in the research result, first, whatever the interest and crowd filters; the LLM is told they are required.
+- [x] Scheduler: must-visit places are placed first (their area anchors a day) and are never the stop dropped to fit the pace; one that can't be placed (closed every trip day, over an hour from the hotel) is reported with the reason.
+- [x] Rule check `must_visit_missing` (major → Assemble).
+- [x] Graph: a run can start with `request` already set (the trip form); `parse` then passes it through without the LLM.
+- [x] Fewer LLM calls: reuse the stored plan for the same request and settings within 24 h (no LLM calls); the trip form skips parsing; revision rounds don't rewrite day themes after a budget-only fix and don't repeat the LLM review comments (the rules still check every round).
+- [x] Quota guard for the public app (Groq's free tier allows ~200k tokens/day, ~15–25 plans): an app-wide daily budget of LLM tokens (`LLM_DAILY_TOKEN_BUDGET`, default 150,000) after which every run plans without the LLM until the next day (UTC); at most 3 AI plans per browser session (`LLM_PLANS_PER_SESSION`); when Groq or Gemini answers "limit reached", AI planning pauses at once for everyone instead of each run retrying; the sidebar shows how much of today's allowance is used.
+- [x] Demo warm-up: `uv run python -m core.warmup` runs the demo requests once so they are served from the 24 h plan cache during a demo (no LLM calls, nothing can hit a limit live).
+- [x] Change requests (`core/runner.py`): "make it cheaper" (a target, default 15% below the current total → Budget), "remove this stop" (→ Assemble, excluded) and "swap this stop" (→ Destination, excluded and replaced). Each is written into the last review as a `user` issue with `update_state`, and the graph resumes from the router.
+
+**Tasks — UI**
+
+- [x] Navigation (`st.navigation`): **Plan a trip**, **Ask the agents**, **Browse Dubai**, **Saved trips**; **Travel data** in dev mode only.
+- [x] A **Dev mode** switch: off hides the model, data mode and revision settings, the Review & revisions, Agent timeline, Graph and Metrics tabs, the raw assumptions and the Travel data page; on shows them.
+- [x] **Day/night skyline** that follows Streamlit's own light/dark theme (⋮ → Settings; read with `st.context.theme.type`, made instant with CSS where possible): an illustrated Dubai skyline (SVG, drawn for the project, licence-free), the same scene by day and by night, animating between them (sky, sun and moon, window lights); content on translucent cards; text contrast checked in both themes. No custom theme switch: Streamlit's built-in widgets then always match.
+- [x] **Plan a trip** — form: start date and number of days, adults, children, budget (AED), hotel type, interests, pace, things to avoid, diet, must-visit places (multi-select from the dataset, pre-filled from Browse Dubai).
+- [x] **Ask the agents** — the text request, example request chips ("Family weekend", "Luxury 5 days", "Budget culture trip"), and checks before planning (budget, destination, length) shown under the box.
+- [x] **Browse Dubai** — map and filterable list of all places (interest, area, free, indoor, crowd level), each with "Add to my trip".
+- [x] **Saved trips** — save a plan in this session, compare saved plans side by side, download a trip as JSON and upload it again (validated as an `Itinerary`).
+- [x] **Travel data** *(dev)* — data sources and their licences, freshness per source (staleness report), current data mode and live-source status, cache size and a "clear cache" button.
+- [x] Progress view for travellers while planning (understanding the request → finding places → choosing a hotel area → building the days → checking the budget → final review); the agent timeline and live graph stay in dev mode.
+- [x] Results: a summary (days, hotel area, total against budget, verdict); one card per day (time, place, how to get there, cost; weather badge; day cost); a map per day with numbered pins matching the cards; "Why this?" with the agents' reasons for each place and the hotel area; change-request buttons; Budget tab.
+
+**Deliverables:** the redesigned app on Streamlit Cloud.
+
+**Status: done** (2026-11-19). Contracts: `TripConstraints.children` and `must_visit`,
+`IssueOrigin.USER`; the parser reads children ("2 adults and 2 kids", "with my son") and named
+places (`agents/skills/places_match.py`; "avoid X" is not a must-visit; the longest matching
+name wins). Destination always keeps must-visit places; the scheduler pins them first (they
+take the day's one beach slot, are never dropped for pace) and explains one that can't fit;
+`must_visit_missing` is minor with a stated reason (closed that season, over an hour from the
+hotel) and major otherwise. Graph: the trip form skips parsing; change requests (`revise()`)
+fork the checkpointed run, write a `user` issue with `update_state` and resume from the
+router ("cheaper" → Budget only, with a target that is not the budget; "remove" → Assemble;
+"swap" → Destination); `finalize` only picks drafts made for the change. LLM protection:
+`CachingLLM` (identical questions answered from a 24 h disk cache or the committed
+`data/demo_llm_cache.json`), `QuotaGuard` (150k tokens/day for the whole app, kept across
+restarts; an instant pause on "limit reached"), 3 AI plans per browser session, LLM review
+comments only on passing drafts, day themes rewritten only when a budget fix changes the
+days; `uv run python -m core.warmup` fills the demo cache (4 demo plans, all score 100 with
+the real models). UI (`app/pages/`, `app/components/`): Plan a trip (form), Ask the agents
+(examples, checks before planning), Browse Dubai (map, filters, add to trip), Saved trips
+(session, compare, download/upload), Travel data (dev); progress steps for travellers, day
+cards with numbered map pins, weather, "Why this?", Change (swap/remove), Make it cheaper,
+Save, Download; dev mode adds settings and the Phase 6 views. Skyline: an SVG drawn for the
+project that follows Streamlit's light/dark theme (a script reads the text colour and
+cross-fades day and night); `st.html` strips SVG and markup-bearing scripts, so the drawing
+is inserted base64-encoded by our script and attached to `<body>`. Checked in a real browser
+(Playwright + Chrome): both themes, a plan, the Change menu and a removal. Tests: 431 pass
+(+45: family/must-visit, LLM protection, change requests, UI pages); the 300-trip property
+test passes. Found and fixed on the way: a must-visit beach lost its slot to a better-scoring
+beach; "Hatta Heritage Village" also pinned the Shindagha village; "make it cheaper" handed back
+the original plan when the target couldn't be fully met; a change request rewrote the
+original run (now forked); the dev-mode switch lost its state on some reruns; with the real
+LLMs the over-budget demo stayed over budget because the Budget LLM chose small swaps before a
+needed hotel downgrade, after which every hotel move broke the transit rule (the engine's tier
+decision is now binding; a regression test fails on the old code).
+
+**Exit criteria:**
+
+- A traveller can plan a trip from the form without typing, see the day cards and maps, ask for a change and save or download the result.
+- With dev mode off, no technical view is visible; with it on, every Phase 6 view is available.
+- Must-visit places appear in the plan, or the plan says why one couldn't be placed; children show in the costs and the assumptions.
+- Each change request re-runs only the agents responsible (graph test), and the revised plan passes review.
+- Switching Streamlit's theme switches the skyline between day and night, and text stays readable in both.
+- A repeated request within 24 h makes no LLM calls; a revision round makes fewer calls than the first round.
+- Every earlier test still passes; new page and component tests cover the form, browse, saved trips (download → upload round trip), dev mode and the day/night skyline.
+
+---
+
+## Phase 9 — Hardening, Evaluation & Demo
 
 **Goal:** a stable, explainable demo that meets every success criterion.
 
@@ -398,7 +479,7 @@ live place in a schedule crashed a run (no provider for metro to an unknown plac
 - [ ] Error-path review: invalid LLM output, all providers down, impossible budgets (e.g. AED 300 for 7 days) → clear messages.
 - [ ] Data refresh: run the staleness report; re-verify fares and prices before the demo.
 - [ ] Docs: README (setup, run, configuration), a demo script (talk track + requests to type), update architecture.md with any design changes.
-- [ ] Deploy the Streamlit app to Streamlit Community Cloud (needs the git repository and a GitHub remote; `GROQ_API_KEY`/`GOOGLE_API_KEY` as app secrets) — decision of 2026-11-17.
+- [x] Deploy the Streamlit app to Streamlit Community Cloud — done 2026-11-18 (keys as app secrets; redeploys on every push to `main`).
 - [ ] Stretch goals: human approval before `finalize` (`interrupt_before`), destination research as a subgraph.
 
 **Deliverables:** tagged demo release, demo script, passing scenario suite.
@@ -414,8 +495,8 @@ live place in a schedule crashed a run (no provider for metro to an unknown plac
 | Accept natural-language requirements and produce a structured Dubai itinerary | P1, P4, P5 | Parser tests; scenario suite |
 | Demonstrate meaningful collaboration among specialized agents | P4, P5, P6 | Graph tests (parallel superstep, targeted revisions); live timeline |
 | Generate realistic schedules and estimated budgets using available data | P2, P3, P7 | Scheduler/budget property tests; provenance badges |
-| Detect and revise at least one itinerary constraint violation | P3, P5 | Forced over-budget and "avoid crowds" scenarios |
-| Visualize agent execution, shared state, and plan changes across review iterations | P5, P6 | UI timeline, graph view, review diff |
+| Detect and revise at least one itinerary constraint violation | P3, P5, P8 | Forced over-budget and "avoid crowds" scenarios; traveller change requests |
+| Visualize agent execution, shared state, and plan changes across review iterations | P5, P6, P8 | UI timeline, graph view, review diff; traveller progress view and dev mode |
 
 ---
 
@@ -431,6 +512,7 @@ live place in a schedule crashed a run (no provider for metro to an unknown plac
 | Prices and fares go stale | Unrealistic budgets | `as_of` on every value, staleness report, `estimated` tags, contingency buffer. |
 | Streamlit live updates from a background thread are awkward | Weak visualisation | Queue-based `TraceBus` polled by the UI; fall back to step-by-step replay from checkpoints. |
 | LLM cost during development | Budget overrun | Stubbed LLM in tests, cheaper model for parsing, cache LLM responses in dev. |
+| The public app spends the owner's free LLM quota (Groq: ~15–25 plans/day) | AI planning stops for the day | Plan cache, fewer calls per plan, an app-wide daily token budget, 3 AI plans per visitor, an instant pause on "limit reached", demo warm-up; planning without the LLM always works (P8). |
 
 ---
 

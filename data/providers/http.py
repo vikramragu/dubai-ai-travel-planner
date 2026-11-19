@@ -86,6 +86,11 @@ class HttpClient:
     ) -> Any:
         return self._request("POST", source, url, None, data, ttl_h, timeout_s)
 
+    def clear(self) -> None:
+        """Empty the response cache (the next live calls fetch fresh data)."""
+        if self._cache is not None:
+            self._cache.clear()
+
     def cached_post(self, url: str, data: Mapping[str, str]) -> Any:
         """A cached POST response, or ``None`` (never calls the network)."""
         if self._cache is None:

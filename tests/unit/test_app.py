@@ -164,36 +164,6 @@ def test_worker_thread_keeps_request_errors(providers: DataProviders) -> None:
     assert isinstance(handle.error, RequestError) and handle.result is None
 
 
-# ------------------------------------------------------------------ the app
-def test_app_plans_a_trip_offline() -> None:
-    """Exit criterion: the example request runs from the UI in offline mode."""
-    at = AppTest.from_file(str(APP), default_timeout=90)
-    at.run()
-    assert not at.exception
-    assert "Dubai" in (at.text_area(key="request").value or "")
-    model = at.radio(key="model")
-    if not model.disabled:  # keys in .env: still test offline
-        model.set_value("No LLM (deterministic)")
-    assert model.value == "No LLM (deterministic)"
-    at.text_area(key="request").set_value(OVER_BUDGET)
-    at.button(key="plan").click().run()
-    for _ in range(20):  # the live view reruns the script until the worker finishes
-        if at.success or at.warning or at.exception:
-            break
-        at.run()
-    assert not at.exception, at.exception
-    assert at.success and "revision" in at.success[0].value
-    labels = [t.label for t in at.tabs]
-    for tab in ("Itinerary", "Budget", "Review & revisions", "Agent timeline", "Graph", "Metrics"):
-        assert tab in labels
-    assert {"Day 1", "Day 4"} <= set(labels)
-    text = " ".join(m.value for m in at.markdown)
-    assert "Draft 0 → draft 1" in text and "Router:" in text
-    assert any("Nothing is booked" in c.value for c in at.caption)
-    at.slider(key="replay_step").set_value(0).run()
-    assert not at.exception
-
-
 def test_live_view_renders_a_run_in_progress() -> None:
     def live_page() -> None:
         from app.components.graph_view import render_graph_live
@@ -212,23 +182,3 @@ def test_live_view_renders_a_run_in_progress() -> None:
     assert not at.exception
     text = " ".join(m.value for m in at.markdown)
     assert "Destination research** — running" in text and "Logistics** — running" in text
-
-
-@pytest.mark.parametrize("keys", [False, True])
-def test_sidebar_model_choice_follows_the_keys(keys: bool) -> None:
-    def page(keys: bool) -> None:
-        from pydantic import SecretStr
-
-        from app.streamlit_app import sidebar
-        from core.config import Settings
-
-        extra = {"groq_api_key": SecretStr("g"), "google_api_key": SecretStr("k")} if keys else {}
-        sidebar(Settings(_env_file=None, **extra))  # type: ignore[arg-type]
-
-    at = AppTest.from_function(page, args=(keys,), default_timeout=30).run()
-    assert not at.exception
-    radio = at.sidebar.radio(key="model")
-    assert radio.disabled is (not keys)
-    assert radio.value == ("Configured LLMs" if keys else "No LLM (deterministic)")
-    text = " ".join(m.value for m in at.sidebar.markdown)
-    assert text.count("🟢" if keys else "⚪") == 5

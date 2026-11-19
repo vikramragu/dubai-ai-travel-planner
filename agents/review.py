@@ -48,36 +48,44 @@ class ReviewAgent:
     ctx: AgentContext
 
     def review(self, itinerary: Itinerary, *, month: int | None = None) -> ReviewReport:
+        """Rule checks first (authoritative). The LLM adds comments only when the rules pass:
+        that draft becomes the final plan, while a failing draft is revised anyway, so
+        commenting on it would spend an LLM call for nothing."""
         self.ctx.emit(AGENT, TraceKind.START, "Checking the plan")
         issues = check_itinerary(itinerary, self.ctx.providers, month=month)
-        answer = self.ctx.ask(
-            "review",
-            LLMReview,
-            prompt="review",
-            user=to_json(
-                {
-                    "request": itinerary.request.constraints.model_dump(mode="json"),
-                    "rule_issues": [f"{i.severity.value}: {i.message}" for i in issues],
-                    "days": [
-                        {
-                            "day": d.day,
-                            "theme": d.theme,
-                            "slots": [
-                                f"{s.start:%H:%M}-{s.end:%H:%M} {s.kind.value}: {s.title}"
-                                for s in d.slots
-                                if s.kind is not SlotKind.TRANSIT
-                            ],
-                        }
-                        for d in itinerary.days
-                    ],
-                    "budget": None
-                    if itinerary.budget is None
-                    else {
-                        "total_aed": itinerary.budget.total,
-                        "budget_aed": itinerary.budget.budget_aed,
-                    },
-                }
-            ),
+        passing = not any(i.blocks_pass for i in issues)
+        answer = (
+            None
+            if not passing
+            else self.ctx.ask(
+                "review",
+                LLMReview,
+                prompt="review",
+                user=to_json(
+                    {
+                        "request": itinerary.request.constraints.model_dump(mode="json"),
+                        "rule_issues": [f"{i.severity.value}: {i.message}" for i in issues],
+                        "days": [
+                            {
+                                "day": d.day,
+                                "theme": d.theme,
+                                "slots": [
+                                    f"{s.start:%H:%M}-{s.end:%H:%M} {s.kind.value}: {s.title}"
+                                    for s in d.slots
+                                    if s.kind is not SlotKind.TRANSIT
+                                ],
+                            }
+                            for d in itinerary.days
+                        ],
+                        "budget": None
+                        if itinerary.budget is None
+                        else {
+                            "total_aed": itinerary.budget.total,
+                            "budget_aed": itinerary.budget.budget_aed,
+                        },
+                    }
+                ),
+            )
         )
         llm_summary = ""
         if answer is not None:

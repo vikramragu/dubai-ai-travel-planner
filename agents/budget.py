@@ -178,7 +178,8 @@ class BudgetAgent:
         options: list[tuple[BudgetAlternative, PlanInputs]],
         issues: list[ReviewIssue],
     ) -> tuple[BudgetAlternative, PlanInputs]:
-        """The LLM may pick another alternative, but no tier downgrade while same-tier ones lead."""
+        """The LLM picks among the alternatives of the kind the engine put first (same tier, or
+        a cheaper tier when nothing else can close the gap) and explains the choice."""
         b = plan.budget
         requested = plan.schedule.itinerary.request.constraints.hotel_tier.value
         choice = self.ctx.ask(
@@ -209,14 +210,18 @@ class BudgetAgent:
         if choice is None:
             return default
         by_id = {a.id: (a, i) for a, i in options}
-        # A tier change is allowed only when the engine already put it first (nothing else fits).
-        same_tier_left = not is_downgrade(options[0][0], plan)
+        # The engine decides *whether* the tier changes; the LLM only chooses within that:
+        # - same-tier options lead: no tier downgrade (keep the requested tier while we can);
+        # - a downgrade leads (no same-tier combination can close the gap): only a downgrade,
+        #   because small swaps first can make every later hotel move break another rule
+        #   (e.g. metro legs first, then any new hotel area makes the days too long).
+        downgrade_first = is_downgrade(options[0][0], plan)
         for alt_id in choice.apply_ids:
             if alt_id not in by_id:
                 continue
             alt, _ = by_id[alt_id]
-            if is_downgrade(alt, plan) and same_tier_left:
-                continue  # keep the requested tier while we can
+            if is_downgrade(alt, plan) != downgrade_first:
+                continue
             if choice.explanation:
                 self.ctx.emit(AGENT, TraceKind.OUTPUT, choice.explanation)
             return by_id[alt_id]

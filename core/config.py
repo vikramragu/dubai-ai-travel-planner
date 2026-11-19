@@ -78,6 +78,10 @@ class Settings(BaseSettings):
     llm_max_retries: int = Field(default=2, ge=0, le=6)
     llm_max_tokens: int = Field(default=1500, ge=256)  # output cap for Groq (incl. reasoning)
     llm_reasoning_effort: Literal["low", "medium", "high"] = "low"  # gpt-oss on Groq
+    # Free-tier protection for the public app (Groq allows ~200k tokens/day for gpt-oss-120b).
+    llm_cache_hours: float = Field(default=24.0, ge=0)  # reuse identical LLM answers; 0 = off
+    llm_daily_token_budget: int = Field(default=150_000, ge=0)  # whole app, per UTC day
+    llm_plans_per_session: int = Field(default=3, ge=0)  # AI plans per browser session (UI)
 
     # ------------------------------------------------------------------ data
     data_mode: DataMode = DataMode.LOCAL

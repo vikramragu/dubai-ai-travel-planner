@@ -14,6 +14,8 @@ Rules:
   price, duration, indoor, opening hours). There are no descriptions or ratings, so don't claim
   anything else (history, views, quality, popularity).
 - If the reviewer flagged a place, don't pick it again.
+- `request.must_visit` lists places the traveller insists on. The planner always includes
+  them; don't pick them again, and fill the rest of the list around them.
 
 Revision feedback from the reviewer:
 $revision_feedback

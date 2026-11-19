@@ -23,6 +23,7 @@ from agents.skills.calendar import SEASONAL_MONTHS, trip_calendar
 from agents.skills.scheduler import MEAL_BANDS, score, suits_diet
 from core.tracing import TraceKind
 from data.dataset import LOCAL_CUISINES
+from data.providers.base import PlacesProvider
 from schemas import (
     Attraction,
     CrowdLevel,
@@ -187,6 +188,13 @@ class DestinationAgent:
                     f"Ignored {len(dropped)} id(s) not returned by the tools: "
                     + ", ".join(dropped[:5]),
                 )
+        # Must-visit places: always kept, first, whatever the filters or the LLM chose.
+        pinned = _pinned(self, request, excluded)
+        if pinned:
+            pinned_ids = {a.id for a in pinned}
+            chosen = [*pinned, *(a for a in chosen if a.id not in pinned_ids)]
+            for a in pinned:
+                rationale[a.id] = "You asked to include this place."
         for a in chosen:
             rationale.setdefault(a.id, _why(a, request))
 
@@ -207,6 +215,22 @@ class DestinationAgent:
         return DestinationResult(research, assumptions, dropped)
 
 
+def _pinned(agent: DestinationAgent, request: TripRequest, excluded: set[str]) -> list[Attraction]:
+    out = []
+    for pid in request.constraints.must_visit:
+        if pid in excluded:
+            continue  # the traveller asked to remove or swap it after all
+        a = _get_attraction(agent.ctx.providers.places, pid)
+        if a is not None:
+            out.append(a)
+    return out
+
+
+def _get_attraction(places: PlacesProvider, pid: str) -> Attraction | None:
+    place = places.get_place(pid)
+    return place if isinstance(place, Attraction) else None
+
+
 def _request_view(request: TripRequest) -> dict[str, object]:
     c = request.constraints
     return {
@@ -216,6 +240,8 @@ def _request_view(request: TripRequest) -> dict[str, object]:
         "pace": c.pace.value,
         "hotel_tier": c.hotel_tier.value,
         "travelers": c.travelers,
+        "children": c.children,
+        "must_visit": c.must_visit,
         "dietary": c.dietary,
         "budget_aed": c.budget_aed,
     }

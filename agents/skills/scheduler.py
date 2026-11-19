@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import itertools
 import math
+from calendar import month_name
 from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, field
 from datetime import time
@@ -63,6 +64,7 @@ MAX_WAIT = 60  # minutes we will wait for a place to open
 NEARBY_MINUTES = 18  # a day tops up from neighborhoods within this taxi time of its anchor
 FILL_MINUTES = 30  # days with time left take good leftovers within this time of their anchor
 REPAIR_MINUTES = 35  # a place added for a missing interest must be this close to the day
+MUST_VISIT_FLOOR = 0.3  # a must-visit place with no matching interest still gets this score
 LONG_LEG_MIN = 60  # rule_checks flags longer legs, so areas further from the hotel are skipped
 ONE_PER_DAY = frozenset({"beach", "beach_park", "mall", "water_park", "festival_park"})
 LAST_MINUTE = 23 * 60 + 59
@@ -142,16 +144,21 @@ def quality(a: Attraction, constraints: TripConstraints, month: int) -> float:
     return q
 
 
+FAMILY_BOOST = 1.2  # with children, family-friendly places come first
+
+
 def score(a: Attraction, constraints: TripConstraints, month: int) -> float:
     interests = {i.value for i in constraints.interests}
     matched = len(interests & set(a.tags))
     if matched == 0:
         return 0.0
     interest_match = 0.5 + 0.5 * matched / len(interests)
+    family = FAMILY_BOOST if constraints.children and "family" in a.tags else 1.0
     return round(
         interest_match
         * (1 - crowd_penalty(a.crowd_level, constraints.avoids_crowds))
-        * quality(a, constraints, month),
+        * quality(a, constraints, month)
+        * family,
         4,
     )
 
@@ -312,6 +319,10 @@ class Scheduler:
         self.heat = self._heat()
         self.notes: list[str] = []
         self._hotel_minutes: dict[str, int] = {}
+        # Places that must stay: swapped-in replacements and the traveller's must-visit list.
+        self.pinned = ({new for _, new in self.o.swaps} | set(self.c.must_visit)) - set(
+            self.o.exclude_ids
+        )
 
     def from_hotel(self, place: Attraction | Restaurant) -> int:
         """Taxi minutes between the hotel area and a place, the slower direction, from the same
@@ -350,17 +361,27 @@ class Scheduler:
             pool = list(given)
         swaps = dict(self.o.swaps)
         by_id = {a.id: a for a in pool}
+        for pid in self.c.must_visit:  # always candidates, even if a search filtered them out
+            place = None if pid in by_id else self.p.places.get_place(pid)
+            if isinstance(place, Attraction):
+                by_id[pid] = place
         for old, new in swaps.items():
             replacement = self.p.places.get_place(new)
             if isinstance(replacement, Attraction):
                 by_id.pop(old, None)
                 by_id[new] = replacement
-        scored = [
-            _Scored(a, score(a, self.c, self.month))
-            for a in by_id.values()
-            if a.id not in self.o.exclude_ids
-        ]
-        pinned = set(swaps.values())
+        scored = []
+        for a in by_id.values():
+            if a.id in self.o.exclude_ids:
+                continue
+            value = score(a, self.c, self.month)
+            if a.id in self.c.must_visit:
+                if quality(a, self.c, self.month) == 0:
+                    self.notes.append(f"{a.name} is closed in {month_name[self.month]}")
+                    continue
+                value = max(value, MUST_VISIT_FLOOR)  # asked for, even if no interest matches
+            scored.append(_Scored(a, value))
+        pinned = self.pinned
         return sorted(
             (s for s in scored if s.score > 0 or s.place.id in pinned),
             key=lambda s: (-(s.place.id in pinned), -s.score, s.place.id),
@@ -371,7 +392,11 @@ class Scheduler:
     ) -> list[_Scored]:
         """Add candidates (best first) while the day stays within the time budget."""
         day = list(day)
-        for x in sorted(candidates, key=lambda c: (-c.score, c.place.id)):
+        # Pinned places (must-visit, swapped in) first: a must-visit beach takes the day's one
+        # beach slot rather than losing it to a better-scoring beach.
+        for x in sorted(
+            candidates, key=lambda c: (c.place.id not in self.pinned, -c.score, c.place.id)
+        ):
             if x in day:
                 continue
             if x.place.category in ONE_PER_DAY and any(
@@ -387,7 +412,7 @@ class Scheduler:
         """Cluster-first: each day takes the best neighborhood, then nearby ones fill gaps."""
         factor = _TRANSIT_FACTOR[self.o.transport]
         budget = self.capacity - 20  # headroom: meal hops and real legs vary
-        pinned = {new for _, new in self.o.swaps}
+        pinned = self.pinned
         interests = [i.value for i in self.c.interests if i is not Interest.FOOD]
         remaining = list(scored)
         covered: set[str] = set()
@@ -463,7 +488,10 @@ class Scheduler:
                     )
 
                 others = [x for x in day if x is not best]
-                weakest = min(others, key=lambda x: (not still_covered(x), x.score, x.place.id))
+                weakest = min(
+                    others,
+                    key=lambda x: (x.place.id in pinned, not still_covered(x), x.score, x.place.id),
+                )
                 day.remove(weakest)
                 removed.append(weakest)
             if _estimate_day(self.hotel_loc, day, factor) <= budget:  # commit only if it fits
@@ -607,7 +635,8 @@ class Scheduler:
             over = plan.minutes_of(SlotKind.ACTIVITY, SlotKind.TRANSIT) > self.capacity
             if not over or not stops:
                 return plan, dropped + skipped
-            weakest = min(stops, key=lambda s: (s.score, s.place.id))
+            # never drop a must-visit (or swapped-in) place while another stop could go
+            weakest = min(stops, key=lambda s: (s.place.id in self.pinned, s.score, s.place.id))
             stops.remove(weakest)
             dropped.append(weakest)
 
@@ -851,6 +880,15 @@ class Scheduler:
             plans.append(plan)
             carry += dropped
         unscheduled = [s.place.id for s in carry]
+        placed = {pid for d in plans for pid in d.place_ids}
+        for x in scored:
+            if x.place.id in self.c.must_visit and x.place.id not in placed:
+                why = (
+                    "over an hour from the hotel area"
+                    if self.from_hotel(x.place) > LONG_LEG_MIN
+                    else "it didn't fit the opening hours and the day's pace"
+                )
+                self.notes.append(f"Couldn't fit {x.place.name}: {why}")
         if self.calendar[0].assumed:
             self.notes.append(
                 f"No start date: assumed a trip starting {self.calendar[0].date:%A %d %B} "

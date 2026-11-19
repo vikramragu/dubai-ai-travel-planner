@@ -28,6 +28,7 @@ class RouteTarget(StrEnum):
 class IssueOrigin(StrEnum):
     RULE = "rule"  # deterministic rule check — authoritative
     LLM = "llm"  # qualitative reviewer comment
+    USER = "user"  # a change the traveller asked for ("make it cheaper", "remove this stop")
 
 
 class ReviewIssue(StrictModel):

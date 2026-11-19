@@ -14,10 +14,17 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 import os
+import re
+import threading
+import time
 import warnings
 from dataclasses import dataclass
+from datetime import UTC, datetime, timedelta
+from datetime import time as dt_time
+from pathlib import Path
 from typing import Any, Protocol, TypeVar
 
 from langchain_core.language_models import BaseChatModel
@@ -268,3 +275,216 @@ def make_llm(settings: Settings | None = None) -> LLMClient | None:
     """
     settings = settings or get_settings()
     return LangChainLLM(settings) if llm_configured(settings) else None
+
+
+# ------------------------------------------------------------------ free-tier protection
+_TODAY_LINE = re.compile(r"^Today is .*$", re.M)  # the parse prompt's date: not part of the key
+DEMO_CACHE = Path(__file__).resolve().parents[1] / "data" / "demo_llm_cache.json"
+
+
+def _quota_error(exc: BaseException) -> float | None:
+    """Seconds to pause when a provider error means "limit reached", else ``None``."""
+    text = f"{type(exc).__name__}: {exc}".lower()
+    if not any(
+        k in text for k in ("429", "rate_limit", "rate limit", "resource_exhausted", "quota")
+    ):
+        return None
+    if any(k in text for k in ("per day", "tpd", "rpd", "daily")):
+        return _seconds_to_utc_midnight()
+    return 60.0  # a per-minute limit: wait a minute
+
+
+def _seconds_to_utc_midnight() -> float:
+    now = datetime.now(UTC)
+    tomorrow = datetime.combine(now.date() + timedelta(days=1), dt_time.min, tzinfo=UTC)
+    return (tomorrow - now).total_seconds()
+
+
+class QuotaGuard:
+    """App-wide protection of the free LLM tiers (one per process, shared by every visitor).
+
+    - a daily token budget (UTC day): past it, LLM calls are refused and agents use their
+      deterministic fallback until the next day;
+    - a pause as soon as a provider answers "limit reached", so later runs don't each try and
+      wait first;
+    - the day's count is kept in the disk cache, so an app restart doesn't reset it.
+    """
+
+    def __init__(self, settings: Settings, store: Any = None) -> None:
+        self.budget = settings.llm_daily_token_budget
+        self._store = store
+        self._lock = threading.Lock()
+        self._day = datetime.now(UTC).date()
+        self._used = int(store.get(self._key(), 0)) if store is not None else 0
+        self._paused_until = 0.0
+        self.pause_reason = ""
+
+    def _key(self) -> str:
+        return f"llm-tokens:{self._day.isoformat()}"
+
+    def _roll(self) -> None:
+        today = datetime.now(UTC).date()
+        if today != self._day:
+            self._day, self._used = today, 0
+
+    @property
+    def used(self) -> int:
+        with self._lock:
+            self._roll()
+            return self._used
+
+    def check(self) -> None:
+        """Raise :class:`LLMUnavailableError` when AI planning is paused or over budget."""
+        with self._lock:
+            self._roll()
+            if time.monotonic() < self._paused_until:
+                raise LLMUnavailableError(f"AI planning paused: {self.pause_reason}")
+            if self.budget and self._used >= self.budget:
+                raise LLMUnavailableError("today's AI allowance is used up")
+
+    def add(self, tokens: int) -> None:
+        with self._lock:
+            self._roll()
+            self._used += tokens
+            if self._store is not None:
+                self._store.set(self._key(), self._used, expire=2 * 86400)
+
+    def pause(self, seconds: float, reason: str) -> None:
+        with self._lock:
+            self._paused_until = max(self._paused_until, time.monotonic() + seconds)
+            self.pause_reason = reason
+
+    def status(self) -> dict[str, Any]:
+        with self._lock:
+            self._roll()
+            paused = time.monotonic() < self._paused_until
+            return {
+                "used": self._used,
+                "budget": self.budget,
+                "share": (self._used / self.budget) if self.budget else 0.0,
+                "paused": paused,
+                "reason": self.pause_reason if paused else "",
+                "available": not paused and (not self.budget or self._used < self.budget),
+            }
+
+
+class CachingLLM:
+    """Wraps an :class:`LLMClient`: an identical question (role, model, schema, prompts) gets
+    the stored answer instead of a new call, from the committed demo cache (no expiry; written
+    by ``core.warmup``) or the disk cache (``llm_cache_hours``). Real calls go through the
+    :class:`QuotaGuard`. Tests and offline runs never see this class."""
+
+    def __init__(
+        self,
+        inner: LLMClient,
+        settings: Settings,
+        *,
+        store: Any = None,
+        guard: QuotaGuard | None = None,
+        demo_file: Path | None = DEMO_CACHE,
+        record: dict[str, Any] | None = None,
+    ) -> None:
+        self.inner = inner
+        self.usage = inner.usage  # the same counters: cache hits don't add calls or tokens
+        self.settings = settings
+        self.store = store
+        self.guard = guard
+        self.record = record  # warm-up: every answer is also written here
+        self.demo: dict[str, Any] = {}
+        if demo_file is not None and demo_file.exists():
+            try:
+                self.demo = json.loads(demo_file.read_text(encoding="utf-8"))
+            except ValueError:
+                self.demo = {}
+        self.cache_hits = 0
+
+    def key(
+        self, role: AgentRole, schema: type[BaseModel], system: str, user: str, temp: float | None
+    ) -> str:
+        raw = json.dumps(
+            [
+                self.settings.chat_model_id(role),
+                schema.__name__,
+                _TODAY_LINE.sub("", system),
+                user,
+                temp,
+            ]
+        )
+        return "llm:" + hashlib.sha256(raw.encode()).hexdigest()
+
+    def structured(
+        self,
+        role: AgentRole,
+        schema: type[M],
+        *,
+        system: str,
+        user: str,
+        temperature: float | None = None,
+    ) -> M:
+        key = self.key(role, schema, system, user, temperature)
+        stored = self.demo.get(key)
+        if stored is None and self.store is not None and self.settings.llm_cache_hours > 0:
+            stored = self.store.get(key)
+        if stored is not None:
+            try:
+                answer = schema.model_validate(stored)
+                self.cache_hits += 1
+                if self.record is not None:
+                    self.record[key] = stored
+                return answer
+            except ValidationError:
+                pass  # a stale entry from an older schema: ask again
+        if self.guard is not None:
+            self.guard.check()
+        before = self.inner.usage.tokens_in + self.inner.usage.tokens_out
+        try:
+            answer = self.inner.structured(
+                role, schema, system=system, user=user, temperature=temperature
+            )
+        except LLMError as exc:
+            pause = _quota_error(exc.__cause__ or exc)
+            if pause is not None and self.guard is not None:
+                self.guard.pause(pause, f"{self.settings.provider_for(role)} limit reached")
+            raise
+        finally:
+            if self.guard is not None:
+                spent = self.inner.usage.tokens_in + self.inner.usage.tokens_out - before
+                self.guard.add(max(0, spent))
+        dumped = answer.model_dump(mode="json")
+        if self.store is not None and self.settings.llm_cache_hours > 0:
+            self.store.set(key, dumped, expire=self.settings.llm_cache_hours * 3600)
+        if self.record is not None:
+            self.record[key] = dumped
+        return answer
+
+
+_GUARDS: dict[str, QuotaGuard] = {}
+_GUARD_LOCK = threading.Lock()
+
+
+def _store(settings: Settings) -> Any:
+    try:
+        import diskcache
+
+        return diskcache.Cache(str(settings.cache_dir / "llm"))
+    except Exception:  # an unwritable cache dir must not break planning
+        return None
+
+
+def quota_guard(settings: Settings | None = None) -> QuotaGuard:
+    """The process-wide guard for these settings (shared by every visitor of the app)."""
+    settings = settings or get_settings()
+    key = str(settings.cache_dir.resolve())
+    with _GUARD_LOCK:
+        if key not in _GUARDS:
+            _GUARDS[key] = QuotaGuard(settings, _store(settings))
+        return _GUARDS[key]
+
+
+def make_protected_llm(settings: Settings | None = None) -> LLMClient | None:
+    """The configured client with the answer cache and the quota guard (what the app uses)."""
+    settings = settings or get_settings()
+    inner = make_llm(settings)
+    if inner is None:
+        return None
+    return CachingLLM(inner, settings, store=_store(settings), guard=quota_guard(settings))

@@ -28,10 +28,12 @@ from pydantic import Field, PositiveInt
 from agents.base import AgentContext, ClipTo, feedback, to_json
 from agents.skills.budget_engine import BudgetOptions, Plan, PlanInputs, plan_trip
 from agents.skills.calendar import DEFAULT_MONTH
+from agents.skills.places_match import match_name, places_in_text
 from agents.skills.scheduler import SchedulerOptions, TransportPolicy
 from core.config import Settings
 from core.llm import NARRATIVE_TEMPERATURE
 from core.tracing import TraceKind
+from data.providers.base import AttractionQuery
 from schemas import (
     Avoidance,
     HotelTier,
@@ -44,6 +46,7 @@ from schemas import (
     TripRequest,
 )
 from schemas.base import StrictModel
+from schemas.request import MAX_MUST_VISIT
 
 AGENT = "orchestrator"
 MAX_DAYS = 7
@@ -67,6 +70,7 @@ class ParsedTrip(StrictModel):
     budget_currency: str = "AED"
     budget_excludes: list[str] = Field(default_factory=lambda: ["flights"])
     travelers: int | None = Field(default=None, ge=1, le=10)
+    children: int | None = Field(default=None, ge=0, le=9)
     rooms: int | None = Field(default=None, ge=1, le=10)
     start_date: date | None = None
     month: int | None = Field(default=None, ge=1, le=12)
@@ -75,6 +79,7 @@ class ParsedTrip(StrictModel):
     avoid: list[Avoidance] = Field(default_factory=list)
     pace: Pace | None = None
     dietary: list[str] = Field(default_factory=list)
+    must_visit: list[str] = Field(default_factory=list)  # place names the traveller insists on
     notes: list[str] = Field(default_factory=list)  # anything the parser had to assume
 
 
@@ -211,6 +216,20 @@ def keyword_parse(text: str, today: date | None = None) -> ParsedTrip:
         out["travelers"] = 2
     elif re.search(r"\b(solo|alone|by myself|just me)\b", t):
         out["travelers"] = 1
+    kids = (
+        r"(?:little |young |small )?"
+        r"(?:kids?|children|child|toddlers?|bab(?:y|ies)|sons?|daughters?)"
+    )
+    if m := re.search(rf"\b(\d+|one|two|three|four|five|a)\s+{kids}\b", t):
+        out["children"] = 1 if m.group(1) == "a" else _num(m.group(1))
+    elif re.search(rf"\bwith (?:my|our|a|the) {kids}\b", t):
+        out["children"] = 1
+    if (m := re.search(r"\b(\d+|one|two|three|four|five|six)\s+adults?\b", t)) and out.get(
+        "children"
+    ):
+        adults = _num(m.group(1))
+        if adults is not None and isinstance(out["children"], int):
+            out["travelers"] = adults + out["children"]
     if m := re.search(r"\b(\d+|one|two|three|four|a single|single)\s+(?:hotel )?rooms?\b", t):
         out["rooms"] = 1 if "single" in m.group(1) else _num(m.group(1))
 
@@ -292,9 +311,21 @@ def normalize(parsed: ParsedTrip, text: str, settings: Settings) -> tuple[TripRe
             f"Converted {currency} {parsed.budget_amount:,.0f} to AED {budget:,.0f} at {rate:g}"
         )
     travelers = parsed.travelers
-    if travelers is None:
+    children = parsed.children or 0
+    if travelers is None and children:
+        adults = 2 if re.search(r"\b(family|we|our|us|couple|wife|husband)\b", text.lower()) else 1
+        travelers = adults + children
+        notes.append(f"Number of adults not given: assumed {adults}")
+    elif travelers is None:
         travelers = 1
         notes.append("Number of travellers not given: assumed 1")
+    if children >= travelers:  # "3 people with 3 kids": count the children as extra people
+        travelers = children + 1
+        notes.append(f"Counted {children} children plus 1 adult")
+    travelers = min(travelers, 10)
+    children = min(children, travelers - 1)
+    if children:
+        notes.append(CHILD_NOTE.format(n=children))
     rooms = parsed.rooms or max(1, math.ceil(travelers / 2))
     rooms = min(rooms, travelers)
     interests = list(dict.fromkeys(parsed.interests))
@@ -333,6 +364,7 @@ def normalize(parsed: ParsedTrip, text: str, settings: Settings) -> tuple[TripRe
         budget_aed=budget,
         budget_excludes=parsed.budget_excludes or ["flights"],
         travelers=travelers,
+        children=children,
         rooms=rooms,
         start_date=parsed.start_date,
         interests=interests,
@@ -342,6 +374,26 @@ def normalize(parsed: ParsedTrip, text: str, settings: Settings) -> tuple[TripRe
         dietary=list(dict.fromkeys(dietary)),
     )
     return TripRequest(raw_text=text, constraints=constraints, assumptions=notes), month
+
+
+CHILD_NOTE = (
+    "{n} child(ren): charged adult prices (the dataset has no child prices); "
+    "family-friendly places are preferred"
+)
+
+
+def form_request(constraints: TripConstraints) -> TripRequest:
+    """A request built from the trip form: exact values, so nothing is parsed or assumed
+    except what the data can't do (child prices)."""
+    c = constraints
+    when = f" from {c.start_date:%d %b %Y}" if c.start_date else ""
+    party = f"{c.adults} adult(s)" + (f" and {c.children} child(ren)" if c.children else "")
+    summary = (
+        f"Trip form: {c.days} days in Dubai{when}, {party}, budget AED {c.budget_aed:,.0f}, "
+        f"{c.hotel_tier.value} hotel, interests {', '.join(i.value for i in c.interests)}"
+    )
+    notes = [CHILD_NOTE.format(n=c.children)] if c.children else []
+    return TripRequest(raw_text=summary, constraints=c, assumptions=notes)
 
 
 # ------------------------------------------------------------------ LLM outputs
@@ -373,6 +425,7 @@ class Orchestrator:
         if parsed is None:
             parsed = keyword_parse(text)
         request, month = normalize(parsed, text, self.ctx.settings)
+        request = self._must_visit(request, parsed)
         c = request.constraints
         self.ctx.emit(
             AGENT,
@@ -387,6 +440,24 @@ class Orchestrator:
             },
         )
         return ParseResult(request, month, parsed, used_llm)
+
+    def _must_visit(self, request: TripRequest, parsed: ParsedTrip) -> TripRequest:
+        """Places the traveller named: known names in the text, plus names the LLM extracted
+        (matched to the dataset; unknown ones are recorded as assumptions)."""
+        places = self.ctx.providers.places.search_attractions(AttractionQuery(limit=1000))
+        ids = places_in_text(request.raw_text, places)
+        notes = list(request.assumptions)
+        for name in parsed.must_visit:
+            pid = match_name(name, places)
+            if pid is None:
+                notes.append(f"'{name}' isn't in the dataset, so it can't be scheduled")
+            elif pid not in ids:
+                ids.append(pid)
+        ids = ids[:MAX_MUST_VISIT]
+        if not ids and notes == request.assumptions:
+            return request
+        c = request.constraints.model_copy(update={"must_visit": ids})
+        return request.model_copy(update={"constraints": c, "assumptions": notes})
 
     # -------------------------------------------------------------- assemble
     def assemble(

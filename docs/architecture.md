@@ -75,9 +75,10 @@ thin, and the business logic can be tested without running the graph.
 ```
 muti-agent/
 ├── app/
-│   ├── streamlit_app.py          # entry point
-│   ├── components/               # timeline, itinerary card, budget chart, diff view
-│   └── state.py                  # session-state helpers
+│   ├── streamlit_app.py          # entry point: navigation, theme and dev-mode toggles
+│   ├── pages/                    # plan_trip (form), ask_agents (text), browse, saved, travel_data (dev)
+│   ├── components/               # day cards, progress, map, budget, review diff, timeline, graph, skyline
+│   └── state.py                  # session-state helpers (current run, saved trips, must-visit list)
 ├── core/
 │   ├── config.py                 # pydantic-settings: LLM provider, API keys, flags
 │   ├── llm.py                    # provider-agnostic LLM factory
@@ -213,7 +214,8 @@ class TripConstraints(StrictModel):
     days: int                                 # 1–7
     budget_aed: PositiveFloat
     budget_excludes: list[str] = ["flights"]
-    travelers: int = 1                        # 1–10
+    travelers: int = 1                        # 1–10, everyone including children
+    children: int = 0                         # < travelers (at least one adult); adults = travelers − children
     rooms: int = 1                            # ≤ travelers
     nights: int | None = None                 # ≤ days; None → days − 1 (night_count)
     start_date: date | None = None
@@ -222,7 +224,8 @@ class TripConstraints(StrictModel):
     avoid: list[Avoidance] = []               # fixed choices, not free text
     pace: Pace = Pace.BALANCED
     dietary: list[str] = []
-    # lists are de-duplicated; properties: night_count, end_date, avoids_crowds
+    must_visit: list[Slug] = []               # place ids the plan must include (≤ 10)
+    # lists are de-duplicated; properties: night_count, end_date, avoids_crowds, adults
 
 class TripRequest(StrictModel):
     raw_text: str
@@ -232,6 +235,12 @@ class TripRequest(StrictModel):
 
 `avoid` is an enum so the parser must map phrases like "I hate busy places" to `crowds`,
 and every rule check can rely on one spelling.
+
+A request comes from one of two places: the **text** box (the Orchestrator parses it) or the
+**trip form** (the UI builds `TripConstraints` directly; `raw_text` is a generated one-line
+summary and parsing is skipped). Children count as travellers for every cost (taxi seats,
+tickets, meals) and charge the adult price, because the dataset has no child prices; the
+itinerary says so in `assumptions`. With children, family-tagged places score higher.
 
 ### 4.4 Domain objects (abridged)
 
@@ -307,7 +316,7 @@ class ReviewIssue(StrictModel):
     severity: Severity                         # blocker | major | minor
     message: str
     route_to: RouteTarget                      # destination | logistics | assemble | budget
-    origin: IssueOrigin = IssueOrigin.RULE     # rule | llm
+    origin: IssueOrigin = IssueOrigin.RULE     # rule | llm | user (a change the traveller asked for)
     day: int | None = None; place_id: str | None = None
 
 class ReviewReport(StrictModel):
@@ -365,7 +374,7 @@ nodes in `graph/nodes.py` are thin wrappers: read from state → call the agent 
 | Agent | Input | Output | LLM role | Deterministic skills / tools |
 |-------|-------|--------|----------|------------------------------|
 | **Orchestrator** | raw text, (later) all agent outputs | `TripRequest`; final `Itinerary` | Parse NL into `TripConstraints` (structured output); write day themes & narrative | Constraint defaults & validation (1–7 days, AED), `scheduler.py` for final assembly |
-| **Destination Research** | `TripRequest`, optional `ReviewIssue`s | `ResearchResult{attractions, restaurants, neighborhoods}` | Rank candidates against interests & "avoid" list; justify picks | `search_attractions`, `search_restaurants`, `weather_forecast` |
+| **Destination Research** | `TripRequest`, optional `ReviewIssue`s | `ResearchResult{attractions, restaurants, neighborhoods}` | Rank candidates against interests & "avoid" list; justify picks. `must_visit` places are always kept, first, whatever the filters | `search_attractions`, `search_restaurants`, `weather_forecast` |
 | **Logistics** | `TripRequest`, optional issues | `LogisticsResult{hotel_areas, transport_options, travel_matrix}` | Pick hotel area trade-offs; explain transport choices | `get_hotel_areas`, `travel_time`, `transit_fare` |
 | **Budget** | Draft itinerary | `BudgetBreakdown`, `alternatives` | Phrase alternatives; choose among cheaper swaps | `budget_engine.py`, `price_lookup`, `transit_fare` |
 | **Review** | Draft itinerary + budget | `ReviewReport{passed, issues[], score}` | Judge preference alignment and "feel" of the plan | `rule_checks.py` (runs first, always) |
@@ -391,24 +400,27 @@ deterministic code.
    `interest_match = 0.5 + 0.5 × matched/asked`, the crowd penalty is stronger when the traveller
    avoids crowds, and `quality` is 0 for seasonal places out of season (Oct–May) and lower for
    half-day+ places or walking tours when long walks are avoided.
-2. **Cluster-first day assignment:** each day takes the neighborhood with the most value
+2. **Must-visit places first:** each `must_visit` place is placed before anything else (its
+   neighborhood anchors a day) and is never the stop dropped to fit the pace limit. One that
+   can't be placed at all (closed every trip day, or over an hour from the hotel) is reported.
+3. **Cluster-first day assignment:** each day takes the neighborhood with the most value
    (sum of scores that fit, ×1.5 per interest not yet covered), then tops up from neighborhoods
    within 25 taxi-minutes of it. A day holds at most one beach / mall / water park. The pace
    limit is on activity + transit time: relaxed 6 h, balanced 8 h, packed 10 h.
-3. Within a day, order stops with nearest-neighbor + 2-opt (taxi-time heuristic), starting
+4. Within a day, order stops with nearest-neighbor + 2-opt (taxi-time heuristic), starting
    and ending at the hotel area; beaches and sunset spots move to the end of the day.
-4. Build the timeline with real legs from the routes provider: start 09:00 (10:00 if early
+5. Build the timeline with real legs from the routes provider: start 09:00 (10:00 if early
    mornings are avoided), wait up to 60 min for a place to open, otherwise skip it; on hot days
    keep outdoor stops out of 11:00–16:00 when an indoor one can go first. If a day still
    exceeds the pace limit, drop its weakest stop and rebuild. Dropped stops are reported.
-5. Meals: breakfast near the hotel, lunch from 12:15 near the previous stop, dinner from 18:30
+6. Meals: breakfast near the hotel, lunch from 12:15 near the previous stop, dinner from 18:30
    near the last stop; open at that time, in the tier's price bands, local cuisines first when
    food is an interest, never the same restaurant twice in a day (breakfast spots may repeat
    across days).
-6. Legs follow a `TransportPolicy`: `balanced` (walk ≤ 15 min, abra/metro when within 10 min
+7. Legs follow a `TransportPolicy`: `balanced` (walk ≤ 15 min, abra/metro when within 10 min
    of a taxi), `public_first` (walk ≤ 20 min, abra/metro when within ~2× taxi time) or
    `fastest`. Walks are capped at 10 min on hot days or when long walks are avoided.
-7. With no `start_date`, a trip starting on the first Monday of the month (default December)
+8. With no `start_date`, a trip starting on the first Monday of the month (default December)
    is assumed for weekdays, weather and prices, and the itinerary says so.
 
 ### 5.3 Budget engine (`agents/skills/budget_engine.py`)
@@ -449,6 +461,7 @@ Rule checks run before the LLM reviewer and are authoritative.
 | Duplicate attraction across days (`duplicate_place`) | major | Destination |
 | High-crowd place when user said "avoid crowds" (`crowded_place`) | major | Destination |
 | Interest not represented, e.g. no beach (`interest_missing`) | major | Destination |
+| A `must_visit` place is not in the plan (`must_visit_missing`) | major | Assemble |
 | No lunch or dinner (`missing_meal`), move without a leg (`missing_leg`) | minor | Assembly |
 | Same restaurant for several lunches/dinners (`repeated_restaurant`) | minor | Assembly |
 | No budget attached yet (`budget_missing`) | minor | Budget |
@@ -483,7 +496,8 @@ class PlannerState(TypedDict):
 ```
 
 `Annotated[..., add]` reducers let the two parallel branches write to `trace` at the same time
-without conflicts.
+without conflicts. When the trip form is used, the run starts with `request` already set and
+`parse` passes it through without calling the LLM.
 
 ### 6.2 Graph
 
@@ -544,6 +558,11 @@ def route_after_review(state: PlannerState) -> str | list[str]:
   `revision_feedback`.
 - `MAX_REVISIONS` guarantees termination. If the cap is hit, `finalize` attaches the
   outstanding issues and the best-scoring draft from `history`.
+- **Changes the traveller asks for** after seeing a plan ("make it cheaper", "remove this
+  stop", "swap this stop") enter the same loop: the UI adds them to the last review as issues
+  with `origin=user` (budget target → Budget; removal → Assemble; swap → Destination) through
+  the checkpointer (`update_state`), and the graph resumes from the router. Only the agents
+  responsible re-run, exactly as for a failed review.
 - A **checkpointer** (`MemorySaver`, or `SqliteSaver` for persistence) lets the UI replay
   each superstep and optionally pause for human approval before `finalize` (stretch goal:
   `interrupt_before=["finalize"]`).
@@ -566,7 +585,7 @@ writer. The runner forwards them to the `TraceBus`.
 | **Feedback loop** | review → targeted node(s) → … → review cycle, bounded by `MAX_REVISIONS` and "no improvement" detection. |
 | **Persistence & replay** | A checkpointer stores every superstep; the review-diff view uses the stored state history (time travel). |
 | **Streaming** | `stream_mode=["updates", "custom"]` drives the live agent timeline. |
-| **Human-in-the-loop** *(stretch)* | `interrupt_before=["finalize"]` lets the user approve or tweak the plan before it is finalised. |
+| **Human-in-the-loop** | The traveller's change requests are written into the checkpointed state (`update_state`) and the graph resumes from the router, re-running only the responsible agents. *(Stretch: `interrupt_before=["finalize"]` to approve a plan before it is finalised.)* |
 | **Subgraphs** *(stretch)* | Destination research as a nested graph (attractions ∥ restaurants ∥ weather) to show composition. |
 
 ---
@@ -712,13 +731,43 @@ class TraceEvent(BaseModel):
 
 ### 11.2 Streamlit screens
 
-1. **Plan** — request text area (pre-filled with the example request), advanced options (max revisions, data mode, model).
-2. **Live agent timeline** — one row per agent, showing status (waiting / running / done / revising), the latest summary line, and an expandable output. Parallel agents are shown side by side.
-3. **Graph view** — the compiled graph's Mermaid diagram (`graph.get_graph().draw_mermaid()`) with the active node highlighted and the revision loop visible.
-4. **Itinerary** — day tabs with a timeline of slots, map (`pydeck` / `folium`) of each day's route, and provenance badges (`verified`, `api`, `estimated`).
-5. **Budget** — stacked bar by category against the budget line, cost-line table, and an alternatives list with savings.
-6. **Review & revisions** — the issues found each round, the agent each was routed to, and a diff between draft *n* and *n+1* (the slot and cost changes).
-7. **Run metrics** — latency, LLM calls, tokens, revisions and review score; optionally compared with the single-LLM baseline (§8).
+The app is "plan first, details when you need them": a traveller sees only what helps them
+plan; a **Dev mode** switch reveals the technical views. The background is an illustrated
+Dubai skyline (drawn in SVG, licence-free) that follows Streamlit's own light/dark theme: the
+same scene by day and by night, animating between them; content sits on translucent cards so
+it stays readable.
+
+**Pages** (sidebar navigation, `st.navigation`):
+
+1. **Plan a trip** — a form, no typing: dates, adults and children, budget, hotel type,
+   interests, pace, things to avoid, diet, and must-visit places (picked from the dataset).
+2. **Ask the agents** — the free-text request (pre-filled with the example request), example
+   request chips, and checks before planning (e.g. "add a budget").
+3. **Browse Dubai** — a map and filterable list of every place, each with "Add to my trip"
+   (feeds the must-visit list).
+4. **Saved trips** — plans saved in this session, side by side; download a trip as a file and
+   upload it again (no accounts: §17).
+5. **Travel data** *(dev mode)* — data sources, how fresh each one is (staleness report), data
+   mode and live-source status, cache.
+
+**While a plan is being built:** a progress view for travellers (understanding the request →
+finding places → choosing a hotel area → building the days → checking the budget → final
+review); in dev mode, the live agent timeline (one row per agent with status waiting / running /
+done / revising, parallel agents side by side) and the graph with the active node highlighted.
+
+**Results:**
+
+- **Your plan** — a summary (days, hotel area, total against the budget, review verdict), then
+  one card per day: time, place, how you get there and the cost, with a weather badge and the
+  day's cost; a map per day with numbered pins matching the cards; provenance badges
+  (`verified`, `api`, `estimated`); "Why this?" with the agents' reason for each place and for
+  the hotel area.
+- **Change requests** — "Make it cheaper", "Remove this stop", "Swap this stop" (§6.3).
+- **Budget** — stacked bar by category against the budget line, cost lines, alternatives.
+- *Dev mode:* **Review & revisions** (issues per round, where each was routed, the draft *n* →
+  *n+1* diff), **Agent timeline**, **Graph** (Mermaid diagram plus a replay of every checkpoint
+  with the shared state), **Metrics** (latency, LLM calls, tokens, revisions, score, live-data
+  calls and fallbacks), assumptions, and the settings: model, data mode, max revisions.
 
 ---
 
@@ -808,11 +857,13 @@ CACHE_DIR=.cache
 3. **LangGraph orchestration** — state, parallel fan-out, router, revision loop, checkpointer, streaming.
 4. **UI** — timeline, graph view, itinerary, budget, review diff, run metrics.
 5. **Live data** — Overpass, OSRM, Open-Meteo (and RTA GTFS if available) behind feature flags + cache.
-6. **Hardening** — scenario tests, metrics, optional single-LLM baseline, demo script.
+6. **Traveller UX** — trip form, browse, saved trips, day cards, change requests, dev mode, light/dark skyline.
+7. **Hardening** — scenario tests, metrics, optional single-LLM baseline, demo script.
 
 ---
 
 ## 17. Out of Scope (MVP)
 
 Live booking or payments, guaranteed real-time prices, flights, multi-city trips, user
-accounts/persistence beyond local checkpoints, and destinations other than Dubai.
+accounts/persistence beyond local checkpoints (saved trips live in the browser session or a
+downloaded file), child-specific prices, and destinations other than Dubai.

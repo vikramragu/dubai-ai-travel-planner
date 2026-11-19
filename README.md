@@ -24,7 +24,7 @@ how each revision changed the plan.
 
 > **Status:** Phases 0-7 of the [implementation plan](docs/implementation-plan.md) are done:
 > contracts, dataset, deterministic skills, agents, LangGraph orchestration, the Streamlit UI
-> and free live data. Next: hardening and the demo (Phase 8).
+> and free live data. Next: the traveller UX (Phase 8), then hardening and the demo (Phase 9).
 
 ---
 
@@ -191,9 +191,24 @@ cp .env.example .env         # then add your API keys (optional)
 uv run streamlit run app/streamlit_app.py
 ```
 
-1. Type a request; the example is pre-filled.
-2. Pick **Configured LLMs**, or **No LLM** to run offline.
-3. Press **Plan my trip**.
+Pages (sidebar):
+
+- **Plan a trip:** a form (dates, adults and children, budget, hotel, interests, pace, things
+  to avoid, must-visit places); no typing.
+- **Ask the agents:** describe the trip in your own words, or pick an example.
+- **Browse Dubai:** every place on a map, with filters and "Add to my trip".
+- **Saved trips:** plans saved this session, side by side; download and upload trip files.
+
+Each plan offers **Make it cheaper**, and **Change → Swap / Remove** on every stop. These
+re-run only the agents responsible. The **Dev mode** switch adds the model, data mode and
+revision settings, plus the review rounds, agent timeline, graph replay, metrics and a
+Travel data page. The background skyline follows Streamlit's light/dark theme (⋮ → Settings).
+
+**Free-tier protection:** identical LLM questions are answered from a cache. The whole app
+uses at most `LLM_DAILY_TOKEN_BUDGET` (150,000) tokens a day, and each visitor gets 3 AI plans
+per session; after that, planning continues without AI. Before a demo, run
+`uv run python -m core.warmup`: the demo requests are then answered from
+`data/demo_llm_cache.json` with no LLM calls.
 
 While the plan is being built, you see each agent's status and the active graph node.
 Afterwards there are tabs for:
@@ -295,7 +310,7 @@ agents/     the five agents, prompts (agents/prompts/), deterministic skills (ag
 tools/      typed tool functions and compact views for the LLM
 schemas/    shared Pydantic contracts with provenance
 data/       curated seed data, OSM exports, build scripts, providers
-tests/      unit, graph and (Phase 8) scenario tests
+tests/      unit, graph and (Phase 9) scenario tests
 docs/       problem statement, architecture, data research, implementation plan
 ```
 
