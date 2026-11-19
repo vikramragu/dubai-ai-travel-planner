@@ -62,7 +62,7 @@ def sky_svg() -> str:
   <g class="stars">"""
         + stars
         + """</g>
-  <circle class="sun" cx="330" cy="210" r="58"/>
+  <circle class="sun" cx="800" cy="200" r="58"/>
   <circle class="moon" cx="1250" cy="165" r="44" mask="url(#dtp-crescent)"/>
 </svg>"""
     )
@@ -153,14 +153,16 @@ CSS = """
   --sun: #ffd76a; --sun-o: 1; --moon-o: 0; --star-o: 0; --win-o: 0;
   --b1: #9db6cc; --b2: #6f8ba6; --b3: #5d7a96; --b4: #4f6d8a;
   --water: #5aa9d6; --win: #ffe9a8;
-  --card: rgba(255,255,255,0.86); --card-line: rgba(0,0,0,0.06);
+  --card: rgba(255,255,255,0.38); --card-line: rgba(255,255,255,0.5);
+  --field: rgba(255,255,255,0.62); --soft-text: #2f3a4d;
 }
 :root[data-dtp-theme="night"] {
   --sky-top: #070b1f; --sky-mid: #14183a; --sky-low: #3a2a55;
   --sun: #ff9a4a; --sun-o: 0; --moon-o: 1; --star-o: 1; --win-o: 0.95;
   --b1: #1b2340; --b2: #141a32; --b3: #10152b; --b4: #0c1124;
   --water: #0b1430; --win: #ffd27a;
-  --card: rgba(14,17,28,0.84); --card-line: rgba(255,255,255,0.08);
+  --card: rgba(10,13,30,0.42); --card-line: rgba(255,255,255,0.10);
+  --field: rgba(20,24,48,0.55); --soft-text: #c9d1e3;
 }
 #dtp-bg { position: fixed; inset: 0; z-index: 0; pointer-events: none;
   background: linear-gradient(180deg, var(--sky-top), var(--sky-mid) 55%, var(--sky-low));
@@ -187,7 +189,22 @@ CSS = """
 [data-testid="stMainBlockContainer"] { position: relative; z-index: 1; background: var(--card);
   border: 1px solid var(--card-line); border-radius: 18px;
   margin-top: 2.5rem; margin-bottom: 2rem;
-  backdrop-filter: blur(6px); box-shadow: 0 10px 40px rgba(0,0,0,0.12); }
+  backdrop-filter: blur(5px) saturate(1.2); -webkit-backdrop-filter: blur(5px) saturate(1.2);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.12); }
+/* "glass" fields, cards and buttons: the skyline shows through them too */
+[data-testid="stMainBlockContainer"] :is([data-baseweb="input"], [data-baseweb="base-input"],
+  [data-baseweb="select"] > div, [data-baseweb="textarea"], [data-testid="stNumberInputContainer"],
+  input, textarea, button[kind="secondary"], button[kind="secondaryFormSubmit"],
+  [data-testid="stExpander"] details, [data-testid="stVerticalBlockBorderWrapper"]) {
+  background-color: var(--field) !important; }
+[data-testid="stMainBlockContainer"] :is(input, textarea) {
+  background-color: transparent !important; }
+/* Streamlit's grey "secondary" text is too faint over the picture: give it solid contrast */
+[data-testid="stMainBlockContainer"] :is([data-testid="stCaptionContainer"],
+  [data-testid="stCaptionContainer"] *, [data-testid="stExpander"] summary,
+  [data-testid="stExpander"] summary *, [data-testid="stMetricLabel"] *,
+  [data-testid="stWidgetLabel"] *, [data-testid="stFileUploaderDropzoneInstructions"] *) {
+  color: var(--soft-text) !important; opacity: 1 !important; }
 [data-testid="stSidebar"] { z-index: 2; }
 </style>
 """

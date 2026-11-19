@@ -48,7 +48,14 @@ def page() -> None:
         "see it again (there are no accounts)."
     )
     saved: list[SavedTrip] = state["saved"]
-    upload = st.file_uploader("Open a downloaded trip", type="json", key="upload")
+    with st.expander("📂 Open a trip you downloaded earlier (optional)"):
+        st.caption(
+            "Only needed to bring back a trip: after planning, **⬇️ Download** saves the plan as "
+            "a small `.json` file on your computer. Choose that file here to see it again."
+        )
+        upload = st.file_uploader(
+            "Trip file (.json)", type="json", key="upload", label_visibility="collapsed"
+        )
     if upload is not None and upload.file_id != state.get("last_upload"):
         state["last_upload"] = upload.file_id
         try:

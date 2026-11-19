@@ -73,6 +73,12 @@ def render_mermaid(code: str, *, height: int = 620) -> None:
     # Our own diagram text (HTML-escaped), never user or LLM input, so an iframe is safe here.
     st.iframe(
         f"""
+<style>
+.mermaid:not([data-processed]) {{ visibility: hidden; }}
+/* fit the whole graph in the frame, however wide the column is */
+.mermaid svg {{ display: block; margin: 0 auto; height: auto; max-height: {height - 24}px;
+  width: auto !important; max-width: 100% !important; }}
+</style>
 <div class="mermaid">{html.escape(code)}</div>
 <script src="{MERMAID_JS}"></script>
 <script>mermaid.initialize({{startOnLoad: true, theme: "neutral"}});</script>
