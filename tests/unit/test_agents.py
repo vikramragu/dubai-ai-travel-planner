@@ -193,7 +193,9 @@ class TestAssemble:
         plan = Orchestrator(ctx).assemble(
             req, DestinationAgent(ctx).research(req).research, LogisticsAgent(ctx).plan(req)
         )
-        assert [d.theme for d in plan.itinerary.days] == [
+        assert not [c for c in llm.calls if c[1] == "DayThemes"]  # drafts keep engine themes
+        themed = Orchestrator(ctx).theme_days(plan.itinerary)
+        assert [d.theme for d in themed.days] == [
             "Theme 1",
             "Theme 2",
             "Theme 3",

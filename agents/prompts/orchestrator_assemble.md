@@ -6,6 +6,3 @@ Rules:
 - Don't add, remove or reorder activities, and don't mention prices, times or facts that
   aren't in the input.
 - Keep one theme per day number given.
-
-Revision feedback from the reviewer (address it if it concerns the themes):
-$revision_feedback

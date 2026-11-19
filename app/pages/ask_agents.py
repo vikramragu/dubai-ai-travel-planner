@@ -5,7 +5,7 @@ from __future__ import annotations
 import streamlit as st
 
 from agents.skills.scripted import example_request
-from app.components.prechecks import precheck
+from app.components.prechecks import cheapest_night, precheck
 from app.components.results import count_ai_plan, run_slot
 from app.context import app_context
 from app.state import RunOptions, session, start_run
@@ -45,7 +45,7 @@ def page() -> None:
         on_change=_use_example,
     )
     text = st.text_area("Your trip", key="request", persist_state="session", height=120)
-    checks = precheck(text)
+    checks = precheck(text, night_aed=cheapest_night(ctx.providers))
     for check in checks:
         if check.level == "error":
             st.error(check.message)

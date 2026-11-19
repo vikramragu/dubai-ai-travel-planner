@@ -373,7 +373,7 @@ nodes in `graph/nodes.py` are thin wrappers: read from state → call the agent 
 
 | Agent | Input | Output | LLM role | Deterministic skills / tools |
 |-------|-------|--------|----------|------------------------------|
-| **Orchestrator** | raw text, (later) all agent outputs | `TripRequest`; final `Itinerary` | Parse NL into `TripConstraints` (structured output); write day themes & narrative | Constraint defaults & validation (1–7 days, AED), `scheduler.py` for final assembly |
+| **Orchestrator** | raw text, (later) all agent outputs | `TripRequest`; final `Itinerary` | Parse NL into `TripConstraints` (structured output); write the day themes once, for the final plan (in `finalize`) | Constraint defaults & validation (1–7 days, AED), `scheduler.py` for final assembly |
 | **Destination Research** | `TripRequest`, optional `ReviewIssue`s | `ResearchResult{attractions, restaurants, neighborhoods}` | Rank candidates against interests & "avoid" list; justify picks. `must_visit` places are always kept, first, whatever the filters | `search_attractions`, `search_restaurants`, `weather_forecast` |
 | **Logistics** | `TripRequest`, optional issues | `LogisticsResult{hotel_areas, transport_options, travel_matrix}` | Pick hotel area trade-offs; explain transport choices | `get_hotel_areas`, `travel_time`, `transit_fare` |
 | **Budget** | Draft itinerary | `BudgetBreakdown`, `alternatives` | Phrase alternatives; choose among cheaper swaps | `budget_engine.py`, `price_lookup`, `transit_fare` |
@@ -534,7 +534,7 @@ without conflicts. When the trip form is used, the run starts with `request` alr
   finalize  → budget     → destination    → assemble
      │     (cost issues) (content issues) (schedule issues)
      ▼
-    END
+    END   (finalize picks the best draft and writes its day themes: one LLM call per run)
 ```
 
 ### 6.3 Conditional routing
@@ -592,12 +592,12 @@ writer. The runner forwards them to the `TraceBus`.
 
 ## 8. Run Metrics
 
-The runner records `RunMetrics{wall_time, llm_calls, tokens_in/out, est_llm_cost, revisions,
-final_score, issues_found, issues_resolved}` for every run and shows them in the UI.
+The runner records `RunMetrics{wall_time, llm_calls, llm_cache_hits, tokens_in/out,
+est_llm_cost, revisions, final_score, issues_found, issues_resolved}` for every run and shows
+them in the UI (Dev mode → Metrics).
 
-**Optional single-LLM baseline:** one prompt that produces an `Itinerary` directly, scored by
-the same rule checks. It shows what the multi-agent graph adds (fewer constraint violations,
-verified travel times, an accurate budget), echoing the motivation in the problem statement.
+A single-LLM baseline (one prompt → `Itinerary`) was considered and left out: the graph's
+review loop and its metrics already show what each agent adds.
 
 ---
 
@@ -699,15 +699,29 @@ first use if it is missing.
 
 ## 10. LLM Layer
 
-- `core/llm.py` exposes `get_llm(role)`. Each agent role can use a different model
-  (e.g. a cheaper model for parsing, a stronger one for review).
-- Config (`.env`): `LLM_PROVIDER`, `LLM_MODEL`, optional `LLM_MODEL_<ROLE>`, API keys.
+- `core/llm.py` exposes `make_llm()`. Each agent role can use a different provider and model.
+  Defaults: Groq `openai/gpt-oss-120b` for the Orchestrator, Destination, Logistics and Budget
+  agents, Gemini `gemini-3.5-flash-lite` for Review (both free tiers).
+- Config (`.env`): `LLM_PROVIDER`, `LLM_MODEL`, optional `LLM_PROVIDER_<ROLE>` /
+  `LLM_MODEL_<ROLE>`, API keys. A role without a key uses its deterministic fallback; the
+  other roles still use their LLM.
+- Groq uses `json_schema` structured output. Every call has a timeout, a retry limit, an output
+  cap and (gpt-oss) low reasoning effort, so one call stays within Groq's 8,000 tokens per
+  minute. Prompts send places as compact tables.
 - Models are created with LangChain's `init_chat_model("provider:model")`, so switching
   provider is a configuration change.
 - All structured outputs use `with_structured_output(<PydanticModel>)`, with one automatic
   retry that sends back the validation error.
 - `temperature` is low (0–0.3) for parsing, budget and review, and moderate (≈0.6) for
   narrative text.
+- **Free-tier protection** (`CachingLLM`, `QuotaGuard`):
+  - an identical question is answered from a disk cache (`LLM_CACHE_HOURS`, default 24);
+  - the whole app uses at most `LLM_DAILY_TOKEN_BUDGET` tokens a day (150,000);
+  - each visitor session gets `LLM_PLANS_PER_SESSION` AI plans (3);
+  - a provider's "rate limit" or "quota" answer pauses AI calls at once.
+
+  Past any limit, planning continues without AI. The demo requests' answers are stored in
+  `data/demo_llm_cache.json` by `python -m core.warmup`, so a demo makes no LLM calls.
 
 ---
 
@@ -808,32 +822,40 @@ success criterion "detect and revise at least one constraint violation".
   assembler rejects unknown IDs, and the Review rules flag missing provenance.
 - **Loop termination**: `MAX_REVISIONS`, plus "no improvement" detection (the same issues two rounds in a row → stop).
 - **Budget safety**: prices that are `estimated` get the contingency buffer; the UI states clearly that prices are not guaranteed.
+- **Impossible budgets**: a budget below the cheapest hotels for the trip (the lowest nightly
+  rate × nights × rooms) is warned about before planning. A plan still over budget after the
+  loop says so plainly: the cheapest plan's price, the gap, and a budget that would work.
 
 ---
 
 ## 14. Configuration
 
-`.env.example`
+`.env.example` (abridged; the full list with comments is in the file)
 
 ```
-LLM_PROVIDER=anthropic           # anthropic | openai | gemini | ollama | ...
-LLM_MODEL=claude-sonnet-5-5
-LLM_MODEL_REVIEW=                # optional per-role override
-ANTHROPIC_API_KEY=
-OPENAI_API_KEY=
+LLM_PROVIDER=groq                    # groq | google_genai | anthropic | openai | ollama
+LLM_MODEL=openai/gpt-oss-120b
+LLM_PROVIDER_REVIEW=google_genai     # optional per-role overrides: LLM_PROVIDER_<ROLE>
+LLM_MODEL_REVIEW=gemini-3.5-flash-lite
+GROQ_API_KEY=
+GOOGLE_API_KEY=
+# LLM_TIMEOUT_S=60  LLM_MAX_RETRIES=2  LLM_MAX_TOKENS=1500  LLM_REASONING_EFFORT=low
+# LLM_CACHE_HOURS=24  LLM_DAILY_TOKEN_BUDGET=150000  LLM_PLANS_PER_SESSION=3
 
-DATA_MODE=local                  # local | hybrid | live (hybrid once Phase 7 live providers exist)
+DATA_MODE=local                      # local | hybrid | live
 USE_OVERPASS=true
 USE_OSRM=true
-OSRM_BASE_URL=http://localhost:5000   # self-hosted; public demo server for light testing only
+OSRM_CAR_URL=https://router.project-osrm.org        # public demo server: light use only
+OSRM_FOOT_URL=https://routing.openstreetmap.de/routed-foot
 USE_OPEN_METEO=true
-AMADEUS_CLIENT_ID=               # optional
-AMADEUS_CLIENT_SECRET=
+# EXTERNAL_CALL_BUDGET=40  MIN_REQUEST_INTERVAL_S=1
 
 MAX_REVISIONS=3
 CONTINGENCY_PCT=10
 CACHE_DIR=.cache
 ```
+
+On Streamlit Community Cloud the keys go in the app's **Secrets** instead of `.env`.
 
 ---
 
@@ -845,8 +867,9 @@ CACHE_DIR=.cache
 | Providers | Recorded HTTP fixtures (VCR-style); fallback triggered on simulated 429/timeout |
 | Agents | LLM stubbed with canned structured outputs to test the wiring |
 | Graph | Compiled graph returns a valid `Itinerary`; both parallel branches run; the router sends each issue type to the right node; the loop stops at `MAX_REVISIONS` |
-| Scenarios | Golden requests: the example request, a 1-day low-budget trip, a 7-day luxury trip, a forced over-budget case (must revise), and an "avoid crowds" case (must not include high-crowd places) |
-| LLM evals (optional) | LLM-as-judge rubric for preference fit, run on a small set of requests |
+| Scenarios (`tests/scenarios/`) | Golden requests: the example request, a 1-day low-budget trip, a 7-day luxury trip, a forced over-budget case (must revise, only the responsible agents re-run), and an "avoid crowds" case (no high-crowd places, while the same trip without it has some). Error paths: made-up LLM ids, a broken or rate-limited LLM, every live service down, an impossible budget |
+| UI | Streamlit `AppTest` runs the pages headlessly: form planning, Dev mode, change requests, saved trips, pre-planning checks |
+| Real LLM (`-m llm`) | One smoke run with the configured providers; excluded by default |
 
 ---
 
@@ -858,7 +881,7 @@ CACHE_DIR=.cache
 4. **UI** — timeline, graph view, itinerary, budget, review diff, run metrics.
 5. **Live data** — Overpass, OSRM, Open-Meteo (and RTA GTFS if available) behind feature flags + cache.
 6. **Traveller UX** — trip form, browse, saved trips, day cards, change requests, dev mode, light/dark skyline.
-7. **Hardening** — scenario tests, metrics, optional single-LLM baseline, demo script.
+7. **Hardening** — scenario tests, error paths, fewer LLM calls, demo script.
 
 ---
 

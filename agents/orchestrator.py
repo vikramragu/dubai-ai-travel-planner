@@ -11,8 +11,8 @@ decide the final request live in :func:`normalize` (architecture.md §13):
 - diets the data can't check (anything but vegetarian) are recorded, not silently dropped.
 
 ``assemble`` runs the Phase 3 scheduler on the Destination agent's picks and the Logistics
-agent's hotel area, then asks the LLM for short day themes (the scheduler's own themes are the
-fallback).
+agent's hotel area. ``theme_days`` gives the final plan short LLM-written day themes, once per
+run in ``finalize`` (the scheduler's own themes are the fallback).
 """
 
 from __future__ import annotations
@@ -25,7 +25,7 @@ from typing import Annotated
 
 from pydantic import Field, PositiveInt
 
-from agents.base import AgentContext, ClipTo, feedback, to_json
+from agents.base import AgentContext, ClipTo, to_json
 from agents.skills.budget_engine import BudgetOptions, Plan, PlanInputs, plan_trip
 from agents.skills.calendar import DEFAULT_MONTH
 from agents.skills.places_match import match_name, places_in_text
@@ -38,6 +38,7 @@ from schemas import (
     Avoidance,
     HotelTier,
     Interest,
+    Itinerary,
     LogisticsResult,
     Pace,
     ResearchResult,
@@ -490,7 +491,8 @@ class Orchestrator:
             hotel=logistics.recommended_hotel, options=options, candidates=research.attractions
         )
         plan = plan_trip(request, inputs, self.ctx.providers, self.budget_options)
-        plan = self.write_themes(plan, research, issues or [])
+        # Day themes are written once, for the final plan (``theme_days`` in ``finalize``): a
+        # draft may still be revised, and titles never change what the review checks.
         it = plan.schedule.itinerary
         self.ctx.emit(
             AGENT,
@@ -502,9 +504,8 @@ class Orchestrator:
         )
         return plan
 
-    def write_themes(self, plan: Plan, research: ResearchResult, issues: list[ReviewIssue]) -> Plan:
+    def theme_days(self, it: Itinerary) -> Itinerary:
         """LLM-written day themes; the scheduler's own themes are kept if the LLM is unavailable."""
-        it = plan.schedule.itinerary
         days = [
             {
                 "day": d.day,
@@ -522,11 +523,9 @@ class Orchestrator:
                 {"interests": [i.value for i in it.request.constraints.interests], "days": days}
             ),
             temperature=NARRATIVE_TEMPERATURE,
-            revision_feedback=feedback(issues),
         )
         if answer is None:
-            return plan
+            return it
         themes = {t.day: t.theme for t in answer.days}
         new_days = [d.model_copy(update={"theme": themes.get(d.day, d.theme)}) for d in it.days]
-        plan.schedule.itinerary = it.model_copy(update={"days": new_days})
-        return plan
+        return it.model_copy(update={"days": new_days})

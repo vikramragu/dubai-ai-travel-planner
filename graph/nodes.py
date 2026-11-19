@@ -194,12 +194,7 @@ def budget(state: PlannerState, runtime: Runtime[GraphContext]) -> Update:
     else:
         revision = None
     if revision is not None:
-        before = [d.place_ids for d in plan.schedule.itinerary.days]
         plan = revision.plan
-        if [d.place_ids for d in plan.schedule.itinerary.days] != before:
-            # the cheaper plan changed the days: their themes need rewriting (an LLM call
-            # saved when only the hotel area or the transport changed)
-            plan = Orchestrator(ctx, options).write_themes(plan, state["research"], issues)
         applied = {a.id for a in revision.applied}
         known = {a.id for a in alternatives}
         alternatives = [a.model_copy(update={"applied": a.id in applied}) for a in alternatives] + [
@@ -305,6 +300,8 @@ def finalize(state: PlannerState, runtime: Runtime[GraphContext]) -> Update:
             update={"assumptions": [*final.request.assumptions, note]}
         )
         final = final.model_copy(update={"request": request})
+    # one LLM call for the day themes, on the plan the traveller gets (not on every draft)
+    final = Orchestrator(ctx, runtime.context.budget_options).theme_days(final)
     ctx.emit(
         "orchestrator",
         TraceKind.END,

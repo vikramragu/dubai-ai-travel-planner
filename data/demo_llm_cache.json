@@ -35,6 +35,22 @@
 }
 ]
 },
+"llm:08a0a0b2c49cf7cbd580d9483aec10565ae4a2d75c1a8a5f9cd6c93111035b3a": {
+"days": [
+{
+"day": 1,
+"theme": "Iconic Views, History & Beach Fun"
+},
+{
+"day": 2,
+"theme": "Heritage Exploration Along the Creek"
+},
+{
+"day": 3,
+"theme": "Relaxing Family Beach Day"
+}
+]
+},
 "llm:08c7d01ae1407edf0ea273384d8bdc38680422128f15f88abbfc2fa447e34ebd": {
 "days": [
 {
@@ -78,6 +94,26 @@
 ],
 "explanation": "Switching to public transport will shave off about AED 189, and moving to a budget hotel in Al\u202fRas provides a much larger saving, comfortably bringing the total cost under your AED\u202f6,000 limit. This combination reduces expenses while still keeping your itinerary intact, though it does involve a change to a more modest hotel tier."
 },
+"llm:0c23c6e7bd4fc78cceac74a1669ffb9aa45f378ac17e44bad2b983e21ded4d4d": {
+"days": [
+{
+"day": 1,
+"theme": "Jumeirah Culture, Art & Beach"
+},
+{
+"day": 2,
+"theme": "Al Ras Heritage and Creek Experience"
+},
+{
+"day": 3,
+"theme": "Al Fahidi Arts, Cuisine & Beach"
+},
+{
+"day": 4,
+"theme": "Relaxing Day at Al Mamzar Beach"
+}
+]
+},
 "llm:137d7cddf2d878e68fab078873d637363bb7bc5d7b1dc3fef8c5adb3cdcc6a60": {
 "apply_ids": [
 "free-al-ahmadiya-school",
@@ -86,6 +122,26 @@
 "hotel-al-ras-budget"
 ],
 "explanation": "We first keep your hotel tier and save by swapping to free attractions and opting for casual dining, which trims about AED\u202f813. Adding the budget hotel in Al\u202fRas provides the remaining savings (and more), bringing the total cost under your AED\u202f5,000 limit while preserving the trip\u2019s character as much as possible."
+},
+"llm:1536217caa7e1f7d57e24656f05577832e6e0e99787294009d5d2a7ed7ba5a37": {
+"days": [
+{
+"day": 1,
+"theme": "Historic Al Fahidi Heritage Trail"
+},
+{
+"day": 2,
+"theme": "Museum Exploration & Seaside Relaxation"
+},
+{
+"day": 3,
+"theme": "Sunny Day at Al Mamzar Beach"
+},
+{
+"day": 4,
+"theme": "Artistic Alserkal and Jumeirah Shore"
+}
+]
 },
 "llm:18fccc3af1f0ba5182476b56d7fa1dfe07a28e47773801641129bac9f974eb7a": {
 "days": [
@@ -133,6 +189,10 @@
 "hotel-al-karama-budget"
 ],
 "explanation": "We'll first switch to casual dining and use metro/abra instead of taxis, saving about AED 536. Then, to bring the total within budget, we'll move to a budget hotel in Al\u202fKarama, which changes the hotel tier but provides the needed additional savings."
+},
+"llm:1cbdcf6c29473c4355b48d74fd2acba0b84ddcd23fb09d980d72b273142810f1": {
+"comments": [],
+"summary": "A balanced 3-day itinerary blending cultural museums and beach time with family-friendly dining options in Dubai. Data rules are fully satisfied and destinations align well with traveler interests. All proposed adjustments focus on refining daily pacing and geographical flow. No rule violations were detected by the system. Enjoy your trip to Dubai! Let us know if you need further adjustments or\u2026"
 },
 "llm:226a70fbde83b6656ddfe955d57edb76f71c5e5af71bda0fcbff4959e564113d": {
 "days": [
@@ -190,6 +250,22 @@
 {
 "day": 4,
 "theme": "Art Hub Meets Beach Vibes"
+}
+]
+},
+"llm:299f1fa56fdbfcd162cf69acebbbd663effa39897bf6bb2dbeb041aca44c8f0b": {
+"days": [
+{
+"day": 1,
+"theme": "Jumeirah Culture & Beach Day"
+},
+{
+"day": 2,
+"theme": "Al\u202fQuoz Arts and Beach"
+},
+{
+"day": 3,
+"theme": "Al\u202fRas Heritage and Arts"
 }
 ]
 },
@@ -265,6 +341,10 @@
 "theme": "Al Ras Heritage and Arts Tour"
 }
 ]
+},
+"llm:50289aee2cb547e8ffe6730629f1a8ef2697ee0f3f9e182e21a1eded10c612e0": {
+"comments": [],
+"summary": "A culturally rich, family-oriented three-day Dubai itinerary with balanced beach time and historical museums, though breakfast is repetitive across all days. Diversity in morning dining could improve the culinary experience for the family. Day 1 features a full schedule transitioning from culture to coastal relaxation at La Mer Beach nicely. The logistics could be adjusted to reduce travel time\u2026"
 },
 "llm:5a0d880f69d6bd269f1b8e22d6ca3b8ff796c114e2ca26dd76a8ce0bf9e08a0d": {
 "days": [

@@ -472,15 +472,41 @@ decision is now binding; a regression test fails on the old code).
 
 **Tasks**
 
-- [ ] Scenario suite (`tests/scenarios/`): the example request, a 1-day low-budget trip, a 7-day luxury trip, a forced over-budget case, an "avoid crowds" case.
-- [ ] Optional single-LLM baseline (architecture.md §8): one prompt → `Itinerary`, scored by the same rule checks; show it next to the graph result in the metrics panel.
-- [ ] Optional LLM-as-judge rubric for preference fit on a small request set.
-- [ ] Performance pass: cache warm-up, cheaper model for parsing, fewer LLM calls on revision rounds.
-- [ ] Error-path review: invalid LLM output, all providers down, impossible budgets (e.g. AED 300 for 7 days) → clear messages.
-- [ ] Data refresh: run the staleness report; re-verify fares and prices before the demo.
-- [ ] Docs: README (setup, run, configuration), a demo script (talk track + requests to type), update architecture.md with any design changes.
+- [x] Scenario suite (`tests/scenarios/`): the example request, a 1-day low-budget trip, a 7-day luxury trip, a forced over-budget case, an "avoid crowds" case.
+- ~~Optional single-LLM baseline (architecture.md §8): one prompt → `Itinerary`, scored by the same rule checks.~~ Dropped 2026-11-19: the agent team and its review loop already make the point.
+- ~~Optional LLM-as-judge rubric for preference fit on a small request set.~~ Dropped 2026-11-19, same reason.
+- [x] Performance pass: cache warm-up, fewer LLM calls on revision rounds (a cheaper parsing model was not needed; see the status note).
+- [x] Error-path review: invalid LLM output, all providers down, impossible budgets (e.g. AED 300 for 7 days) → clear messages.
+- [ ] Data refresh: run the staleness report; re-verify fares and prices before the demo. (Report run 2026-11-19: 0 values older than 6 months. Re-checking prices by hand is left for the week of the demo.)
+- [x] Docs: README (setup, run, configuration), a demo script (talk track + requests to type), update architecture.md with any design changes. (Done 2026-11-19: README, demo script, and architecture.md §5, §6.2, §8, §10, §13, §14, §15 and §16 synced with approval.)
 - [x] Deploy the Streamlit app to Streamlit Community Cloud — done 2026-11-18 (keys as app secrets; redeploys on every push to `main`).
 - [ ] Stretch goals: human approval before `finalize` (`interrupt_before`), destination research as a subgraph.
+
+**Status: done** (2026-11-19), tagged `v1.0`. The optional extras were dropped by choice. Still
+open: the stretch goals, and re-checking prices by hand in the week of the demo.
+
+- **Scenario suite:** `tests/scenarios/test_scenarios.py` plans the five golden requests end
+  to end without an LLM. Each must pass review, stay within budget, have the asked length and
+  no repeated attraction. Each also checks what the traveller asked for: the hotel tier,
+  interests, no high-crowd places when crowds are avoided (and some when they aren't), and the
+  over-budget case revised by only the agents responsible.
+- **Error paths:**
+  - Made-up AI answers (unknown places, hotel areas and savings) are ignored.
+  - A broken or rate-limited AI still gives a complete plan, with the errors in the trace.
+  - Live mode with every service down falls back to the local data.
+  - Non-Dubai or budget-less requests are refused with a clear message.
+  - An impossible budget (AED 300 for 7 days) is warned about before planning, from the
+    cheapest nightly rate. After planning, the summary gives the cheapest plan's price and
+    suggests a budget, replacing the old generic "unresolved issues" warning.
+- **Fewer LLM calls:** day themes are written once, in `finalize`, for the plan the traveller
+  gets. Before, they were rewritten after every assembly and every budget cut. An over-budget
+  run now makes 7 calls instead of 9; a normal run stays at 5.
+- **Parsing model:** a cheaper parsing model wasn't needed. Parsing is one call per run, and
+  the cache already covers repeats, so the default models stay as chosen.
+- **Demo:** the warm-up was re-run after the themes prompt changed (4 demos, score 100, 6 new
+  calls). The staleness report shows 0 dated values older than 6 months.
+- **Docs:** [demo-script.md](demo-script.md) is the talk track. The README covers the AI-limit
+  settings and the scenario suite.
 
 **Deliverables:** tagged demo release, demo script, passing scenario suite.
 

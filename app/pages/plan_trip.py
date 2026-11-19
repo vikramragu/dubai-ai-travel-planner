@@ -8,6 +8,7 @@ from datetime import date, timedelta
 import streamlit as st
 
 from agents.orchestrator import form_request
+from app.components.prechecks import cheapest_night, hotel_floor
 from app.components.results import count_ai_plan, run_slot
 from app.context import app_context
 from app.state import RunOptions, session, start_run
@@ -15,6 +16,7 @@ from data.providers import AttractionQuery
 from schemas import Avoidance, HotelTier, Interest, Pace, TripConstraints
 
 PAGE = "form"
+NOTICE = "form-notice"  # the budget warning for the last submitted form
 TIERS = {"Budget": HotelTier.BUDGET, "Mid-range": HotelTier.MID, "Luxury": HotelTier.LUXURY}
 INTEREST_LABELS = {
     Interest.CULTURE: "🕌 Culture",
@@ -135,6 +137,16 @@ def page() -> None:
         except ValueError as exc:
             st.error(str(exc).splitlines()[0])
         else:
+            night = cheapest_night(ctx.providers)
+            floor = hotel_floor(constraints.days, constraints.rooms, night) if night else 0
+            # kept in the session: the page redraws while the plan is made
+            st.session_state[NOTICE] = (
+                f"AED {constraints.budget_aed:,.0f} won't cover even the cheapest hotels for "
+                f"{constraints.days} days (about AED {floor:,.0f}). You'll get the cheapest "
+                "plan possible, and it will be over budget."
+                if constraints.budget_aed < floor
+                else None
+            )
             state["must_visit"] = list(must)
             req = form_request(constraints)
             handle = start_run(
@@ -150,4 +162,6 @@ def page() -> None:
             )
             count_ai_plan(handle, state)
             state["runs"][PAGE] = handle
+    if notice := st.session_state.get(NOTICE):
+        st.warning(notice)
     run_slot(PAGE, providers=ctx.providers, settings=ctx.settings, dev=ctx.dev)

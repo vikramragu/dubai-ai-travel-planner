@@ -92,6 +92,21 @@ def test_make_it_cheaper_from_the_plan(no_llm: None) -> None:
     assert at.success and at.success[0].value != total
 
 
+def test_impossible_budget_explains_itself(no_llm: None) -> None:
+    at = _app()
+    # inside a form, a value only counts when it's submitted in the same run
+    next(n for n in at.number_input if n.label.startswith("Budget")).set_value(300)
+    at.button[[b.label for b in at.button].index("Plan my trip")].click().run()
+    assert any("cheapest hotels" in w.value for w in at.warning)  # warned on submit
+    for _ in range(40):  # then wait for the plan
+        if any("isn't enough" in w.value for w in at.warning) or at.exception:
+            break
+        at.run()
+    assert not at.exception, at.exception
+    assert any("isn't enough for this trip" in w.value for w in at.warning)
+    assert not at.success  # no "plan fits" summary for a plan that doesn't fit
+
+
 def test_save_a_trip(no_llm: None) -> None:
     at = _click(_app(), "Plan my trip")
     at.button[[b.label for b in at.button].index("⭐ Save this trip")].click().run()
@@ -114,6 +129,9 @@ def test_ask_page_examples_and_checks(no_llm: None) -> None:
     at.text_area(key="request").set_value("3 days in Paris").run()
     assert at.button(key="plan").disabled  # not Dubai, no budget: blocked before planning
     assert any("only covers Dubai" in e.value for e in at.error)
+    at.text_area(key="request").set_value("7 days in Dubai, AED 300, culture").run()
+    assert not at.button(key="plan").disabled  # still plannable, but the traveller is warned
+    assert any("cheapest hotels" in w.value for w in at.warning)
     at.button_group(key="example").set_value("Family weekend").run()
     assert "family of four" in (at.text_area(key="request").value or "")
     assert not at.button(key="plan").disabled

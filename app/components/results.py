@@ -19,6 +19,7 @@ from app.components.budget import render_budget
 from app.components.graph_view import render_graph_live, render_graph_replay
 from app.components.itinerary import area_names, render_itinerary
 from app.components.metrics import render_metrics
+from app.components.prechecks import budget_shortfall
 from app.components.review import render_review
 from app.components.timeline import render_timeline
 from app.state import RunHandle, itinerary_json, make_saved, start_change
@@ -160,8 +161,17 @@ def show_result(handle: RunHandle, page: str, *, providers: DataProviders, dev: 
             f"AED {it.budget.total:,.0f} of {it.budget.budget_aed:,.0f} · "
             f"review score {it.review.score:.0f}"
         )
+    elif (short := budget_shortfall(it)) is not None:
+        st.warning(short)
     else:
-        st.warning("The plan still has some unresolved issues (see the notes below).")
+        issues = it.review.issues if it.review else []
+        problems = [i.message for i in issues if i.severity.value != "minor"]
+        st.warning(
+            "This is the best plan the agents found, but it still has some problems:\n"
+            + "\n".join(f"- {p}" for p in problems[:4])
+            if problems
+            else "This is the best plan the agents found, but it still has some problems."
+        )
     actions = st.columns([1, 1, 1, 3])
     if actions[0].button("⭐ Save this trip", key=f"{page}-save"):
         st.session_state["saved"].append(make_saved(it, result))

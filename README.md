@@ -22,9 +22,10 @@ how each revision changed the plan.
 - **Every value has a source:** prices, fares and travel times are tagged `verified`, `api` or
   `estimated`, and the UI shows the tag.
 
-> **Status:** Phases 0-7 of the [implementation plan](docs/implementation-plan.md) are done:
-> contracts, dataset, deterministic skills, agents, LangGraph orchestration, the Streamlit UI
-> and free live data. Next: the traveller UX (Phase 8), then hardening and the demo (Phase 9).
+> **Status:** all phases of the [implementation plan](docs/implementation-plan.md) are done:
+> contracts, dataset, deterministic skills, agents, LangGraph orchestration, the Streamlit UI,
+> free live data, the traveller UX and hardening. To present it, follow the
+> [demo script](docs/demo-script.md).
 
 ---
 
@@ -114,7 +115,7 @@ UI can replay it and diff drafts), runtime context for non-data dependencies, an
 
 | Agent | Model (default) | What the LLM does | What code does | Without an LLM |
 | --- | --- | --- | --- | --- |
-| **Orchestrator** | Groq `openai/gpt-oss-120b` (temp 0.0 for parsing, 0.6 for day themes) | Parses the request into structured constraints; writes day themes | Normalises the request (Dubai only, 1-7 days, currency conversion, defaults); builds the schedule with the scheduler | Keyword parser; the scheduler's own day themes |
+| **Orchestrator** | Groq `openai/gpt-oss-120b` (temp 0.0 for parsing, 0.6 for day themes) | Parses the request into structured constraints; writes the day themes once, for the final plan | Normalises the request (Dubai only, 1-7 days, currency conversion, defaults); builds the schedule with the scheduler | Keyword parser; the scheduler's own day themes |
 | **Destination research** | Groq `openai/gpt-oss-120b` (temp 0.3) | Ranks attractions and restaurants against the interests and "avoid" list, with one-line reasons | Searches the dataset, drops ids the LLM invented, flags interests with little data, excludes places Review rejected | Ranks by interest match × crowd penalty × quality |
 | **Logistics** | Groq `openai/gpt-oss-120b` (temp 0.3) | Ranks hotel areas for the tier and explains transport trade-offs | Seasonal hotel prices, RTA fares, travel-time matrix; puts an area Review blamed last | Ranks by metro access, then centrality, then price (price first when the hotel is the cost driver) |
 | **Budget** | Groq `openai/gpt-oss-120b` (temp 0.2) | Chooses among cheaper alternatives (no arithmetic) | Costs everything; measures each alternative's saving by re-planning; rejects alternatives that break another rule; prefers the requested hotel tier | Applies the biggest same-tier saving first |
@@ -262,6 +263,9 @@ Settings are read from environment variables or `.env` (see [.env.example](.env.
 | `OSRM_CAR_URL` / `OSRM_FOOT_URL` | public OSRM servers | Routing servers (self-hosted OSRM works too) |
 | `LLM_TIMEOUT_S` / `LLM_MAX_RETRIES` | `60` / `2` | Per-call limits; past them the agent falls back instead of stalling |
 | `LLM_MAX_TOKENS` / `LLM_REASONING_EFFORT` | `1500` / `low` | Groq output cap and gpt-oss reasoning effort (both count towards Groq's tokens-per-minute limit) |
+| `LLM_CACHE_HOURS` | `24` | How long an identical LLM question is answered from the cache |
+| `LLM_DAILY_TOKEN_BUDGET` | `150000` | Tokens the whole app may use per day; past it, planning continues without AI |
+| `LLM_PLANS_PER_SESSION` | `3` | AI plans per visitor session |
 | `MAX_REVISIONS` | `3` | Cap on the review loop |
 | `CONTINGENCY_PCT` | `10` | Buffer added to estimated prices |
 
@@ -296,6 +300,10 @@ uv run python -m schemas.export build/schemas   # export the JSON schemas
 - The scheduler and budget engine have property tests with Hypothesis.
 - Graph tests check the parallel superstep, routing for each issue type, loop termination and
   the checkpoint history.
+- **Scenario tests** (`tests/scenarios/`) plan whole trips end to end: the example request, a
+  1-day low-budget trip, a 7-day luxury trip, a forced over-budget case and an "avoid crowds"
+  case. They also cover the error paths: made-up AI answers, a broken AI, every live service
+  down and an impossible budget.
 - UI tests use Streamlit's `AppTest` to run the app headlessly.
 - **CI** (GitHub Actions) runs lint, format check, type check and tests on every push and pull
   request.
@@ -313,7 +321,7 @@ agents/     the five agents, prompts (agents/prompts/), deterministic skills (ag
 tools/      typed tool functions and compact views for the LLM
 schemas/    shared Pydantic contracts with provenance
 data/       curated seed data, OSM exports, build scripts, providers
-tests/      unit, graph and (Phase 9) scenario tests
+tests/      unit, graph and scenario tests
 docs/       problem statement, architecture, data research, implementation plan
 ```
 
